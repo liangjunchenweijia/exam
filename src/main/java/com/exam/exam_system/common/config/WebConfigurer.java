@@ -52,6 +52,13 @@ public class WebConfigurer extends WebMvcConfigurationSupport {
         super.addInterceptors(registry);
     }
 
+    /**
+     * @param registry
+     * @Author :
+     * @Description : 配置静态资源
+     * @Date : 2020/3/27 20:12
+     * @Return :
+     **/
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         super.addResourceHandlers(registry);
