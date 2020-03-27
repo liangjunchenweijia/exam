@@ -63,5 +63,6 @@ public class WebConfigurer extends WebMvcConfigurationSupport {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         super.addResourceHandlers(registry);
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/templates/**").addResourceLocations("/classpath:/templates/");
     }
 }
