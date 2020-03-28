@@ -79,20 +79,29 @@ public interface UserMapper {
     List<UserVO> selectUserAll(@Param("userRequest") UserRequest userRequest, @Param("offset") int offset, @Param("limit") int limit);
 
     /**
+     * @param userRequest
      * @Author :
      * @Description : 查询所有学生总数
-     * @param userRequest
      * @Date : 2020/3/22 16:18
      * @Return : 返回所有学生总数
      **/
     Integer selectUserAllCount(@Param("userRequest") UserRequest userRequest);
 
     /**
+     * @param userIds
      * @Author :
      * @Description : 批量删除学生
-     * @param userIds
      * @Date : 2020/3/22 16:53
      * @Return :
      **/
     int batchDelStuByIds(@Param("userIds") List<Long> userIds);
+
+    /**
+     * @param userSno
+     * @Author :
+     * @Description : 验证学号
+     * @Date : 2020/3/28 10:33
+     * @Return :
+     **/
+    int checkUserSno(@Param("userSno") String userSno);
 }

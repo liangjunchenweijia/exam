@@ -25,7 +25,7 @@ public class UserRequest {
 
     private Integer userType;
 
-    private String userSecretProtection;
+    private String userSno;
 
     private Date createTime;
 
@@ -86,12 +86,12 @@ public class UserRequest {
         this.userType = userType;
     }
 
-    public String getUserSecretProtection() {
-        return userSecretProtection;
+    public String getUserSno() {
+        return userSno;
     }
 
-    public void setUserSecretProtection(String userSecretProtection) {
-        this.userSecretProtection = userSecretProtection;
+    public void setUserSno(String userSno) {
+        this.userSno = userSno;
     }
 
     public Date getCreateTime() {

@@ -23,8 +23,8 @@ public enum ErrorMsgEnum {
     USER_PWD_OR_USER_NAME_ERROR("000003","用户名或密码错误,请重新输入"),
     //用户不存在
     USER_INEXISTENCE("000004","用户名不存在"),
-    //用户密保错误,请重新输入
-    USER_RETRIEVE_ERROR("000005","密保错误,请重新输入"),
+    //学号错误,请重新输入
+    USER_SNO_ERROR("000005","学号错误,请重新输入"),
     //权限不足,请先登录
     NOT_LOGIN("000006","权限不足,请先登录"),
     //请重新登录
@@ -32,7 +32,10 @@ public enum ErrorMsgEnum {
     //用户信息修改失败
     UPDATE_USER_ERROR("000008","用户信息修改失败"),
     //您的账号已被锁定,请联系管理员
-    PWD_MODIFY("000009","您的账号已被锁定,请联系管理员")
+    PWD_MODIFY("000009","您的账号已被锁定,请联系管理员"),
+
+    USER_SNO_ALREADY_EXISTED("000010","学号已存在,请重新输入")
+
     ;
     /**
      * 错误编码为key的所有错误枚举对象的map集合

@@ -53,6 +53,10 @@ public class UserService {
         if (1 <= userCount) {
             throw new UserException(ErrorMsgEnum.USER_ALREADY_EXISTED);
         }
+        int userSnoCount = userMapper.checkUserSno(userRequest.getUserSno());
+        if (1 <= userSnoCount) {
+            throw new UserException(ErrorMsgEnum.USER_SNO_ALREADY_EXISTED);
+        }
         return userMapper.insertUser(userRequest);
     }
 
@@ -88,7 +92,10 @@ public class UserService {
         //模拟密码找回(通过输入注册时的用户名以及密保找回)
         UserVO userVO = userMapper.selectUserByNameAndEncrypted(userRequest);
         if (null == userVO) {
-            throw new UserException(ErrorMsgEnum.USER_RETRIEVE_ERROR);
+            throw new UserException(ErrorMsgEnum.USER_SNO_ERROR);
+        }
+        if (2 == userVO.getIsDeleted()) {
+            throw new UserException(ErrorMsgEnum.PWD_MODIFY);
         }
         return userVO.getUserPwd();
     }
