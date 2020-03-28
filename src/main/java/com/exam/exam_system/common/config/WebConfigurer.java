@@ -48,7 +48,8 @@ public class WebConfigurer extends WebMvcConfigurationSupport {
                 .excludePathPatterns("/user/registerUser")
                 .excludePathPatterns("/user/loginUser")
                 .excludePathPatterns("/exam/login")
-                .excludePathPatterns("/static/**");
+                .excludePathPatterns("/static/**")
+                .excludePathPatterns("/templates/login.html");
         super.addInterceptors(registry);
     }
 
@@ -63,6 +64,6 @@ public class WebConfigurer extends WebMvcConfigurationSupport {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         super.addResourceHandlers(registry);
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("/templates/**").addResourceLocations("/classpath:/templates/");
+        registry.addResourceHandler("/templates/**").addResourceLocations("classpath:/templates/");
     }
 }
