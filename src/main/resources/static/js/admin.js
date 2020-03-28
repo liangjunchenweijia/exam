@@ -77,7 +77,14 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 
 		//初始化加载结束
 	});
-
+	$('body').on('click', '.toRegister',function () {
+		$('.loginBtn').hide();
+		$('.registerBtn').show();
+	});
+	$('body').on('click', '.toLogin',function () {
+		$('.registerBtn').hide();
+		$('.loginBtn').show();
+	});
 	/*
 	 * @todo 左侧导航菜单的显示和隐藏
 	 */
