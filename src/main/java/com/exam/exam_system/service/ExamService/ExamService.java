@@ -7,7 +7,9 @@ import com.exam.exam_system.mapper.exammapper.ExamMapper;
 import com.exam.exam_system.mapper.examtypemapper.ExamTypeMapper;
 import com.exam.exam_system.pojo.request.ExamRequest;
 import com.exam.exam_system.pojo.response.ExamVO;
+import com.exam.exam_system.pojo.response.UserVO;
 import com.exam.exam_system.service.subjectservice.SubjectService;
+import com.exam.exam_system.service.userservice.UserService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,14 +30,15 @@ import java.util.List;
 public class ExamService {
     private ExamMapper examMapper;
     private ExamTypeMapper examTypeMapper;
-
     private SubjectService subjectService;
+    private UserService userService;
 
     @Autowired
-    public ExamService(ExamMapper examMapper, ExamTypeMapper examTypeMapper, SubjectService subjectService) {
+    public ExamService(ExamMapper examMapper, ExamTypeMapper examTypeMapper, SubjectService subjectService, UserService userService) {
         this.examMapper = examMapper;
         this.examTypeMapper = examTypeMapper;
         this.subjectService = subjectService;
+        this.userService = userService;
     }
 
     /**
