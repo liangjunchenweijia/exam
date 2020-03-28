@@ -68,22 +68,22 @@ public class UserController extends BaseController {
      * @Return :
      **/
     @PostMapping("/loginUser")
-    public Result<Object> loginUser(@RequestBody UserRequest userRequest, HttpSession session) {
+    public Result<LoginUserPojo> loginUser(@RequestBody UserRequest userRequest, HttpSession session) {
         logger.info("用户登录:{}", JSON.toJSONString(userRequest));
         LoginUserPojo userInfo = null;
         if (null == userRequest) {
-            return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
+            return new Result<LoginUserPojo>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
         try {
             userInfo = userService.findUserInfo(userRequest);
         } catch (UserException e) {
-            return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
+            return new Result<LoginUserPojo>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
         }
         if (null != userInfo) {
             session.setAttribute(LoginUserConstant.LoginUser, userInfo);
-            return new Result<Object>();
+            return new Result<LoginUserPojo>(userInfo);
         }
-        return new Result<Object>(ErrorMsgEnum.USER_PWD_OR_USER_NAME_ERROR.getCode(), ErrorMsgEnum.USER_PWD_OR_USER_NAME_ERROR.getMsg());
+        return new Result<LoginUserPojo>(ErrorMsgEnum.USER_PWD_OR_USER_NAME_ERROR.getCode(), ErrorMsgEnum.USER_PWD_OR_USER_NAME_ERROR.getMsg());
     }
 
     /**

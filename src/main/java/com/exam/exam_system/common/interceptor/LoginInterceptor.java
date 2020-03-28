@@ -33,8 +33,9 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Object loginName = request.getSession().getAttribute(LoginUserConstant.LoginUser);
         if (null == loginName || (loginName instanceof String)) {
-            Result<String> result = new Result<>(ErrorMsgEnum.NOT_LOGIN.getCode(), ErrorMsgEnum.NOT_LOGIN.getMsg());
-            returnJson(response, result);
+//            Result<String> result = new Result<>(ErrorMsgEnum.NOT_LOGIN.getCode(), ErrorMsgEnum.NOT_LOGIN.getMsg());
+            response.sendRedirect("/templates/login.html");
+//            returnJson(response, result);
             return false;
         }
         return true;
