@@ -143,7 +143,8 @@
         ,create_time
         ,is_deleted
         FROM exam_user
-        WHERE user_type = 1
+        WHERE user_type = #{userRequest.userType}
+        and is_deleted = 1
         <if test="userRequest.userName != null and userRequest.userName != ''">
             and user_name LIKE CONCAT('%',#{userRequest.userName},'%')
         </if>
@@ -172,7 +173,8 @@
     <select id="selectUserAllCount" resultType="java.lang.Integer">
         SELECT COUNT(1)
         FROM exam_user
-        WHERE user_type = 1
+        WHERE user_type = #{userRequest.userType}
+        and is_deleted = 1
         <if test="userRequest.userName != null and userRequest.userName != ''">
             and user_name LIKE CONCAT('%',#{userRequest.userName},'%')
         </if>
