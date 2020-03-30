@@ -16,6 +16,8 @@ public class ExamVO {
 
     private Long userId;
 
+    private String userName;
+
 
     private String subjectId;
 
@@ -30,6 +32,8 @@ public class ExamVO {
 
 
     private Date modifyTime;
+
+    private String examName;
 
     private List<String> subjectName;
 
@@ -95,5 +99,22 @@ public class ExamVO {
 
     public void setSubjectName(List<String> subjectName) {
         this.subjectName = subjectName;
+    }
+
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getExamName() {
+        return examName;
+    }
+
+    public void setExamName(String examName) {
+        this.examName = examName;
     }
 }

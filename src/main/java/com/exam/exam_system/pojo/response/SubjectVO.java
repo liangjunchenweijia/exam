@@ -1,5 +1,8 @@
 package com.exam.exam_system.pojo.response;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * @Author :
  * @ClassName : subjectVO
@@ -12,6 +15,9 @@ public class SubjectVO {
     private String subjectName;
 
     private Integer subjectStatus;
+
+    private Double achievement;
+
 
     public Long getId() {
         return id;
@@ -35,5 +41,13 @@ public class SubjectVO {
 
     public void setSubjectStatus(Integer subjectStatus) {
         this.subjectStatus = subjectStatus;
+    }
+
+    public Double getAchievement() {
+        return achievement;
+    }
+
+    public void setAchievement(Double achievement) {
+        this.achievement = achievement;
     }
 }

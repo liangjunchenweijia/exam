@@ -60,12 +60,11 @@ public class ExamController extends BaseController {
      * @Date : 2020/3/26 16:05
      * @Return :
      **/
-    @PostMapping(" queryExamAll")
+    @PostMapping("queryExamAll")
     public PageResult<List<ExamVO>> queryExamAll(@RequestBody PageRequest<ExamRequest> examRequest) {
         logger.info("查询考试:{}", JSON.toJSONString(examRequest));
         PageResult<List<ExamVO>> examAll = examService.getExamAll(examRequest);
         return new PageResult<List<ExamVO>>(examAll.getPageNo(), examAll.getPageSize(), examAll.getTotal(), examAll.getObj());
-
     }
 
 

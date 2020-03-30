@@ -29,12 +29,13 @@ public class ExamTypeVO {
 
     private String remark;
 
-
     private Integer status;
 
     private Date modifyTime;
 
     private Date createTime;
+
+    private List<SubjectVO> subjectNames;
 
     public Long getId() {
         return id;
@@ -114,5 +115,13 @@ public class ExamTypeVO {
 
     public void setSubjectName(List<String> subjectName) {
         this.subjectName = subjectName;
+    }
+
+    public List<SubjectVO> getSubjectNames() {
+        return subjectNames;
+    }
+
+    public void setSubjectNames(List<SubjectVO> subjectNames) {
+        this.subjectNames = subjectNames;
     }
 }
