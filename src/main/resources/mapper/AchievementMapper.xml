@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.exam.exam_system.mapper.achievementMapper.AchievementMapper">
+
+    <resultMap id="BaseResultMap" type="com.exam.exam_system.pojo.response.AchievementVO">
+        <id column="name" property="id" jdbcType="BIGINT"/>
+        <result column="subject_id" property="subjectId" jdbcType="BIGINT"/>
+        <result column="exam_id" property="examId" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="achievement" property="achievement" jdbcType="DECIMAL"/>
+    </resultMap>
+
+
+    <resultMap id="AchievementMap" type="com.exam.exam_system.pojo.response.UserAchievementVO">
+        <id column="user_name" property="userName"/>
+        <collection property="examTypeVOS" ofType="com.exam.exam_system.pojo.response.ExamTypeVO">
+            <result column="exam_name" property="examName"/>
+            <collection property="subjectNames" ofType="com.exam.exam_system.pojo.response.SubjectVO">
+                <result column="subject_name" property="subjectName"/>
+                <result column="achievement" property="achievement"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.exam.exam_system.pojo.request.AchievementRequest">
+        insert into exam_achievement (subject_id, exam_id,user_id, achievement)
+        values
+        <foreach collection="achievementRequests" item="achievementRequests" separator=",">
+            (
+            #{achievementRequests.subjectId,jdbcType=BIGINT},
+            #{achievementRequests.examId,jdbcType=BIGINT},
+            #{achievementRequests.userId,jdbcType=BIGINT},
+            #{achievementRequests.achievement,jdbcType=DECIMAL}
+            )
+        </foreach>
+    </insert>
+
+    <select id="selectAchievementAll" resultMap="AchievementMap">
+        SELECT
+        a.user_name,
+        b.exam_name,
+        c.subject_name,
+        d.achievement
+        FROM
+        exam_achievement d
+        LEFT JOIN exam_user a ON d.user_id = a.id
+        LEFT JOIN exam_type b ON d.exam_id = b.id
+        LEFT JOIN exam_subject c ON d.subject_id = c.id
+        <where>
+            <if test="request.userName != null and request.userName != ''">
+                a.user_name LIKE CONCAT('%',#{request.userName},'%')
+            </if>
+            <if test="request.subjectName != null and request.subjectName != ''">
+                and c.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
+            </if>
+            <if test="request.examName != null and request.examName != ''">
+                and b.exam_name LIKE CONCAT('%',#{request.examName},'%')
+            </if>
+            <if test="request.minAchievement != null">
+                and d.achievement <![CDATA[ >= ]]> #{request.minAchievement}
+            </if>
+            <if test="request.maxAchievement != null">
+                and d.achievement <![CDATA[ <= ]]> #{request.maxAchievement}
+            </if>
+        </where>
+        order by d.create_time desc
+        LIMIT #{offset},#{limit}
+    </select>
+    <select id="selectAchievementCount" resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        FROM
+        exam_achievement d
+        LEFT JOIN exam_user a ON d.user_id = a.id
+        LEFT JOIN exam_type b ON d.exam_id = b.id
+        LEFT JOIN exam_subject c ON d.subject_id = c.id
+        <where>
+            <if test="request.userName != null and request.userName != ''">
+                a.user_name LIKE CONCAT('%',#{request.userName},'%')
+            </if>
+            <if test="request.subjectName != null and request.subjectName != ''">
+                and c.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
+            </if>
+            <if test="request.examName != null and request.examName != ''">
+                and b.exam_name LIKE CONCAT('%',#{request.examName},'%')
+            </if>
+            <if test="request.minAchievement != null">
+                and d.achievement <![CDATA[ >= ]]> #{request.minAchievement}
+            </if>
+            <if test="request.maxAchievement != null">
+                and d.achievement <![CDATA[ <= ]]> #{request.maxAchievement}
+            </if>
+        </where>
+    </select>
+
+    <!-- <select id="selectAchievementAll" resultType="com.exam.exam_system.pojo.response.UserAchievementVO">
+         SELECT a.user_name userName
+         ,b.exam_name examName
+         ,c.subject_name subjectName
+         ,d.achievement achievement
+         FROM exam_achievement d
+         LEFT JOIN exam_user a ON d.user_id = a.id
+         LEFT JOIN exam_type b ON d.exam_id = b.id
+         LEFT JOIN exam_subject c ON d.subject_id = c.id
+         <where>
+             <if test="request.userName != null and request.userName != ''">
+                 a.user_name LIKE CONCAT('%',#{request.userName},'%')
+             </if>
+             <if test="request.subjectName != null and request.subjectName != ''">
+                 and c.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
+             </if>
+             <if test="request.minAchievement != null">
+                 and d.achievement <![CDATA[ >= ]]> #{request.minAchievement}
+             </if>
+             <if test="request.maxAchievement != null">
+                 and d.achievement <![CDATA[ <= ]]> #{request.maxAchievement}
+             </if>
+         </where>
+         order by d.create_time desc
+         LIMIT #{offset},#{limit}
+     </select>
+
+     <select id="selectAchievementCount" resultType="int">
+         SELECT count(1)
+         FROM exam_achievement d
+         LEFT JOIN exam_user a ON d.user_id = a.id
+         LEFT JOIN exam_type b ON d.exam_id = b.id
+         LEFT JOIN exam_subject c ON d.subject_id = c.id
+         <where>
+             <if test="request.userName != null and request.userName != ''">
+                 a.user_name LIKE CONCAT('%',#{request.userName},'%')
+             </if>
+             <if test="request.subjectName != null and request.subjectName != ''">
+                 and c.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
+             </if>
+             <if test="request.minAchievement != null">
+                 and d.achievement <![CDATA[ >= ]]> #{request.minAchievement}
+             </if>
+             <if test="request.maxAchievement != null">
+                 and d.achievement <![CDATA[ <= ]]> #{request.maxAchievement}
+             </if>
+         </where>
+     </select>-->
+</mapper>

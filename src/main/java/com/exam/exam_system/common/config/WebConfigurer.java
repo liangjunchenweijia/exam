@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 import java.util.List;
 
 /**
- * @Author : liang_Jun
+ * @Author :
  * @ClassName : WebConfigurer
  * @Description :
  * @Date : 2020/3/20 9:51
