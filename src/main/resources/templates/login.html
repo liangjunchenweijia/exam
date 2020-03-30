@@ -20,10 +20,10 @@
         <div class="message registerBtn" style="display: none">管理注册</div>
         <div id="darkbannerwrap"></div>
         <div class="loginBtn">
-            <form method="post" class="layui-form" action="">
-                <input name="username" placeholder="姓名"  type="text" lay-verify="required" class="layui-input" >
+            <form class="layui-form">
+                <input name="userName" placeholder="姓名"  type="text" lay-verify="required" class="layui-input" >
                 <hr class="hr15">
-                <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
+                <input name="userPwd" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
                 <hr class="hr15">
                 <input class="loginin" value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
                 <hr class="hr20" >
@@ -34,12 +34,19 @@
             </form>
         </div>
         <div class="registerBtn" style="display: none">
-            <form method="post" class="layui-form" action="">
-                <input name="username" placeholder="姓名"  type="text" lay-verify="required" class="layui-input" >
+            <form class="layui-form">
+                <input name="userName" placeholder="姓名"  type="text" lay-verify="required" class="layui-input" >
                 <hr class="hr15">
-                <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
+                <input name="userPwd" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
                 <hr class="hr15">
-                <input name="userId" placeholder="学号"  type="text" lay-verify="required" class="layui-input" >
+                <input name="userSno" placeholder="学号"  type="text" lay-verify="required" class="layui-input" >
+                <hr class="hr15">
+                <div class="layui-input-block">
+                    <input type="radio" name="userSex" value="1" title="男" checked>
+                    <input type="radio" name="userSex" value="2" title="女">
+                </div>
+                <input name="userAge" type="hidden" placeholder="年龄" value="0" type="text">
+                <input type="hidden" name="userType" value="1">
                 <hr class="hr15">
                 <input class="loginin" value="注册" lay-submit lay-filter="register" style="width:100%;" type="submit">
                 <hr class="hr20" >
@@ -55,22 +62,46 @@
 				admin: '{/}/static/js/admin'
 			});
             layui.use(['form','admin'], function(){
-                var form = layui.form
-                    ,admin = layui.admin;
+                var form = layui.form,
+                    $ = layui.jquery,
+                    admin = layui.admin;
                 //监听提交
                 form.on('submit(login)', function(data){
-                    alert(888)
-                    // layer.msg(JSON.stringify(data.field),function(){
-                    //     // location.href='./index.html'
-                    // });
+                    var datas = JSON.stringify(data.field)
+                    $.ajax({
+                        url: '/user/loginUser',
+                        data: datas,
+                        type: "POST",
+                        dataType: "json",
+                        contentType:'application/json;charset=utf-8',
+                        success:function (res) {
+                            if(res.success){
+                                location.href="index.html"
+                            }else{
+                                layer.msg(res.errorMsg);
+                            }
+                        }
+                    })
                     return false;
                 });
                 //监听提交
                 form.on('submit(register)', function(data){
-                    alert(888)
-                    // layer.msg(JSON.stringify(data.field),function(){
-                    //     // location.href='./index.html'
-                    // });
+                    var datas = JSON.stringify(data.field)
+                    $.ajax({
+                        url: '/user/registerUser',
+                        data: datas,
+                        type: "POST",
+                        dataType: "json",
+                        contentType:'application/json;charset=utf-8',
+                        success:function (res) {
+                            if(res.success){
+                                $('.registerBtn').hide();
+                                $('.loginBtn').show();
+                            }else{
+                                layer.msg(res.errorMsg);
+                            }
+                        }
+                    })
                     return false;
                 });
             });   
