@@ -150,6 +150,7 @@
         ,user_age
         ,user_sex
         ,user_type
+        ,user_sno
         ,create_time
         ,is_deleted
         FROM exam_user
