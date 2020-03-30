@@ -12,6 +12,8 @@ public class UserVO {
 
     private Long id;
 
+    private String name;
+
     private String userName;
 
     private String userPwd;
@@ -36,6 +38,14 @@ public class UserVO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUserName() {

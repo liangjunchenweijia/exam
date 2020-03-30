@@ -11,6 +11,8 @@ import java.util.Date;
 public class UserRequest {
     private Long id;
 
+    private String name;
+
     private String userName;
 
     private String userPwd;
@@ -37,6 +39,13 @@ public class UserRequest {
 
     private Integer isDeleted;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return id;

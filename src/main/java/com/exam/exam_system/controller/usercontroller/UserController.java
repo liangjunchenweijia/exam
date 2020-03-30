@@ -15,6 +15,7 @@ import com.exam.exam_system.pojo.request.UserIdsRequest;
 import com.exam.exam_system.pojo.request.UserRequest;
 import com.exam.exam_system.pojo.response.UserVO;
 import com.exam.exam_system.service.userservice.UserService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -131,6 +132,9 @@ public class UserController extends BaseController {
      **/
     @PostMapping("/modifyUserById")
     public Result<Object> modifyUserById(@RequestBody UserRequest userRequest, @LoginUser LoginUserPojo userLogin, HttpServletRequest request) {
+        if (null == userRequest || null == userLogin) {
+            return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
+        }
         logger.info("修改当前用户信息：{}", JSON.toJSONString(userLogin));
         userRequest.setId(userLogin.getId());
         //修改前查出未修改前的用户名称和密码
@@ -172,6 +176,9 @@ public class UserController extends BaseController {
      **/
     @PostMapping("/batchRemoveStu")
     public Result<Object> batchRemoveStu(@RequestBody UserIdsRequest userIds) {
+        if(null == userIds){
+            return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
+        }
         logger.info("批量删除用户为学生:{}", JSON.toJSONString(userIds));
         userService.batchDelStuByIds(userIds.getUserIds());
         return new Result<Object>();
