@@ -3,40 +3,42 @@
 	"msg": "ok",
 	"data": [{
 			"id": 1,
-			"name": "会员管理",
+			"name": "用户管理",
 			"icon": "&#xe6b8;",
 			"url": "",
 			"children": [{
-				"id": 2,
-				"name": "会员列表",
+				"id": 11,
+				"name": "管理员列表",
 				"icon": "",
-				"url": "./pages/member/list.html"
-			}, {
-				"id": 3,
-				"name": "会员删除",
+				"url": "./pages/member/adminList.html"
+			},{
+				"id": 12,
+				"name": "考生列表",
 				"icon": "",
-				"url": "./pages/member/del.html"
-			}, {
-				"id": 4,
-				"name": "会员管理",
-				"icon": "&#xe70b;",
-				"url": "",
-				"children": [{
-					"id": 5,
-					"name": "输入框操作",
-					"icon": "",
-					"url": "./pages/member/addInput.html"
-				}, {
-					"id": 6,
-					"name": "三级菜单演示",
-					"icon": "",
-					"url": "./pages/404.html"
-				}, {
-					"id": 7,
-					"name": "导航菜单演示",
-					"icon": "&#xe70b;",
-					"url": "./pages/404.html"
-				}]
+				"url": "./pages/member/userList.html"
+			}]
+		},{
+			"id": 2,
+			"name": "课程管理",
+			"icon": "&#xe705;",
+			"url": "",
+			"children": [{
+				"id": 21,
+				"name": "课程列表",
+				"icon": "",
+				"url": "./pages/course/list.html"
+			}]
+		},
+		{
+			"id": 3,
+			"name": "题库管理",
+			"icon": "&#xe723;",
+			"url": "",
+			"children": [{
+				"id": 31,
+				"name": "题库列表",
+				"icon": "",
+				"url": "./pages/problems/list.html"
 			}]
 		},
 		{
@@ -57,12 +59,12 @@
 			}]
 		},
 		{
-			"id": 11,
+			"id": 111,
 			"name": "订单管理",
 			"icon": "&#xe723;",
 			"url": "",
 			"children": [{
-				"id": 12,
+				"id": 121,
 				"name": "订单列表",
 				"icon": "",
 				"url": "./pages/order/list.html"
@@ -116,7 +118,7 @@
 				"url": "./pages/echarts/echarts2.html"
 			},
 			{
-				"id": 21,
+				"id": 61,
 				"name": "地图",
 				"icon": "",
 				"url": "./pages/echarts/echarts3.html"

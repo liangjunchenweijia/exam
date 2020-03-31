@@ -1,0 +1,28 @@
+{
+	"status": 0,
+	"msg": "ok",
+	"data": [
+		{
+			"id": 1,
+			"name": "用户中心",
+			"icon": "&#xe6b8;",
+			"url": "",
+			"children": [{
+				"id": 11,
+				"name": "用户信息",
+				"icon": "",
+				"url": "./pages/member/userInfo.html"
+			}]
+		},{
+			"id": 2,
+			"name": "考试中心",
+			"icon": "&#xe705;",
+			"url": "./pages/member/userInfo.html"
+		},{
+			"id": 3,
+			"name": "成绩中心",
+			"icon": "&#xe723;",
+			"url": "./pages/member/list.html"
+		}
+	]
+}

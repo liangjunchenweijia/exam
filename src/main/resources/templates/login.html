@@ -21,7 +21,7 @@
         <div id="darkbannerwrap"></div>
         <div class="loginBtn">
             <form class="layui-form">
-                <input name="userName" placeholder="姓名"  type="text" lay-verify="required" class="layui-input" >
+                <input name="userName" placeholder="账号"  type="text" lay-verify="required" class="layui-input" >
                 <hr class="hr15">
                 <input name="userPwd" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
                 <hr class="hr15">
@@ -35,9 +35,11 @@
         </div>
         <div class="registerBtn" style="display: none">
             <form class="layui-form">
-                <input name="userName" placeholder="姓名"  type="text" lay-verify="required" class="layui-input" >
+                <input name="userName" placeholder="账号"  type="text" lay-verify="required" class="layui-input" >
                 <hr class="hr15">
                 <input name="userPwd" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
+                <hr class="hr15">
+                <input name="name" placeholder="姓名"  type="text" lay-verify="required" class="layui-input" >
                 <hr class="hr15">
                 <input name="userSno" placeholder="学号"  type="text" lay-verify="required" class="layui-input" >
                 <hr class="hr15">
@@ -45,8 +47,8 @@
                     <input type="radio" name="userSex" value="1" title="男" checked>
                     <input type="radio" name="userSex" value="2" title="女">
                 </div>
-                <input name="userAge" type="hidden" placeholder="年龄" value="0" type="text">
-                <input type="hidden" name="userType" value="1">
+                <input name="userType" type="hidden" value="1" type="text">
+                <input name="userAge" type="hidden" value="" type="text">
                 <hr class="hr15">
                 <input class="loginin" value="注册" lay-submit lay-filter="register" style="width:100%;" type="submit">
                 <hr class="hr20" >
@@ -76,9 +78,13 @@
                         contentType:'application/json;charset=utf-8',
                         success:function (res) {
                             if(res.success){
-                                location.href="index.html"
+                                localStorage.setItem('userType', res.obj.userType);
+                                localStorage.setItem('userName', res.obj.userName);
+                                location.href="index.html?"
                             }else{
-                                layer.msg(res.errorMsg);
+                                layer.msg(res.errorMsg,{
+                                    time: 1000
+                                });
                             }
                         }
                     })
@@ -98,7 +104,9 @@
                                 $('.registerBtn').hide();
                                 $('.loginBtn').show();
                             }else{
-                                layer.msg(res.errorMsg);
+                                layer.msg(res.errorMsg,{
+                                    time: 1000
+                                });
                             }
                         }
                     })

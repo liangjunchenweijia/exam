@@ -71,27 +71,14 @@
 				var $ = layui.jquery,
 					admin = layui.admin,
 					menu = layui.menu;
-				$(function(){
-                    $.ajax({
-                        url: '/user/queryUserById',
-                        type: "get",
-                        dataType: "json",
-                        contentType:'application/json;charset=utf-8',
-                        success:function (res) {
-                            if(res.success){
-                                if(res.obj.userType == 2){
-                                    menu.getMenu('/static/json/userMenu.json');
-                                }
-                                if(res.obj.userType == 1){
-                                    menu.getMenu('/static/json/adminMenu.json');
-                                }
-                                $('.username').html(res.obj.userName+'<span class="layui-nav-more"></span>')
-                            }else{
-                                layer.msg(res.errorMsg);
-                            }
-                        }
-                    })
-				});
+				var userType = JSON.parse(localStorage.getItem("userType"));
+				var userName = JSON.parse(localStorage.getItem("userName"));
+				if(userType == 2){
+					menu.getMenu('/static/json/userMenu.json');
+				}else if(userType == 1){
+					menu.getMenu('/static/json/adminMenu.json');
+				}
+				$('.username').html(userName+'<span class="layui-nav-more"></span>')
 			});
 		</script>
 	</body>
