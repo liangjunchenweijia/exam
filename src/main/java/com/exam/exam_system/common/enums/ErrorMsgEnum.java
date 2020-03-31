@@ -38,7 +38,7 @@ public enum ErrorMsgEnum {
 
     SUBJECTNAME_ALREADY_EXISTED("000011", "学科已存在,请重新输入"),
 
-    USER_NAME_ALREADY_EXISTED("000012", "用户名已存在,请重新输入")
+    USER_NAME_ALREADY_EXISTED("000012", "账号已存在,请重新输入")
 
     ;
     /**
