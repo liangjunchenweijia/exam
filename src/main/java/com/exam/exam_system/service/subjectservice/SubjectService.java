@@ -44,7 +44,7 @@ public class SubjectService {
         //学科状态(默认可用)
         subjectRequest.setSubjectStatus(1);
         SubjectVO subjectVO = subjectMapper.checkSubjectName(subjectRequest.getSubjectName());
-        if (null != subjectVO && !subjectRequest.getId().equals(subjectVO.getId())) {
+        if (null != subjectVO) {
             throw new SubjectException(ErrorMsgEnum.SUBJECTNAME_ALREADY_EXISTED);
         }
         return subjectMapper.insert(subjectRequest);
