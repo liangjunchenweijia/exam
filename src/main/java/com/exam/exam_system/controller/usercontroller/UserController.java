@@ -18,6 +18,7 @@ import com.exam.exam_system.service.userservice.UserService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sun.rmi.server.UnicastServerRef2;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -141,9 +142,7 @@ public class UserController extends BaseController {
             return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
         logger.info("修改当前用户信息：{}", JSON.toJSONString(userLogin));
-        if (null != userLogin) {
-            userRequest.setId(userLogin.getId());
-        }
+        userRequest.setId(userLogin.getId());
         //修改前查出未修改前的用户名称和密码
         UserVO user = userService.findUserById(userRequest.getId());
         int line = userService.alterUserById(userRequest);
@@ -157,6 +156,24 @@ public class UserController extends BaseController {
             return new Result<Object>();
         }
         return new Result<Object>(ErrorMsgEnum.UPDATE_USER_ERROR.getCode(), ErrorMsgEnum.UPDATE_USER_ERROR.getMsg());
+    }
+
+    /**
+     * @param id
+     * @Author :
+     * @Description : 管理员修改用户信息
+     * @Date : 2020/3/31 12:24
+     * @Return :
+     **/
+    @GetMapping("/adminModifyUserById")
+    public Result<Object> adminModifyUserById(Long id) {
+        if (null == id) {
+            return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
+        }
+        UserRequest userRequest = new UserRequest();
+        userRequest.setId(id);
+        userService.alterUserById(userRequest);
+        return new Result<Object>();
     }
 
     /**

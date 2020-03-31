@@ -147,4 +147,6 @@ public class UserService {
     public int batchDelStuByIds(List<Long> userIds) {
         return userMapper.batchDelStuByIds(userIds);
     }
+
+
 }
