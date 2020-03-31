@@ -13,7 +13,7 @@
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
-        <result column="user_name" property="userName" jdbcType="VARCHAR"></result>
+        <result column="name" property="name" jdbcType="VARCHAR"></result>
         <result column="exam_name" property="examName" jdbcType="VARCHAR"></result>
     </resultMap>
 
@@ -35,7 +35,7 @@
         ,a.STATUS
         ,a.create_time
         ,a.modify_time
-        ,b.user_name
+        ,b.name
         ,c.exam_name
         FROM exam_exam a
         left join exam_user b
