@@ -31,7 +31,7 @@ public class AchievementRequest {
 
     private String subjectName;
 
-    private String userName;
+    private String name;
 
     private Double minAchievement;
 
@@ -109,12 +109,12 @@ public class AchievementRequest {
         this.subjectName = subjectName;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Double getMinAchievement() {
