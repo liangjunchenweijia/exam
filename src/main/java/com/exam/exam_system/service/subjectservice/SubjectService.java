@@ -43,8 +43,8 @@ public class SubjectService {
     public int addSubject(SubjectRequest subjectRequest) {
         //学科状态(默认可用)
         subjectRequest.setSubjectStatus(1);
-        int count = subjectMapper.checkSubjectName(subjectRequest.getSubjectName());
-        if (1 <= count) {
+        SubjectVO subjectVO = subjectMapper.checkSubjectName(subjectRequest.getSubjectName());
+        if (null != subjectVO && !subjectRequest.getId().equals(subjectVO.getId())) {
             throw new SubjectException(ErrorMsgEnum.SUBJECTNAME_ALREADY_EXISTED);
         }
         return subjectMapper.insert(subjectRequest);
@@ -72,8 +72,8 @@ public class SubjectService {
      * @Return :
      **/
     public int modifySubjectById(SubjectRequest subjectRequest) {
-        int count = subjectMapper.checkSubjectName(subjectRequest.getSubjectName());
-        if (1 <= count) {
+        SubjectVO subjectVO = subjectMapper.checkSubjectName(subjectRequest.getSubjectName());
+        if (null != subjectVO && !subjectRequest.getId().equals(subjectVO.getId())) {
             throw new SubjectException(ErrorMsgEnum.SUBJECTNAME_ALREADY_EXISTED);
         }
         subjectRequest.setModifyTime(timeMapper.getTime());

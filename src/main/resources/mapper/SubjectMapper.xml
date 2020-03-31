@@ -53,8 +53,8 @@
         </foreach>
     </select>
 
-    <select id="checkSubjectName" resultType="java.lang.Integer">
-       SELECT count(1)
+    <select id="checkSubjectName" resultType="com.exam.exam_system.pojo.response.SubjectVO">
+       SELECT id ,subject_name subjectName
         FROM exam_subject
         WHERE subject_name = #{subjectName}
             AND subject_status = 1

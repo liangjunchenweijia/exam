@@ -78,6 +78,6 @@ public interface SubjectMapper {
      * @Date : 2020/3/31 13:30
      * @Return :
      **/
-    int checkSubjectName(@Param("subjectName") String subjectName);
+    SubjectVO checkSubjectName(@Param("subjectName") String subjectName);
 
 }
