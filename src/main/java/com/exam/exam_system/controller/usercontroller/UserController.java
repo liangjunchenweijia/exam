@@ -138,14 +138,19 @@ public class UserController extends BaseController {
      **/
     @PostMapping("/modifyUserById")
     public Result<Object> modifyUserById(@RequestBody UserRequest userRequest, @LoginUser LoginUserPojo userLogin, HttpServletRequest request) {
+        logger.info("修改当前用户信息：{}", JSON.toJSONString(userLogin));
         if (null == userRequest || null == userLogin) {
             return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
-        logger.info("修改当前用户信息：{}", JSON.toJSONString(userLogin));
         userRequest.setId(userLogin.getId());
         //修改前查出未修改前的用户名称和密码
         UserVO user = userService.findUserById(userRequest.getId());
-        int line = userService.alterUserById(userRequest);
+        int line = 0;
+        try {
+            line = userService.alterUserById(userRequest);
+        } catch (UserException e) {
+            return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
+        }
         if (line == 1) {
             //如果修改的用户名或者用户密码与之前不一致,强制退出,重新登陆
             if (!userRequest.getUserName().equals(user.getUserName())
@@ -159,20 +164,23 @@ public class UserController extends BaseController {
     }
 
     /**
-     * @param id
+     * @param userRequest
      * @Author :
      * @Description : 管理员修改用户信息
      * @Date : 2020/3/31 12:24
      * @Return :
      **/
-    @GetMapping("/adminModifyUserById")
-    public Result<Object> adminModifyUserById(Long id) {
-        if (null == id) {
+    @PostMapping("/adminModifyUserById")
+    public Result<Object> adminModifyUserById(@RequestBody UserRequest userRequest) {
+        logger.info("管理员修改用户信息:{}", JSON.toJSONString(userRequest));
+        if (null == userRequest) {
             return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
-        UserRequest userRequest = new UserRequest();
-        userRequest.setId(id);
-        userService.alterUserById(userRequest);
+        try {
+            userService.alterUserById(userRequest);
+        } catch (UserException e) {
+            return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
+        }
         return new Result<Object>();
     }
 

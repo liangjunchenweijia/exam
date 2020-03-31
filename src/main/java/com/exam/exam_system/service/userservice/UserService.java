@@ -119,6 +119,14 @@ public class UserService {
      * @Return : 返回影响行数
      **/
     public int alterUserById(UserRequest userRequest) {
+        int userCount = userMapper.checkUser(userRequest.getUserName());
+        if (1 > userCount) {
+            throw new UserException(ErrorMsgEnum.USER_INEXISTENCE);
+        }
+        int userSnoCount = userMapper.checkUserSno(userRequest.getUserSno());
+        if (1 <= userSnoCount) {
+            throw new UserException(ErrorMsgEnum.USER_SNO_ALREADY_EXISTED);
+        }
         userRequest.setModifyTime(timeMapper.getTime());
         return userMapper.updateUserById(userRequest);
     }
