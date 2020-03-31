@@ -137,6 +137,7 @@
             ,user_pwd
             ,user_age
             ,user_sex
+            ,user_sno
             ,user_type
         from
             exam_user
