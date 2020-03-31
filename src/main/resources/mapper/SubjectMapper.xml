@@ -25,7 +25,7 @@
         from
         exam_subject
         <where>
-            <if test="request.subjectName != null and request.subjectName ！= ''">
+            <if test="request.subjectName != null and request.subjectName != ''">
                 subject_name LIKE CONCAT('%',#{request.subjectName},'%')
             </if>
         </where>
@@ -36,7 +36,7 @@
         SELECT count(1)
         FROM exam_subject
         <where>
-            <if test="request.subjectName != null and request.subjectName ！= ''">
+            <if test="request.subjectName != null and request.subjectName != ''">
                 subject_name LIKE CONCAT('%',#{request.subjectName},'%')
             </if>
         </where>
