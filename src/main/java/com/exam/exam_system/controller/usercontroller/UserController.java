@@ -136,7 +136,9 @@ public class UserController extends BaseController {
             return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
         logger.info("修改当前用户信息：{}", JSON.toJSONString(userLogin));
-        userRequest.setId(userLogin.getId());
+        if(null != userLogin){
+            userRequest.setId(userLogin.getId());
+        }
         //修改前查出未修改前的用户名称和密码
         UserVO user = userService.findUserById(userRequest.getId());
         int line = userService.alterUserById(userRequest);
