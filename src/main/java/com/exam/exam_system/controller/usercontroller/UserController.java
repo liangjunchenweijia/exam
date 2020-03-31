@@ -107,21 +107,19 @@ public class UserController extends BaseController {
     }
 
     /**
-     * @param userLogin
+     * @param id
      * @Author :
      * @Description : 查询当前用户详情
      * @Date : 2020/3/22 11:20
      * @Return : 返回用户详细信息
      **/
     @GetMapping("/queryUserById")
-    public Result<UserVO> queryUserById(@LoginUser LoginUserPojo userLogin, Long id) {
-        logger.info("查询当前用户详情:{}", JSON.toJSONString(userLogin));
-        UserVO user = new UserVO();
-        if (null != userLogin) {
-            user = userService.findUserById(userLogin.getId());
-        } else {
-            user = userService.findUserById(id);
+    public Result<UserVO> queryUserById(Long id) {
+        logger.info("查询当前用户详情:{}", id);
+        if (null == id) {
+            return new Result<UserVO>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
+        UserVO user = userService.findUserById(id);
         logger.info("查询当前用户详情返回：{}", JSON.toJSONString(user));
         return new Result<UserVO>(user);
     }
