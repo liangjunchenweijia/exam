@@ -15,10 +15,8 @@ import com.exam.exam_system.pojo.request.UserIdsRequest;
 import com.exam.exam_system.pojo.request.UserRequest;
 import com.exam.exam_system.pojo.response.UserVO;
 import com.exam.exam_system.service.userservice.UserService;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sun.rmi.server.UnicastServerRef2;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

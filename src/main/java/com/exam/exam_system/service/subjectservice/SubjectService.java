@@ -2,6 +2,8 @@ package com.exam.exam_system.service.subjectservice;
 
 import com.exam.exam_system.common.PageRequest;
 import com.exam.exam_system.common.PageResult;
+import com.exam.exam_system.common.enums.ErrorMsgEnum;
+import com.exam.exam_system.exception.SubjectException;
 import com.exam.exam_system.mapper.subjectmapper.SubjectMapper;
 import com.exam.exam_system.mapper.timemapper.TimeMapper;
 import com.exam.exam_system.pojo.request.SubjectRequest;
@@ -41,6 +43,10 @@ public class SubjectService {
     public int addSubject(SubjectRequest subjectRequest) {
         //学科状态(默认可用)
         subjectRequest.setSubjectStatus(1);
+        int count = subjectMapper.checkSubjectName(subjectRequest.getSubjectName());
+        if (1 <= count) {
+            throw new SubjectException(ErrorMsgEnum.SUBJECTNAME_ALREADY_EXISTED);
+        }
         return subjectMapper.insert(subjectRequest);
     }
 
@@ -66,6 +72,10 @@ public class SubjectService {
      * @Return :
      **/
     public int modifySubjectById(SubjectRequest subjectRequest) {
+        int count = subjectMapper.checkSubjectName(subjectRequest.getSubjectName());
+        if (1 <= count) {
+            throw new SubjectException(ErrorMsgEnum.SUBJECTNAME_ALREADY_EXISTED);
+        }
         subjectRequest.setModifyTime(timeMapper.getTime());
         return subjectMapper.updateByPrimaryKeySelective(subjectRequest);
     }

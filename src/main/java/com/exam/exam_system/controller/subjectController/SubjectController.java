@@ -5,6 +5,7 @@ import com.exam.exam_system.common.PageRequest;
 import com.exam.exam_system.common.PageResult;
 import com.exam.exam_system.common.Result;
 import com.exam.exam_system.controller.BaseController;
+import com.exam.exam_system.exception.SubjectException;
 import com.exam.exam_system.pojo.request.SubjectRequest;
 import com.exam.exam_system.pojo.response.SubjectVO;
 import com.exam.exam_system.service.subjectservice.SubjectService;
@@ -42,7 +43,11 @@ public class SubjectController extends BaseController {
     @PostMapping("/saveSubject")
     public Result<Object> saveSubject(@RequestBody SubjectRequest subjectRequest) {
         logger.info("添加学科:{}", JSON.toJSONString(subjectRequest));
-        subjectService.addSubject(subjectRequest);
+        try {
+            subjectService.addSubject(subjectRequest);
+        } catch (SubjectException e) {
+            return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
+        }
         return new Result<Object>();
     }
 
@@ -57,7 +62,7 @@ public class SubjectController extends BaseController {
     public PageResult<List<SubjectVO>> querySubjectAll(@RequestBody PageRequest<SubjectRequest> subjectRequest) {
         logger.info("查询所有学科：{}", JSON.toJSONString(subjectRequest));
         PageResult<List<SubjectVO>> subjectAll = subjectService.findSubjectAll(subjectRequest);
-        logger.info("查询虽有学科返回:{}", JSON.toJSONString(subjectAll));
+        logger.info("查询所有学科返回:{}", JSON.toJSONString(subjectAll));
         return new PageResult<>(subjectAll.getPageNo(), subjectAll.getPageSize(), subjectAll.getTotal(), subjectAll.getObj());
     }
 
@@ -71,7 +76,11 @@ public class SubjectController extends BaseController {
     @PostMapping("/modifySubject")
     public Result<Object> modifySubject(@RequestBody SubjectRequest subjectRequest) {
         logger.info("修改学科：{}", JSON.toJSONString(subjectRequest));
-        subjectService.modifySubjectById(subjectRequest);
+        try {
+            subjectService.modifySubjectById(subjectRequest);
+        } catch (SubjectException e) {
+            return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
+        }
         return new Result<Object>();
     }
 

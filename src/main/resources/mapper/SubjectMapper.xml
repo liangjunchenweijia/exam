@@ -19,30 +19,47 @@
     </select>
     <select id="selectSubjectInfo" resultType="com.exam.exam_system.pojo.response.SubjectVO">
         select
-            id id,
-            subject_name subjectName,
-            subject_status subjectStatus
+        id id,
+        subject_name subjectName,
+        subject_status subjectStatus
         from
-            exam_subject
-         order by create_time desc
+        exam_subject
+        <where>
+            <if test="request.subjectName != null and request.subjectName ！= ''">
+                subject_name LIKE CONCAT('%',#{request.subjectName},'%')
+            </if>
+        </where>
+        order by create_time desc
         LIMIT #{offset},#{limit}
     </select>
     <select id="selectSubjectCount" resultType="java.lang.Integer">
-         SELECT count(1)
+        SELECT count(1)
         FROM exam_subject
+        <where>
+            <if test="request.subjectName != null and request.subjectName ！= ''">
+                subject_name LIKE CONCAT('%',#{request.subjectName},'%')
+            </if>
+        </where>
     </select>
 
     <select id="batchSelectSubjectName" resultType="java.lang.String">
         select
-            subject_name
+        subject_name
         from
-            exam_subject
+        exam_subject
         where
-            id
+        id
         IN
         <foreach collection="id" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>
+    </select>
+
+    <select id="checkSubjectName" resultType="java.lang.Integer">
+       SELECT count(1)
+        FROM exam_subject
+        WHERE subject_name = #{subjectName}
+            AND subject_status = 1
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

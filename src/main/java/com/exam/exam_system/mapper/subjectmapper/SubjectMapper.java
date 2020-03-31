@@ -4,7 +4,6 @@ import com.exam.exam_system.pojo.request.SubjectRequest;
 import com.exam.exam_system.pojo.response.SubjectVO;
 import org.apache.ibatis.annotations.Param;
 
-import javax.annotation.security.PermitAll;
 import java.util.Date;
 import java.util.List;
 
@@ -71,4 +70,14 @@ public interface SubjectMapper {
      * @Return :
      **/
     List<String> batchSelectSubjectName(@Param("id") List<String> id);
+
+    /**
+     * @param subjectName
+     * @Author :
+     * @Description : 校验学科名称
+     * @Date : 2020/3/31 13:30
+     * @Return :
+     **/
+    int checkSubjectName(@Param("subjectName") String subjectName);
+
 }

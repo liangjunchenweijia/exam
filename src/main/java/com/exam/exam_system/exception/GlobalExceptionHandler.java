@@ -37,4 +37,12 @@ public class GlobalExceptionHandler {
         return new Result<String>(e.getErrorMsgEnum().getCode(), e.getMessage());
     }
 
+    @ExceptionHandler(SubjectException.class)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    Result<String> handleException(SubjectException e) {
+        logger.error(e.toString(), e);
+        return new Result<String>(e.getErrorMsgEnum().getCode(), e.getMessage());
+    }
+
 }
