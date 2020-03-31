@@ -1,6 +1,5 @@
 package com.exam.exam_system.mapper.usermapper;
 
-import com.exam.exam_system.common.config.annotation.LoginUser;
 import com.exam.exam_system.pojo.LoginUserPojo;
 import com.exam.exam_system.pojo.request.UserRequest;
 import com.exam.exam_system.pojo.response.UserVO;
@@ -31,7 +30,7 @@ public interface UserMapper {
      * @Date : 2020/3/22 2:20
      * @Return : 返回总数
      **/
-    int checkUser(@Param("userName") String userName);
+    UserVO checkUser(@Param("userName") String userName);
 
     /**
      * @param userRequest
@@ -103,5 +102,5 @@ public interface UserMapper {
      * @Date : 2020/3/28 10:33
      * @Return :
      **/
-    int checkUserSno(@Param("userSno") String userSno);
+    UserVO checkUserSno(@Param("userSno") String userSno);
 }

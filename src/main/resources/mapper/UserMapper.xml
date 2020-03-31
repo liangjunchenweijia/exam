@@ -93,8 +93,8 @@
     </update>
 
     <!--校验用户是否已存在-->
-    <select id="checkUser" parameterType="java.lang.String" resultType="java.lang.Integer">
-       SELECT count(1)
+    <select id="checkUser" parameterType="java.lang.String" resultType="com.exam.exam_system.pojo.response.UserVO">
+       SELECT id,user_anme userName
         FROM exam_user
         WHERE user_name = #{userName}
         AND is_deleted = 1
@@ -214,9 +214,10 @@
             and is_deleted = #{userRequest.isDeleted}
         </if>
     </select>
-    <select id="checkUserSno" resultType="java.lang.Integer">
+    <select id="checkUserSno" resultType="com.exam.exam_system.pojo.response.UserVO">
         select
-            COUNT(1)
+           id,
+           user_sno userSno
         FROM
             exam_user
         WHERE

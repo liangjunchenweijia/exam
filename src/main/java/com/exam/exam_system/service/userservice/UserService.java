@@ -2,7 +2,6 @@ package com.exam.exam_system.service.userservice;
 
 import com.exam.exam_system.common.PageRequest;
 import com.exam.exam_system.common.PageResult;
-import com.exam.exam_system.common.config.annotation.LoginUser;
 import com.exam.exam_system.common.constant.UserConstant;
 import com.exam.exam_system.common.enums.ErrorMsgEnum;
 import com.exam.exam_system.exception.UserException;
@@ -11,7 +10,6 @@ import com.exam.exam_system.mapper.usermapper.UserMapper;
 import com.exam.exam_system.pojo.LoginUserPojo;
 import com.exam.exam_system.pojo.request.UserRequest;
 import com.exam.exam_system.pojo.response.UserVO;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,12 +47,12 @@ public class UserService {
     public int saveUser(UserRequest userRequest) {
         userRequest.setIsDeleted(UserConstant.NOT_DELETED);
         //校验用户是否已存在
-        int userCount = userMapper.checkUser(userRequest.getUserName());
-        if (1 <= userCount) {
+        UserVO userVO = userMapper.checkUser(userRequest.getUserName());
+        if (null != userVO) {
             throw new UserException(ErrorMsgEnum.USER_ALREADY_EXISTED);
         }
-        int userSnoCount = userMapper.checkUserSno(userRequest.getUserSno());
-        if (1 <= userSnoCount) {
+        UserVO userInfo = userMapper.checkUserSno(userRequest.getUserSno());
+        if (null != userInfo) {
             throw new UserException(ErrorMsgEnum.USER_SNO_ALREADY_EXISTED);
         }
         return userMapper.insertUser(userRequest);
@@ -85,8 +83,8 @@ public class UserService {
      * @Return :
      **/
     public String findPwd(UserRequest userRequest) {
-        int userCount = userMapper.checkUser(userRequest.getUserName());
-        if (1 > userCount) {
+        UserVO userInfo = userMapper.checkUser(userRequest.getUserName());
+        if (null != userInfo) {
             throw new UserException(ErrorMsgEnum.USER_INEXISTENCE);
         }
         //模拟密码找回(通过输入注册时的用户名以及密保找回)
@@ -119,12 +117,12 @@ public class UserService {
      * @Return : 返回影响行数
      **/
     public int alterUserById(UserRequest userRequest) {
-        int userCount = userMapper.checkUser(userRequest.getUserName());
-        if (1 > userCount) {
+        UserVO userVO = userMapper.checkUser(userRequest.getUserName());
+        if (userVO != null && !userVO.getId().equals(userRequest.getId())) {
             throw new UserException(ErrorMsgEnum.USER_INEXISTENCE);
         }
-        int userSnoCount = userMapper.checkUserSno(userRequest.getUserSno());
-        if (1 <= userSnoCount) {
+        UserVO userInfo = userMapper.checkUserSno(userRequest.getUserSno());
+        if (null != userInfo && !userInfo.getId().equals(userRequest.getId())) {
             throw new UserException(ErrorMsgEnum.USER_SNO_ALREADY_EXISTED);
         }
         userRequest.setModifyTime(timeMapper.getTime());
