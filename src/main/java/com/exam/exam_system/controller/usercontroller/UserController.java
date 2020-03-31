@@ -115,9 +115,14 @@ public class UserController extends BaseController {
      * @Return : 返回用户详细信息
      **/
     @GetMapping("/queryUserById")
-    public Result<UserVO> queryUserById(@LoginUser LoginUserPojo userLogin) {
+    public Result<UserVO> queryUserById(@LoginUser LoginUserPojo userLogin, Long id) {
         logger.info("查询当前用户详情:{}", JSON.toJSONString(userLogin));
-        UserVO user = userService.findUserById(userLogin.getId());
+        UserVO user = new UserVO();
+        if (null != userLogin) {
+            user = userService.findUserById(userLogin.getId());
+        } else {
+            user = userService.findUserById(id);
+        }
         logger.info("查询当前用户详情返回：{}", JSON.toJSONString(user));
         return new Result<UserVO>(user);
     }
@@ -136,7 +141,7 @@ public class UserController extends BaseController {
             return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
         logger.info("修改当前用户信息：{}", JSON.toJSONString(userLogin));
-        if(null != userLogin){
+        if (null != userLogin) {
             userRequest.setId(userLogin.getId());
         }
         //修改前查出未修改前的用户名称和密码
@@ -178,7 +183,7 @@ public class UserController extends BaseController {
      **/
     @PostMapping("/batchRemoveStu")
     public Result<Object> batchRemoveStu(@RequestBody UserIdsRequest userIds) {
-        if(null == userIds){
+        if (null == userIds) {
             return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
         logger.info("批量删除用户为学生:{}", JSON.toJSONString(userIds));
