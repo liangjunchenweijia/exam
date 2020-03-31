@@ -119,7 +119,7 @@ public class UserService {
     public int alterUserById(UserRequest userRequest) {
         UserVO userVO = userMapper.checkUser(userRequest.getUserName());
         if (userVO != null && !userVO.getId().equals(userRequest.getId())) {
-            throw new UserException(ErrorMsgEnum.USER_INEXISTENCE);
+            throw new UserException(ErrorMsgEnum.USER_NAME_ALREADY_EXISTED);
         }
         UserVO userInfo = userMapper.checkUserSno(userRequest.getUserSno());
         if (null != userInfo && !userInfo.getId().equals(userRequest.getId())) {
