@@ -94,7 +94,7 @@
 
     <!--校验用户是否已存在-->
     <select id="checkUser" parameterType="java.lang.String" resultType="com.exam.exam_system.pojo.response.UserVO">
-       SELECT id,user_anme userName
+       SELECT id,user_name userName
         FROM exam_user
         WHERE user_name = #{userName}
         AND is_deleted = 1
