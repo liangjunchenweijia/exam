@@ -24,22 +24,20 @@
         subject_status subjectStatus
         from
         exam_subject
-        <where>
+        where subject_status = 1
             <if test="request.subjectName != null and request.subjectName != ''">
                 subject_name LIKE CONCAT('%',#{request.subjectName},'%')
             </if>
-        </where>
         order by create_time desc
         LIMIT #{offset},#{limit}
     </select>
     <select id="selectSubjectCount" resultType="java.lang.Integer">
         SELECT count(1)
         FROM exam_subject
-        <where>
-            <if test="request.subjectName != null and request.subjectName != ''">
-                subject_name LIKE CONCAT('%',#{request.subjectName},'%')
-            </if>
-        </where>
+        where subject_status = 1
+        <if test="request.subjectName != null and request.subjectName != ''">
+            subject_name LIKE CONCAT('%',#{request.subjectName},'%')
+        </if>
     </select>
 
     <select id="batchSelectSubjectName" resultType="java.lang.String">
