@@ -1,19 +1,16 @@
 package com.exam.exam_system.service.examTypeService;
 
-import com.exam.exam_system.common.PageRequest;
-import com.exam.exam_system.common.PageResult;
+import com.exam.exam_system.common.enums.ErrorMsgEnum;
+import com.exam.exam_system.exception.ExamTypeException;
 import com.exam.exam_system.mapper.examtypemapper.ExamTypeMapper;
 import com.exam.exam_system.mapper.timemapper.TimeMapper;
 import com.exam.exam_system.pojo.request.ExamTypeRequest;
 import com.exam.exam_system.pojo.response.ExamTypeVO;
 import com.exam.exam_system.service.subjectservice.SubjectService;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -48,6 +45,12 @@ public class ExamTypeService {
      * @Return :
      **/
     public int addExamType(ExamTypeRequest examTypeRequest) {
+        String examName = examTypeRequest.getExamName();
+        int count = examTypeMapper.selectExamTypeByName(examName);
+        if (1 <= count) {
+            throw new ExamTypeException(ErrorMsgEnum.EXAM_TYPE_NAME_ALREADY_EXISTED);
+        }
+        examTypeRequest.setStatus(1);
         return examTypeMapper.insert(examTypeRequest);
     }
 
@@ -65,31 +68,24 @@ public class ExamTypeService {
     }
 
     /**
-     * @param examTypeRequest
+     * @param id
      * @Author :
-     * @Description :  查询所有考试类型
-     * @Date : 2020/3/24 16:18
+     * @Description : 通过唯一编号查询考试类型详情
+     * @Date : 2020/4/1 9:18
      * @Return :
      **/
-    public PageResult<List<ExamTypeVO>> findExamTypeAll(PageRequest<ExamTypeRequest> examTypeRequest) {
-        List<ExamTypeVO> examTypeVOS = examTypeMapper
-                .selectExamTypeAll(examTypeRequest.getObj(), examTypeRequest.getOffset(), examTypeRequest.getLimit());
-        if (CollectionUtils.isNotEmpty(examTypeVOS)) {
-            for (ExamTypeVO examTypeVO : examTypeVOS) {
-                List<String> subjectIdList = new ArrayList<>();
-                if (examTypeVO.getSubjectId().contains(",")) {
-                    String[] subjectIds = examTypeVO.getSubjectId().split(",");
-                    subjectIdList = Arrays.asList(subjectIds);
-                    List<String> subjectName = subjectService.batchGetSubjectName(subjectIdList);
-                    examTypeVO.setSubjectName(subjectName);
-                } else {
-                    subjectIdList.add(examTypeVO.getSubjectId());
-                    List<String> subjectName = subjectService.batchGetSubjectName(subjectIdList);
-                    examTypeVO.setSubjectName(subjectName);
-                }
-            }
-        }
-        int count = examTypeMapper.selectExamTypeAllCount(examTypeRequest.getObj());
-        return new PageResult<List<ExamTypeVO>>(examTypeRequest.getPageNo(), examTypeRequest.getPageSize(), count, examTypeVOS);
+    public ExamTypeVO findExamTypeById(Long id) {
+        return examTypeMapper.selectExamTypeById(id);
+    }
+
+    /**
+     * @param
+     * @Author :
+     * @Description : 查询所有考试类型
+     * @Date : 2020/4/1 9:22
+     * @Return :
+     **/
+    public List<ExamTypeVO> findExamTypeAll() {
+        return examTypeMapper.selectExamTypeAll();
     }
 }
