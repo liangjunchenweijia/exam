@@ -37,14 +37,15 @@ public class ExamTypeController extends BaseController {
      * @Return :
      **/
     @PostMapping("/saveExamType")
-    public Result<Object> saveExamType(@RequestBody ExamTypeRequest examTypeRequest) {
+    public Result<ExamTypeVO> saveExamType(@RequestBody ExamTypeRequest examTypeRequest) {
         logger.info("添加考试类型:{}", JSON.toJSONString(examTypeRequest));
+        ExamTypeVO examTypeVO = new ExamTypeVO();
         try {
-            examTypeService.addExamType(examTypeRequest);
+            examTypeVO = examTypeService.addExamType(examTypeRequest);
         } catch (ExamTypeException e) {
-            return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
+            return new Result<ExamTypeVO>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
         }
-        return new Result<Object>();
+        return new Result<ExamTypeVO>(examTypeVO);
     }
 
     /**
@@ -72,8 +73,8 @@ public class ExamTypeController extends BaseController {
         logger.info("修改考试类型:{}", JSON.toJSONString(examTypeRequest));
         try {
             examTypeService.modifyExamTypeById(examTypeRequest);
-        }catch (ExamTypeException e){
-            return new Result<Object>(e.getErrorMsgEnum().getCode(),e.getErrorMsgEnum().getMsg());
+        } catch (ExamTypeException e) {
+            return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
         }
         return new Result<Object>();
     }

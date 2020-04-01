@@ -13,7 +13,8 @@
         <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
     </resultMap>
-    <insert id="insert" parameterType="com.exam.exam_system.pojo.request.ExamTypeRequest">
+    <insert id="insert" parameterType="com.exam.exam_system.pojo.request.ExamTypeRequest"
+            useGeneratedKeys="true" keyProperty="examTypeRequest.id">
         INSERT INTO exam_type (
             exam_name
             ,status

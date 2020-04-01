@@ -44,14 +44,18 @@ public class ExamTypeService {
      * @Date : 2020/3/24 15:30
      * @Return :
      **/
-    public int addExamType(ExamTypeRequest examTypeRequest) {
+    public ExamTypeVO addExamType(ExamTypeRequest examTypeRequest) {
         String examName = examTypeRequest.getExamName();
         int count = examTypeMapper.selectExamTypeByName(examName);
         if (1 <= count) {
             throw new ExamTypeException(ErrorMsgEnum.EXAM_TYPE_NAME_ALREADY_EXISTED);
         }
         examTypeRequest.setStatus(1);
-        return examTypeMapper.insert(examTypeRequest);
+        int line = examTypeMapper.insert(examTypeRequest);
+        if (1 < line) {
+            throw new ExamTypeException(ErrorMsgEnum.SAVE_ERROR);
+        }
+        return examTypeMapper.selectExamTypeById(examTypeRequest.getId());
     }
 
 
@@ -66,7 +70,7 @@ public class ExamTypeService {
         examTypeRequest.setModifyTime(timeMapper.getTime());
         Long id = examTypeRequest.getId();
         int count = examTypeMapper.selectExamCountById(id);
-        if(1 <= count){
+        if (1 <= count) {
             throw new ExamTypeException(ErrorMsgEnum.EXAM_TYPE_ERROR);
         }
         return examTypeMapper.updateExamTypeById(examTypeRequest);
