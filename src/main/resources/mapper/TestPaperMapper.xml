@@ -66,6 +66,14 @@
             ,status status
         FROM exam_testpaper_name
         WHERE STATUS = 1
+         order by create_time desc
+        LIMIT #{offset},#{limit}
+    </select>
+
+    <select id="selectTestPaperNameCount" resultType="java.lang.Integer">
+         SELECT COUNT(1)
+        FROM exam_testpaper_name
+        WHERE STATUS = 1
     </select>
 
     <select id="selectTestPaperById" resultMap="testPaperMap">
@@ -80,4 +88,5 @@
         LEFT JOIN exam_testpaper_content b ON a.id = testpaper_name_id
         WHERE a.id = #{id}
     </select>
+
 </mapper>

@@ -1,5 +1,7 @@
 package com.exam.exam_system.service.testPaperService;
 
+import com.exam.exam_system.common.PageRequest;
+import com.exam.exam_system.common.PageResult;
 import com.exam.exam_system.mapper.testPaperMapper.TestPaperMapper;
 import com.exam.exam_system.mapper.timemapper.TimeMapper;
 import com.exam.exam_system.pojo.request.ExamTestPaperContentRequest;
@@ -51,8 +53,11 @@ public class TestPaperService {
      * @Date : 2020/4/1 11:44
      * @Return :
      **/
-    public List<ExamTestPaperNameVO> findTestPaperNameAll() {
-        return testPaperMapper.selectTestPaperNameAll();
+    public PageResult<List<ExamTestPaperNameVO>> findTestPaperNameAll(PageRequest<ExamTestPaperNameRequest> request) {
+        List<ExamTestPaperNameVO> examTestPaperNameVOS = testPaperMapper
+                .selectTestPaperNameAll(request.getObj(), request.getOffset(), request.getLimit());
+        int count = testPaperMapper.selectTestPaperNameCount(request.getObj());
+        return new PageResult<List<ExamTestPaperNameVO>>(request.getPageNo(),request.getPageSize(),count,examTestPaperNameVOS);
     }
 
     /**

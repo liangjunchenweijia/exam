@@ -1,6 +1,8 @@
 package com.exam.exam_system.controller.testpaperController;
 
 import com.alibaba.fastjson.JSON;
+import com.exam.exam_system.common.PageRequest;
+import com.exam.exam_system.common.PageResult;
 import com.exam.exam_system.common.Result;
 import com.exam.exam_system.common.enums.ErrorMsgEnum;
 import com.exam.exam_system.controller.BaseController;
@@ -56,11 +58,11 @@ public class TestPaperController extends BaseController {
      * @Date : 2020/4/1 11:42
      * @Return :
      **/
-    @GetMapping("/queryTestPaperNameAll")
-    public Result<List<ExamTestPaperNameVO>> queryTestPaperNameAll() {
-        List<ExamTestPaperNameVO> testPaperNameAll = testPaperService.findTestPaperNameAll();
+    @PostMapping("/queryTestPaperNameAll")
+    public PageResult<List<ExamTestPaperNameVO>> queryTestPaperNameAll(@RequestBody PageRequest<ExamTestPaperNameRequest> request) {
+        PageResult<List<ExamTestPaperNameVO>> testPaperNameAll = testPaperService.findTestPaperNameAll(request);
         logger.info("查询所有试卷名称返回:{}", JSON.toJSONString(testPaperNameAll));
-        return new Result<List<ExamTestPaperNameVO>>(testPaperNameAll);
+        return new PageResult<List<ExamTestPaperNameVO>>(testPaperNameAll.getPageNo(), testPaperNameAll.getPageSize(), testPaperNameAll.getTotal(), testPaperNameAll.getObj());
     }
 
     /**

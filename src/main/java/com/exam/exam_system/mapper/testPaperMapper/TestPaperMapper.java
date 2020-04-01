@@ -27,11 +27,20 @@ public interface TestPaperMapper {
     /**
      * @param
      * @Author :
-     * @Description : 查询虽有试卷名称
+     * @Description : 查询所有试卷名称
      * @Date : 2020/4/1 11:45
      * @Return :
      **/
-    List<ExamTestPaperNameVO> selectTestPaperNameAll();
+    List<ExamTestPaperNameVO> selectTestPaperNameAll(@Param("request") ExamTestPaperNameRequest examTestPaperNameRequest, @Param("offset") int offset, @Param("limit") int limit);
+
+    /**
+     * @param request
+     * @Author :
+     * @Description : 查询所有试卷名称总数
+     * @Date : 2020/4/1 16:34
+     * @Return :
+     **/
+    int selectTestPaperNameCount(@Param("request") ExamTestPaperNameRequest request);
 
     /**
      * @param examTestPaperContentRequest
@@ -68,4 +77,6 @@ public interface TestPaperMapper {
      * @Return :
      **/
     int updateTestPaperContentById(@Param("examTestPaperContentRequest") List<ExamTestPaperContentRequest> examTestPaperContentRequest);
+
+
 }
