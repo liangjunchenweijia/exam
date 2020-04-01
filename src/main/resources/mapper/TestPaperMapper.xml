@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.exam.exam_system.mapper.testPaperMapper.TestPaperMapper">
+
+    <resultMap id="testPaperMap" type="com.exam.exam_system.pojo.response.ExamTestPaperVO">
+        <result column="test_paper_name" property="testPaperName"/>
+        <collection property="examTestPaperContentVOS"
+                    ofType="com.exam.exam_system.pojo.response.ExamTestPaperContentVO">
+            <result column="title" property="title"/>
+            <result column="option_a" property="optionA"/>
+            <result column="option_b" property="optionB"/>
+            <result column="option_c" property="optionC"/>
+            <result column="option_d" property="optionD"/>
+            <result column="answer" property="answer"/>
+        </collection>
+    </resultMap>
+    <update id="updateTestPaperNameById" parameterType="com.exam.exam_system.pojo.request.ExamTestPaperNameRequest">
+        UPDATE
+        exam_testpaper_name
+        SET
+        modify_time = #{examTestPaperNameRequest.modifyTime}
+        <if test="examTestPaperNameRequest.testPaperName != null and examTestPaperNameRequest.testPaperName != ''">
+            ,test_paper_name = #{examTestPaperNameRequest.testPaperName}
+        </if>
+        <if test="examTestPaperNameRequest.status != null">
+            ,status = #{examTestPaperNameRequest.status}
+        </if>
+        WHERE
+        id = #{examTestPaperNameRequest.id}
+    </update>
+
+    <update id="updateTestPaperContentById" parameterType="com.exam.exam_system.pojo.request.ExamTestPaperContentRequest">
+        <foreach collection="examTestPaperContentRequest" item="examTestPaperContentRequest" open="" close="" separator=";">
+            UPDATE
+            exam_testpaper_content
+            SET
+            modify_time = #{examTestPaperContentRequest.modifyTime}
+            ,title = #{examTestPaperContentRequest.title}
+            ,option_a = #{examTestPaperContentRequest.optionA}
+            ,option_b = #{examTestPaperContentRequest.optionB}
+            ,option_c = #{examTestPaperContentRequest.optionC}
+            ,option_d = #{examTestPaperContentRequest.optionD}
+            ,answer = #{examTestPaperContentRequest.answer}
+            where id = #{examTestPaperContentRequest.id}
+        </foreach>
+    </update>
+
+    <insert id="addTestPaperName" parameterType="com.exam.exam_system.pojo.request.ExamTestPaperNameRequest">
+        insert into exam_testpaper_name(test_paper_name,status)
+        values(#{examTestPaperRequest.testPaperName},#{examTestPaperRequest.status})
+    </insert>
+
+    <insert id="insertTestPaperContent" parameterType="com.exam.exam_system.pojo.request.ExamTestPaperContentRequest">
+        insert into exam_testpaper_content(testpaper_name_id,title,option_a,option_b,option_c,option_d,answer)
+        values
+        <foreach collection="examTestPaperContent" item="examTestPaperContent" separator=",">
+            (#{examTestPaperContent.testPaperNameId},#{examTestPaperContent.title},#{examTestPaperContent.optionA}
+            ,#{examTestPaperContent.optionB},#{examTestPaperContent.optionC}
+            ,#{examTestPaperContent.optionD},#{examTestPaperContent.answer})
+        </foreach>
+    </insert>
+
+    <select id="selectTestPaperNameAll" resultType="com.exam.exam_system.pojo.response.ExamTestPaperNameVO">
+       SELECT id
+            ,test_paper_name testPaperName
+            ,status status
+        FROM exam_testpaper_name
+        WHERE STATUS = 1
+    </select>
+
+    <select id="selectTestPaperById" resultMap="testPaperMap">
+        SELECT a.test_paper_name
+            ,b.title
+            ,b.option_a
+            ,b.option_b
+            ,b.option_c
+            ,b.option_d
+            ,b.answer
+        FROM exam_testpaper_name a
+        LEFT JOIN exam_testpaper_content b ON a.id = testpaper_name_id
+        WHERE a.id = #{id}
+    </select>
+</mapper>

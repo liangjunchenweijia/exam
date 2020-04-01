@@ -44,6 +44,8 @@ public enum ErrorMsgEnum {
 
     EXAM_TYPE_ERROR("000014","该类型下,已存在考试场次"),
 
+    SAVE_ERROR("000015","保存失败")
+
     ;
     /**
      * 错误编码为key的所有错误枚举对象的map集合
