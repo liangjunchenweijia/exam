@@ -130,5 +130,22 @@ public class TestPaperController extends BaseController {
         return new Result<Object>();
     }
 
+    /**
+     * @param examTestPaperRequest
+     * @Author :
+     * @Description : 批量删除试卷名称
+     * @Date : 2020/4/1 16:52
+     * @Return :
+     **/
+    @PostMapping("/batchDelTestPaperNameById")
+    public Result<Object> batchDelTestPaperNameById(@RequestBody ExamTestPaperRequest examTestPaperRequest) {
+        logger.info("批量删除试卷名称:{}", JSON.toJSONString(examTestPaperRequest));
+        if (null == examTestPaperRequest || CollectionUtils.isEmpty(examTestPaperRequest.getIds())) {
+            return new Result<>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
+        }
+        testPaperService.batchDelTestPaperNameById(examTestPaperRequest.getIds());
+        return new Result<Object>();
+    }
+
 
 }

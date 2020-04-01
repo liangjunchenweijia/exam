@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class ExamTestPaperRequest {
 
+    private List<Long> ids;
+
     private List<ExamTestPaperContentRequest> examTestPaperContentRequests;
 
     public List<ExamTestPaperContentRequest> getExamTestPaperContentRequests() {
@@ -18,5 +20,13 @@ public class ExamTestPaperRequest {
 
     public void setExamTestPaperContentRequests(List<ExamTestPaperContentRequest> examTestPaperContentRequests) {
         this.examTestPaperContentRequests = examTestPaperContentRequests;
+    }
+
+    public List<Long> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<Long> ids) {
+        this.ids = ids;
     }
 }

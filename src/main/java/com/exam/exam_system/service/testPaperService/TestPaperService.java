@@ -57,7 +57,7 @@ public class TestPaperService {
         List<ExamTestPaperNameVO> examTestPaperNameVOS = testPaperMapper
                 .selectTestPaperNameAll(request.getObj(), request.getOffset(), request.getLimit());
         int count = testPaperMapper.selectTestPaperNameCount(request.getObj());
-        return new PageResult<List<ExamTestPaperNameVO>>(request.getPageNo(),request.getPageSize(),count,examTestPaperNameVOS);
+        return new PageResult<List<ExamTestPaperNameVO>>(request.getPageNo(), request.getPageSize(), count, examTestPaperNameVOS);
     }
 
     /**
@@ -109,5 +109,16 @@ public class TestPaperService {
             ids.add(examTestPaperContentRequest.getId());
         }
         return testPaperMapper.updateTestPaperContentById(testPaperContentRequest);
+    }
+
+    /**
+     * @param ids
+     * @Author :
+     * @Description : 批量删除试卷名称
+     * @Date : 2020/4/1 16:53
+     * @Return :
+     **/
+    public int batchDelTestPaperNameById(List<Long> ids) {
+        return testPaperMapper.batchDelTestPaperNameById(ids);
     }
 }

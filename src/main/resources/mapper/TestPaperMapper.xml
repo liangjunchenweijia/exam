@@ -44,6 +44,14 @@
             where id = #{examTestPaperContentRequest.id}
         </foreach>
     </update>
+    <update id="batchDelTestPaperNameById">
+        update exam_testpaper_name
+         set status = 2
+        where id IN
+        <foreach collection="ids" item="ids" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </update>
 
     <insert id="addTestPaperName" parameterType="com.exam.exam_system.pojo.request.ExamTestPaperNameRequest">
         insert into exam_testpaper_name(test_paper_name,status)

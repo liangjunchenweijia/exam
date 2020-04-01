@@ -78,5 +78,12 @@ public interface TestPaperMapper {
      **/
     int updateTestPaperContentById(@Param("examTestPaperContentRequest") List<ExamTestPaperContentRequest> examTestPaperContentRequest);
 
-
+    /**
+     * @param ids
+     * @Author :
+     * @Description : 批量删除试卷名称
+     * @Date : 2020/4/1 16:53
+     * @Return :
+     **/
+    int batchDelTestPaperNameById(@Param("ids") List<Long> ids);
 }
