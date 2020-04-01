@@ -64,6 +64,11 @@ public class ExamTypeService {
      **/
     public int modifyExamTypeById(ExamTypeRequest examTypeRequest) {
         examTypeRequest.setModifyTime(timeMapper.getTime());
+        Long id = examTypeRequest.getId();
+        int count = examTypeMapper.selectExamCountById(id);
+        if(1 <= count){
+            throw new ExamTypeException(ErrorMsgEnum.EXAM_TYPE_ERROR);
+        }
         return examTypeMapper.updateExamTypeById(examTypeRequest);
     }
 

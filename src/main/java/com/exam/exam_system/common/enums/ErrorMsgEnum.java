@@ -40,7 +40,9 @@ public enum ErrorMsgEnum {
 
     USER_NAME_ALREADY_EXISTED("000012", "账号已存在,请重新输入"),
 
-    EXAM_TYPE_NAME_ALREADY_EXISTED("000013", "考试类型名称已存在,请重新输入")
+    EXAM_TYPE_NAME_ALREADY_EXISTED("000013", "考试类型名称已存在,请重新输入"),
+
+    EXAM_TYPE_ERROR("000014","该类型下,已存在考试场次"),
 
     ;
     /**

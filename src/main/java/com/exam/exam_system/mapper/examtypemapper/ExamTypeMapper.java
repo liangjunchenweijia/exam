@@ -66,4 +66,13 @@ public interface ExamTypeMapper {
      * @Return :
      **/
     ExamTypeVO selectExamTypeById(@Param("id") Long id);
+
+    /**
+     * @param id
+     * @Author :
+     * @Description : 通过考试类型id查询其考试场次
+     * @Date : 2020/4/1 9:36
+     * @Return : 返回 总数量
+     **/
+    int selectExamCountById(@Param("id") Long id);
 }

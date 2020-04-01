@@ -70,7 +70,11 @@ public class ExamTypeController extends BaseController {
     @PostMapping("/modifyExamType")
     public Result<Object> modifyExamType(@RequestBody ExamTypeRequest examTypeRequest) {
         logger.info("修改考试类型:{}", JSON.toJSONString(examTypeRequest));
-        examTypeService.modifyExamTypeById(examTypeRequest);
+        try {
+            examTypeService.modifyExamTypeById(examTypeRequest);
+        }catch (ExamTypeException e){
+            return new Result<Object>(e.getErrorMsgEnum().getCode(),e.getErrorMsgEnum().getMsg());
+        }
         return new Result<Object>();
     }
 

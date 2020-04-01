@@ -11,7 +11,7 @@
     </resultMap>
 
 
-    <resultMap id="AchievementMap" type="com.exam.exam_system.pojo.response.UserAchievementVO">
+    <!--<resultMap id="AchievementMap" type="com.exam.exam_system.pojo.response.UserAchievementVO">
         <id column="name" property="name"/>
         <collection property="examTypeVOS" ofType="com.exam.exam_system.pojo.response.ExamTypeVO">
             <result column="exam_name" property="examName"/>
@@ -20,7 +20,7 @@
                 <result column="achievement" property="achievement"/>
             </collection>
         </collection>
-    </resultMap>
+    </resultMap>-->
 
     <insert id="insert" parameterType="com.exam.exam_system.pojo.request.AchievementRequest">
         insert into exam_achievement (subject_id, exam_id,user_id, achievement)

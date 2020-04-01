@@ -25,14 +25,20 @@
             ,jdbcType = INTEGER}
             )
     </insert>
+
     <update id="updateExamTypeById">
         update
         exam_type
         set
         modify_time = #{examTypeRequest.modifyTime}
-        <if test="examTypeRequest.examName != null and examTypeRequest.examName != ''">
-            ,exam_name = #{examTypeRequest.examName}
-        </if>
+        <where>
+            <if test="examTypeRequest.examName != null and examTypeRequest.examName != ''">
+                ,exam_name = #{examTypeRequest.examName}
+            </if>
+            <if test="examTypeRequest.status != null">
+                and status = #{examTypeRequest.status}
+            </if>
+        </where>
         where id = #{examTypeRequest.id}
     </update>
 
@@ -70,5 +76,13 @@
             exam_type
         where
             id = #{id}
+    </select>
+    <select id="selectExamCountById" resultType="java.lang.Integer">
+        select
+            count(1)
+        from
+            exam_exam
+        where
+            exam_type_id = #{id}
     </select>
 </mapper>
