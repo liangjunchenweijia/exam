@@ -1,6 +1,5 @@
 package com.exam.exam_system.mapper.examtypemapper;
 
-import com.exam.exam_system.common.PageRequest;
 import com.exam.exam_system.pojo.request.ExamTypeRequest;
 import com.exam.exam_system.pojo.response.ExamTypeVO;
 import org.apache.ibatis.annotations.Param;
@@ -33,22 +32,13 @@ public interface ExamTypeMapper {
     int updateExamTypeById(@Param("examTypeRequest") ExamTypeRequest examTypeRequest);
 
     /**
-     * @param examTypeRequest
      * @Author :
      * @Description : 查询所有考试类型(分页)
      * @Date : 2020/3/26 13:39
      * @Return :
      **/
-    List<ExamTypeVO> selectExamTypeAll(@Param("examTypeRequest") ExamTypeRequest examTypeRequest, @Param("offset") int offset, @Param("limit") int limit);
+    List<ExamTypeVO> selectExamTypeAll();
 
-    /**
-     * @param examTypeRequest
-     * @Author :
-     * @Description :  查询所有考试类型总数
-     * @Date : 2020/3/26 14:05
-     * @Return :
-     **/
-    int selectExamTypeAllCount(@Param("examTypeRequest") ExamTypeRequest examTypeRequest);
 
     /**
      * @param examTypeId
@@ -58,4 +48,22 @@ public interface ExamTypeMapper {
      * @Return :
      **/
     String selectEaxmSubjectById(@Param("examTypeId") Long examTypeId);
+
+    /**
+     * @param examName
+     * @Author :
+     * @Description : 通过名称查询考试类型
+     * @Date : 2020/4/1 9:10
+     * @Return : 返回总数
+     **/
+    int selectExamTypeByName(@Param("examName") String examName);
+
+    /**
+     * @param id
+     * @Author :
+     * @Description : 通过唯一编号查询考试类型详情
+     * @Date : 2020/4/1 9:19
+     * @Return :
+     **/
+    ExamTypeVO selectExamTypeById(@Param("id") Long id);
 }

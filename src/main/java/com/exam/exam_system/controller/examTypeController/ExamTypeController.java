@@ -1,18 +1,14 @@
 package com.exam.exam_system.controller.examTypeController;
 
 import com.alibaba.fastjson.JSON;
-import com.exam.exam_system.common.PageRequest;
-import com.exam.exam_system.common.PageResult;
 import com.exam.exam_system.common.Result;
 import com.exam.exam_system.controller.BaseController;
+import com.exam.exam_system.exception.ExamTypeException;
 import com.exam.exam_system.pojo.request.ExamTypeRequest;
 import com.exam.exam_system.pojo.response.ExamTypeVO;
 import com.exam.exam_system.service.examTypeService.ExamTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,8 +39,25 @@ public class ExamTypeController extends BaseController {
     @PostMapping("/saveExamType")
     public Result<Object> saveExamType(@RequestBody ExamTypeRequest examTypeRequest) {
         logger.info("添加考试类型:{}", JSON.toJSONString(examTypeRequest));
-        examTypeService.addExamType(examTypeRequest);
+        try {
+            examTypeService.addExamType(examTypeRequest);
+        } catch (ExamTypeException e) {
+            return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
+        }
         return new Result<Object>();
+    }
+
+    /**
+     * @param id
+     * @Author :
+     * @Description : 通过唯一编号查询考试类型详情
+     * @Date : 2020/4/1 9:17
+     * @Return :
+     **/
+    @GetMapping("/queryExamTypeById")
+    public Result<ExamTypeVO> queryExamTypeById(Long id) {
+        ExamTypeVO examType = examTypeService.findExamTypeById(id);
+        return new Result<ExamTypeVO>(examType);
     }
 
     /**
@@ -62,18 +75,16 @@ public class ExamTypeController extends BaseController {
     }
 
     /**
-     * @param examTypeRequest
      * @Author :
      * @Description : 查询考试类型(分页)
      * @Date : 2020/3/24 16:16
      * @Return :
      **/
     @PostMapping("/queryExamTypeAll")
-    public PageResult<List<ExamTypeVO>> queryExamTypeAll(@RequestBody PageRequest<ExamTypeRequest> examTypeRequest) {
-        logger.info("查询考试类型:{}", JSON.toJSONString(examTypeRequest));
-        PageResult<List<ExamTypeVO>> examTypeAll = examTypeService.findExamTypeAll(examTypeRequest);
+    public Result<List<ExamTypeVO>> queryExamTypeAll() {
+        List<ExamTypeVO> examTypeAll = examTypeService.findExamTypeAll();
         logger.info("查询考试类型返回:{}", JSON.toJSONString(examTypeAll));
-        return new PageResult<List<ExamTypeVO>>(examTypeAll.getPageNo(), examTypeAll.getPageSize(), examTypeAll.getTotal(), examTypeAll.getObj());
-       }
+        return new Result<List<ExamTypeVO>>(examTypeAll);
+    }
 
 }
