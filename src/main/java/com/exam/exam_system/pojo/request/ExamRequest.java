@@ -1,6 +1,7 @@
 package com.exam.exam_system.pojo.request;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author :
@@ -10,13 +11,16 @@ import java.util.Date;
  */
 public class ExamRequest {
 
+    private List<Long> ids;
+
+
     private Long id;
 
 
-    private Long userId;
+    private Long subjectId;
 
 
-    private String subjectId;
+    private Long examTestPaperId;
 
 
     private Long examTypeId;
@@ -25,14 +29,24 @@ public class ExamRequest {
     private Integer status;
 
 
+    private Date startTime;
+
+
+    private Date endTime;
+
+
     private Date createTime;
-
-    private Date createMinTime;
-
-    private Date createMaxTime;
 
 
     private Date modifyTime;
+
+    public List<Long> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<Long> ids) {
+        this.ids = ids;
+    }
 
     public Long getId() {
         return id;
@@ -42,20 +56,20 @@ public class ExamRequest {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getSubjectId() {
+    public Long getSubjectId() {
         return subjectId;
     }
 
-    public void setSubjectId(String subjectId) {
+    public void setSubjectId(Long subjectId) {
         this.subjectId = subjectId;
+    }
+
+    public Long getExamTestPaperId() {
+        return examTestPaperId;
+    }
+
+    public void setExamTestPaperId(Long examTestPaperId) {
+        this.examTestPaperId = examTestPaperId;
     }
 
     public Long getExamTypeId() {
@@ -74,6 +88,22 @@ public class ExamRequest {
         this.status = status;
     }
 
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -88,21 +118,5 @@ public class ExamRequest {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
-    }
-
-    public Date getCreateMinTime() {
-        return createMinTime;
-    }
-
-    public void setCreateMinTime(Date createMinTime) {
-        this.createMinTime = createMinTime;
-    }
-
-    public Date getCreateMaxTime() {
-        return createMaxTime;
-    }
-
-    public void setCreateMaxTime(Date createMaxTime) {
-        this.createMaxTime = createMaxTime;
     }
 }

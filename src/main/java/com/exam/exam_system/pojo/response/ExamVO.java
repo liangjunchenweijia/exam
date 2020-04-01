@@ -1,7 +1,6 @@
 package com.exam.exam_system.pojo.response;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @Author :
@@ -14,12 +13,10 @@ public class ExamVO {
     private Long id;
 
 
-    private Long userId;
-
-    private String name;
+    private Long subjectId;
 
 
-    private String subjectId;
+    private Long examTestPaperId;
 
 
     private Long examTypeId;
@@ -28,14 +25,16 @@ public class ExamVO {
     private Integer status;
 
 
+    private Date startTime;
+
+
+    private Date endTime;
+
+
     private Date createTime;
 
 
     private Date modifyTime;
-
-    private String examName;
-
-    private List<String> subjectName;
 
     public Long getId() {
         return id;
@@ -45,20 +44,20 @@ public class ExamVO {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getSubjectId() {
+    public Long getSubjectId() {
         return subjectId;
     }
 
-    public void setSubjectId(String subjectId) {
+    public void setSubjectId(Long subjectId) {
         this.subjectId = subjectId;
+    }
+
+    public Long getExamTestPaperId() {
+        return examTestPaperId;
+    }
+
+    public void setExamTestPaperId(Long examTestPaperId) {
+        this.examTestPaperId = examTestPaperId;
     }
 
     public Long getExamTypeId() {
@@ -77,6 +76,22 @@ public class ExamVO {
         this.status = status;
     }
 
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -91,30 +106,5 @@ public class ExamVO {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
-    }
-
-    public List<String> getSubjectName() {
-        return subjectName;
-    }
-
-    public void setSubjectName(List<String> subjectName) {
-        this.subjectName = subjectName;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getExamName() {
-        return examName;
-    }
-
-    public void setExamName(String examName) {
-        this.examName = examName;
     }
 }

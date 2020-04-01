@@ -1,7 +1,6 @@
 package com.exam.exam_system.mapper.exammapper;
 
 import com.exam.exam_system.pojo.request.ExamRequest;
-import com.exam.exam_system.pojo.response.ExamVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -13,32 +12,22 @@ import java.util.List;
  * @Date : 2020/3/26 15:24
  */
 public interface ExamMapper {
+
     /**
      * @param examRequest
      * @Author :
-     * @Description : 添加一条考试信息
-     * @Date : 2020/3/26 15:28
+     * @Description : 添加考试
+     * @Date : 2020/4/1 17:05
      * @Return :
      **/
-    int insert(@Param("examRequest") ExamRequest examRequest);
+    int insertExam(@Param("examRequest") ExamRequest examRequest);
 
     /**
-     * @param request
-     * @param offset
-     * @param limit
+     * @param ids
      * @Author :
-     * @Description : 查询所有考试
-     * @Date : 2020/3/26 16:17
+     * @Description : 批量删除考试
+     * @Date : 2020/4/1 17:31
      * @Return :
      **/
-    List<ExamVO> selectExamAll(@Param("request") ExamRequest request, @Param("offset") int offset, @Param("limit") int limit);
-
-    /**
-     * @param request
-     * @Author :
-     * @Description : 查询所有考试总数
-     * @Date : 2020/3/27 15:27
-     * @Return :
-     **/
-    int selectExamCount(@Param("request") ExamRequest request);
+    int batchDelExamById(@Param("ids") List<Long> ids);
 }
