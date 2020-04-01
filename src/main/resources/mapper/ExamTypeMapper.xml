@@ -31,14 +31,12 @@
         exam_type
         set
         modify_time = #{examTypeRequest.modifyTime}
-        <where>
-            <if test="examTypeRequest.examName != null and examTypeRequest.examName != ''">
-                ,exam_name = #{examTypeRequest.examName}
-            </if>
-            <if test="examTypeRequest.status != null">
-                and status = #{examTypeRequest.status}
-            </if>
-        </where>
+        <if test="examTypeRequest.examName != null and examTypeRequest.examName != ''">
+            ,exam_name = #{examTypeRequest.examName}
+        </if>
+        <if test="examTypeRequest.status != null">
+            and status = #{examTypeRequest.status}
+        </if>
         where id = #{examTypeRequest.id}
     </update>
 
