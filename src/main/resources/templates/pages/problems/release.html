@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>添加套题 后台管理系统</title>
+		<title>发布考试 后台管理系统</title>
 		<meta name="renderer" content="webkit">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -21,10 +21,25 @@
 			<form class="layui-form">
 				<div class="layui-form-item">
 					<label for="L_username" class="layui-form-label">
-		                <span class="we-red">*</span>套题名称
-		            </label>
+						<span class="we-red">*</span>考试类型
+					</label>
 					<div class="layui-input-inline">
-						<input type="text" id="L_username" name="subjectName" lay-verify="required" autocomplete="off" class="layui-input">
+						<select name="interest" lay-filter="examType">
+							<option value=""></option>
+							<option value="0">写作</option>
+							<option value="1">阅读</option>
+							<option value="2">游戏</option>
+							<option value="3">音乐</option>
+							<option value="4">旅行</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label for="L_username" class="layui-form-label">
+						<span class="we-red">*</span>课程类型
+					</label>
+					<div class="layui-input-inline">
+
 					</div>
 				</div>
 				<div class="layui-form-item">

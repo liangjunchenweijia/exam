@@ -624,3 +624,6 @@ table td {
   background-color: #999;
 }
 /*# sourceMappingURL=weadmin.css.map */
+.td-manage a{
+  margin-right: 20px;
+}
