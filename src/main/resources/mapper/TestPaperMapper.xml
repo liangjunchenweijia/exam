@@ -26,6 +26,9 @@
         <if test="examTestPaperNameRequest.status != null">
             ,status = #{examTestPaperNameRequest.status}
         </if>
+        <if test="examTestPaperNameRequest.subjectId != null">
+            ,subject_id = #{examTestPaperNameRequest.subjectId}
+        </if>
         WHERE
         id = #{examTestPaperNameRequest.id}
     </update>
@@ -45,6 +48,7 @@
             ,option_d = #{examTestPaperContentRequest.optionD}
             ,answer = #{examTestPaperContentRequest.answer}
             ,grade = #{examTestPaperContentRequest.grade}
+            ,type = #{examTestPaperContentRequest.type}
             where id = #{examTestPaperContentRequest.id}
         </foreach>
     </update>
@@ -63,13 +67,13 @@
     </insert>
 
     <insert id="insertTestPaperContent" parameterType="com.exam.exam_system.pojo.request.ExamTestPaperContentRequest">
-        insert into exam_testpaper_content(testpaper_name_id,title,option_a,option_b,option_c,option_d,answer,grade)
+        insert into exam_testpaper_content(testpaper_name_id,title,option_a,option_b,option_c,option_d,answer,grade,type)
         values
         <foreach collection="examTestPaperContent" item="examTestPaperContent" separator=",">
             (#{examTestPaperContent.testPaperNameId},#{examTestPaperContent.title},#{examTestPaperContent.optionA}
             ,#{examTestPaperContent.optionB},#{examTestPaperContent.optionC}
             ,#{examTestPaperContent.optionD},#{examTestPaperContent.answer}
-            ,#{examTestPaperContent.grade})
+            ,#{examTestPaperContent.grade},#{examTestPaperContent.type})
         </foreach>
     </insert>
 
@@ -107,6 +111,33 @@
         FROM exam_testpaper_name a
         LEFT JOIN exam_testpaper_content b ON a.id = testpaper_name_id
         WHERE a.id = #{id}
+    </select>
+    <select id="selectTestPaperExamCount" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM exam_testpaper_name a
+        INNER JOIN exam_exam b ON a.id = b.exam_testpaper_id
+        INNER JOIN exam_apply_exam c ON b.id = c.exam_id
+        WHERE a.id in
+        <foreach collection="ids" item="ids" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+        and a.status = 1
+        and b.status = 1
+        and c.status = 1
+    </select>
+    <select id="selectTestPaperContentExamCount" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM exam_testpaper_content x
+        INNER JOIN exam_testpaper_name a ON x.testpaper_name_id = a.id
+        INNER JOIN exam_exam b ON a.id = b.exam_testpaper_id
+        INNER JOIN exam_apply_exam c ON b.id = c.exam_id
+        WHERE a.id IN
+        <foreach collection="ids" item="ids" open="(" close=")" separator=",">
+         #{ids}
+        </foreach>
+        and a.status = 1
+        and b.status = 1
+        and c.status = 1
     </select>
 
 </mapper>

@@ -16,6 +16,8 @@ public class ExamTestPaperContentRequest {
 
     private String title;
 
+    private Integer type;
+
     private String optionA;
 
     private String optionB;
@@ -38,6 +40,14 @@ public class ExamTestPaperContentRequest {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Long getTestPaperNameId() {

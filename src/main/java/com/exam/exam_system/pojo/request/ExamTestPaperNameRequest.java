@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class ExamTestPaperNameRequest {
 
-    private Integer id;
+    private Long id;
 
     private String testPaperName;
 
@@ -23,11 +23,11 @@ public class ExamTestPaperNameRequest {
     private Date modifyTime;
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

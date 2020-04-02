@@ -2,6 +2,8 @@ package com.exam.exam_system.service.testPaperService;
 
 import com.exam.exam_system.common.PageRequest;
 import com.exam.exam_system.common.PageResult;
+import com.exam.exam_system.common.enums.ErrorMsgEnum;
+import com.exam.exam_system.exception.ExamException;
 import com.exam.exam_system.mapper.testPaperMapper.TestPaperMapper;
 import com.exam.exam_system.mapper.timemapper.TimeMapper;
 import com.exam.exam_system.pojo.request.ExamTestPaperContentRequest;
@@ -90,6 +92,12 @@ public class TestPaperService {
      * @Return :
      **/
     public int updateTestPaperNameById(ExamTestPaperNameRequest examTestPaperNameRequest) {
+        List<Long> ids = new ArrayList<Long>(1);
+        ids.add(examTestPaperNameRequest.getId());
+        int count = testPaperMapper.selectTestPaperExamCount(ids);
+        if (1 <= count) {
+            throw new ExamException(ErrorMsgEnum.TESTPAPER_ALREADY_APPLY);
+        }
         examTestPaperNameRequest.setModifyTime(timeMapper.getTime());
         return testPaperMapper.updateTestPaperNameById(examTestPaperNameRequest);
     }
@@ -108,6 +116,10 @@ public class TestPaperService {
             examTestPaperContentRequest.setModifyTime(time);
             ids.add(examTestPaperContentRequest.getId());
         }
+        int count = testPaperMapper.selectTestPaperContentExamCount(ids);
+        if (1 <= count) {
+            throw new ExamException(ErrorMsgEnum.TESTPAPER_ALREADY_APPLY);
+        }
         return testPaperMapper.updateTestPaperContentById(testPaperContentRequest);
     }
 
@@ -119,6 +131,10 @@ public class TestPaperService {
      * @Return :
      **/
     public int batchDelTestPaperNameById(List<Long> ids) {
+        int count = testPaperMapper.selectTestPaperContentExamCount(ids);
+        if (1 <= count) {
+            throw new ExamException(ErrorMsgEnum.TESTPAPER_ALREADY_APPLY);
+        }
         return testPaperMapper.batchDelTestPaperNameById(ids);
     }
 }

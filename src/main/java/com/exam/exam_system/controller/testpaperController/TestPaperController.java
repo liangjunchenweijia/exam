@@ -6,6 +6,7 @@ import com.exam.exam_system.common.PageResult;
 import com.exam.exam_system.common.Result;
 import com.exam.exam_system.common.enums.ErrorMsgEnum;
 import com.exam.exam_system.controller.BaseController;
+import com.exam.exam_system.exception.ExamException;
 import com.exam.exam_system.pojo.request.ExamTestPaperNameRequest;
 import com.exam.exam_system.pojo.request.ExamTestPaperRequest;
 import com.exam.exam_system.pojo.response.ExamTestPaperNameVO;
@@ -109,7 +110,11 @@ public class TestPaperController extends BaseController {
     @PostMapping("/modifyTestPaperNameById")
     public Result<Object> modifyTestPaperNameById(@RequestBody ExamTestPaperNameRequest examTestPaperNameRequest) {
         logger.info("修改试卷名称:{}", JSON.toJSONString(examTestPaperNameRequest));
-        testPaperService.updateTestPaperNameById(examTestPaperNameRequest);
+        try {
+            testPaperService.updateTestPaperNameById(examTestPaperNameRequest);
+        } catch (ExamException e) {
+            return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
+        }
         return new Result<Object>();
     }
 
@@ -126,14 +131,18 @@ public class TestPaperController extends BaseController {
         if (null == examTestPaperRequest || CollectionUtils.isEmpty(examTestPaperRequest.getExamTestPaperContentRequests())) {
             return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
-        testPaperService.updateTestPaperContentById(examTestPaperRequest.getExamTestPaperContentRequests());
+        try {
+            testPaperService.updateTestPaperContentById(examTestPaperRequest.getExamTestPaperContentRequests());
+        } catch (ExamException e) {
+            return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
+        }
         return new Result<Object>();
     }
 
     /**
      * @param examTestPaperRequest
      * @Author :
-     * @Description : 批量删除试卷名称
+     * @Description : 批量删除试卷
      * @Date : 2020/4/1 16:52
      * @Return :
      **/
@@ -143,7 +152,11 @@ public class TestPaperController extends BaseController {
         if (null == examTestPaperRequest || CollectionUtils.isEmpty(examTestPaperRequest.getIds())) {
             return new Result<>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
-        testPaperService.batchDelTestPaperNameById(examTestPaperRequest.getIds());
+        try {
+            testPaperService.batchDelTestPaperNameById(examTestPaperRequest.getIds());
+        } catch (ExamException e) {
+            return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
+        }
         return new Result<Object>();
     }
 
