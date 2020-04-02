@@ -14,6 +14,8 @@ public class ExamTestPaperNameRequest {
 
     private String testPaperName;
 
+    private Long subjectId;
+
     private Integer status;
 
     private Date createTime;
@@ -35,6 +37,14 @@ public class ExamTestPaperNameRequest {
 
     public void setTestPaperName(String testPaperName) {
         this.testPaperName = testPaperName;
+    }
+
+    public Long getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
     }
 
     public Integer getStatus() {
