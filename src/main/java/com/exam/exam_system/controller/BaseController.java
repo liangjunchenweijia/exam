@@ -12,9 +12,8 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class BaseController {
     /**
-     * @Author liangjun
+     * @Author
      * @Description ：日志
-     * @Date ：2019/8/21 14:17
      * @Param ：
      * @return ：
      **/

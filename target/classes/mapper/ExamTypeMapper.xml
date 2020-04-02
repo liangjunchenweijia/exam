@@ -9,38 +9,24 @@
         -->
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="exam_name" property="examName" jdbcType="VARCHAR"/>
-        <result column="exam_mold" property="examMold" jdbcType="VARCHAR"/>
-        <result column="exam_time" property="examTime" jdbcType="TIMESTAMP"/>
-        <result column="subject_id" property="subjectId" jdbcType="VARCHAR"/>
-        <result column="remark" property="remark" jdbcType="VARCHAR"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
     </resultMap>
-    <insert id="insert" parameterType="com.exam.exam_system.pojo.request.ExamTypeRequest">
+    <insert id="insert" parameterType="com.exam.exam_system.pojo.request.ExamTypeRequest"
+            useGeneratedKeys="true" keyProperty="examTypeRequest.id">
         INSERT INTO exam_type (
             exam_name
-            ,exam_mold
-            ,exam_time
-            ,subject_id
-            ,remark
-            ,STATUS
+            ,status
             )
         VALUES (
             #{examTypeRequest.examName
-            ,jdbcType = VARCHAR}
-            ,#{examTypeRequest.examMold
-            ,jdbcType = VARCHAR}
-            ,#{examTypeRequest.examTime
-            ,jdbcType = TIMESTAMP}
-            ,#{examTypeRequest.subjectId
-            ,jdbcType = VARCHAR}
-            ,#{examTypeRequest.remark
             ,jdbcType = VARCHAR}
             ,#{examTypeRequest.status
             ,jdbcType = INTEGER}
             )
     </insert>
+
     <update id="updateExamTypeById">
         update
         exam_type
@@ -49,20 +35,8 @@
         <if test="examTypeRequest.examName != null and examTypeRequest.examName != ''">
             ,exam_name = #{examTypeRequest.examName}
         </if>
-        <if test="examTypeRequest.examMold != null and examTypeRequest.examMold != ''">
-            ,exam_mold = #{examTypeRequest.examMold}
-        </if>
-        <if test="examTypeRequest.examTime != null">
-            ,exam_time = #{examTypeRequest.examTime}
-        </if>
-        <if test="examTypeRequest.subjectId != null and examTypeRequest.subjectId != ''">
-            ,subject_id = #{examTypeRequest.subjectId}
-        </if>
-        <if test="examTypeRequest.remark != null and examTypeRequest.remark != ''">
-            ,remark = #{examTypeRequest.remark}
-        </if>
         <if test="examTypeRequest.status != null">
-            ,status = #{examTypeRequest.status}
+            , status = #{examTypeRequest.status}
         </if>
         where id = #{examTypeRequest.id}
     </update>
@@ -70,65 +44,44 @@
     <select id="selectExamTypeAll" resultMap="BaseResultMap">
         SELECT id
         ,exam_name
-        ,exam_mold
-        ,exam_time
-        ,subject_id
-        ,remark
         ,STATUS
         ,modify_time
         ,create_time
         FROM exam_type
-        <where>
-            <if test="examTypeRequest.examName != null and examTypeRequest.examName != ''">
-                exam_name LIKE CONCAT('%',#{examTypeRequest.examName},'%')
-            </if>
-            <if test="examTypeRequest.examMold != null and examTypeRequest.examMold != ''">
-                and exam_mold LIKE CONCAT('%',#{examTypeRequest.examMold},'%')
-            </if>
-            <if test="examTypeRequest.examMinTime != null">
-                and exam_time <![CDATA[ >= ]]> #{examTypeRequest.examMinTime}
-            </if>
-            <if test="examTypeRequest.examMaxTime != null">
-                and exam_time <![CDATA[ <= ]]> #{examTypeRequest.examMaxTime}
-            </if>
-            <if test="examTypeRequest.subjectId != null">
-                and FIND_IN_SET(#{examTypeRequest.subjectId},subject_id)
-            </if>
-            <if test="examTypeRequest.status != null">
-                and status = #{examTypeRequest.status}
-            </if>
-        </where>
-        order by create_time desc
-        LIMIT #{offset},#{limit}
-    </select>
-
-    <select id="selectExamTypeAllCount" resultType="java.lang.Integer">
-        SELECT COUNT(1) FROM exam_type
-        <where>
-            <if test="examTypeRequest.examName != null and examTypeRequest.examName != ''">
-                exam_name LIKE CONCAT('%',#{examTypeRequest.examName},'%')
-            </if>
-            <if test="examTypeRequest.examMold != null and examTypeRequest.examMold != ''">
-                and exam_mold LIKE CONCAT('%',#{examTypeRequest.examMold},'%')
-            </if>
-            <if test="examTypeRequest.examMinTime != null">
-                and exam_time <![CDATA[ >= ]]> #{examTypeRequest.examMinTime}
-            </if>
-            <if test="examTypeRequest.examMaxTime != null">
-                and exam_time <![CDATA[ <= ]]> #{examTypeRequest.examMaxTime}
-            </if>
-            <if test="examTypeRequest.subjectId != null">
-                and FIND_IN_SET(#{examTypeRequest.subjectId},subject_id)
-            </if>
-            <if test="examTypeRequest.status != null">
-                and status = #{examTypeRequest.status}
-            </if>
-        </where>
+        where
+        status = 1
     </select>
 
     <select id="selectEaxmSubjectById" resultType="java.lang.String">
        SELECT subject_id
         FROM exam_type
         WHERE id = #{examTypeId}
+    </select>
+
+    <select id="selectExamTypeByName" resultType="java.lang.Integer">
+        select
+            count(1)
+        from
+            exam_type
+        where
+            exam_name = #{examName}
+        and status = 1
+    </select>
+    <select id="selectExamTypeById" resultType="com.exam.exam_system.pojo.response.ExamTypeVO">
+        select
+            id,
+            exam_name examName
+        from
+            exam_type
+        where
+            id = #{id}
+    </select>
+    <select id="selectExamCountById" resultType="java.lang.Integer">
+        select
+            count(1)
+        from
+            exam_exam
+        where
+            exam_type_id = #{id}
     </select>
 </mapper>
