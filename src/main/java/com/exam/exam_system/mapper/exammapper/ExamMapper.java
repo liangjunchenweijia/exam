@@ -1,5 +1,7 @@
 package com.exam.exam_system.mapper.exammapper;
 
+import com.exam.exam_system.pojo.ExamPojo;
+import com.exam.exam_system.pojo.request.ExamAllRequet;
 import com.exam.exam_system.pojo.request.ExamRequest;
 import org.apache.ibatis.annotations.Param;
 
@@ -30,4 +32,24 @@ public interface ExamMapper {
      * @Return :
      **/
     int batchDelExamById(@Param("ids") List<Long> ids);
+
+    /**
+     * @param request
+     * @param offset
+     * @param limit
+     * @Author :
+     * @Description :  考试列表
+     * @Date : 2020/4/2 9:41
+     * @Return :
+     **/
+    List<ExamPojo> selectExamAll(@Param("request") ExamAllRequet request, @Param("offset") int offset, @Param("limit") int limit);
+
+    /**
+     * @param request
+     * @Author :
+     * @Description :  考试列表总数
+     * @Date : 2020/4/2 9:52
+     * @Return :
+     **/
+    int selectExamAllCount(@Param("request") ExamAllRequet request);
 }

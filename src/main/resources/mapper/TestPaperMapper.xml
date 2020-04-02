@@ -12,6 +12,7 @@
             <result column="option_c" property="optionC"/>
             <result column="option_d" property="optionD"/>
             <result column="answer" property="answer"/>
+            <result column="grade" property="grade"/>
         </collection>
     </resultMap>
     <update id="updateTestPaperNameById" parameterType="com.exam.exam_system.pojo.request.ExamTestPaperNameRequest">
@@ -43,6 +44,7 @@
             ,option_c = #{examTestPaperContentRequest.optionC}
             ,option_d = #{examTestPaperContentRequest.optionD}
             ,answer = #{examTestPaperContentRequest.answer}
+            ,grade = #{examTestPaperContentRequest.grade}
             where id = #{examTestPaperContentRequest.id}
         </foreach>
     </update>
@@ -61,12 +63,13 @@
     </insert>
 
     <insert id="insertTestPaperContent" parameterType="com.exam.exam_system.pojo.request.ExamTestPaperContentRequest">
-        insert into exam_testpaper_content(testpaper_name_id,title,option_a,option_b,option_c,option_d,answer)
+        insert into exam_testpaper_content(testpaper_name_id,title,option_a,option_b,option_c,option_d,answer,grade)
         values
         <foreach collection="examTestPaperContent" item="examTestPaperContent" separator=",">
             (#{examTestPaperContent.testPaperNameId},#{examTestPaperContent.title},#{examTestPaperContent.optionA}
             ,#{examTestPaperContent.optionB},#{examTestPaperContent.optionC}
-            ,#{examTestPaperContent.optionD},#{examTestPaperContent.answer})
+            ,#{examTestPaperContent.optionD},#{examTestPaperContent.answer}
+            ,#{examTestPaperContent.grade})
         </foreach>
     </insert>
 
@@ -100,6 +103,7 @@
             ,b.option_c
             ,b.option_d
             ,b.answer
+            ,b.grade
         FROM exam_testpaper_name a
         LEFT JOIN exam_testpaper_content b ON a.id = testpaper_name_id
         WHERE a.id = #{id}

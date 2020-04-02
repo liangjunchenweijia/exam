@@ -13,30 +13,23 @@ public class ExamRequest {
 
     private List<Long> ids;
 
-
     private Long id;
 
+    private String examRule;
 
     private Long subjectId;
 
-
     private Long examTestPaperId;
-
 
     private Long examTypeId;
 
-
     private Integer status;
-
 
     private Date startTime;
 
-
     private Date endTime;
 
-
     private Date createTime;
-
 
     private Date modifyTime;
 
@@ -54,6 +47,14 @@ public class ExamRequest {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getExamRule() {
+        return examRule;
+    }
+
+    public void setExamRule(String examRule) {
+        this.examRule = examRule;
     }
 
     public Long getSubjectId() {

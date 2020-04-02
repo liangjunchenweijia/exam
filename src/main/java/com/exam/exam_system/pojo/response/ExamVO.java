@@ -15,6 +15,8 @@ public class ExamVO {
 
     private Long subjectId;
 
+    private String examRule;
+
 
     private Long examTestPaperId;
 
@@ -50,6 +52,14 @@ public class ExamVO {
 
     public void setSubjectId(Long subjectId) {
         this.subjectId = subjectId;
+    }
+
+    public String getExamRule() {
+        return examRule;
+    }
+
+    public void setExamRule(String examRule) {
+        this.examRule = examRule;
     }
 
     public Long getExamTestPaperId() {

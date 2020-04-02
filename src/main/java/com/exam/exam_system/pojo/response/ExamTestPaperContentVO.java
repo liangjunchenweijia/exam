@@ -26,6 +26,8 @@ public class ExamTestPaperContentVO {
 
     private String answer;
 
+    private Integer grade;
+
     private Date createTime;
 
     private Date modifyTime;
@@ -92,6 +94,15 @@ public class ExamTestPaperContentVO {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+
+    public Integer getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Integer grade) {
+        this.grade = grade;
     }
 
     public Date getCreateTime() {

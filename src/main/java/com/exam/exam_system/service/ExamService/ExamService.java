@@ -1,7 +1,11 @@
 package com.exam.exam_system.service.ExamService;
 
+import com.exam.exam_system.common.PageRequest;
+import com.exam.exam_system.common.PageResult;
 import com.exam.exam_system.mapper.exammapper.ExamMapper;
 import com.exam.exam_system.mapper.examtypemapper.ExamTypeMapper;
+import com.exam.exam_system.pojo.ExamPojo;
+import com.exam.exam_system.pojo.request.ExamAllRequet;
 import com.exam.exam_system.pojo.request.ExamRequest;
 import com.exam.exam_system.service.subjectservice.SubjectService;
 import com.exam.exam_system.service.userservice.UserService;
@@ -54,5 +58,18 @@ public class ExamService {
      **/
     public int batchDelExamById(List<Long> ids) {
         return examMapper.batchDelExamById(ids);
+    }
+
+    /**
+     * @param examAllRequet
+     * @Author :
+     * @Description : 考试列表
+     * @Date : 2020/4/2 9:39
+     * @Return :
+     **/
+    public PageResult<List<ExamPojo>> findExamAll(PageRequest<ExamAllRequet> examAllRequet) {
+        List<ExamPojo> examPojos = examMapper.selectExamAll(examAllRequet.getObj(), examAllRequet.getOffset(), examAllRequet.getLimit());
+        int count = examMapper.selectExamAllCount(examAllRequet.getObj());
+        return new PageResult<List<ExamPojo>>(examAllRequet.getPageNo(),examAllRequet.getPageSize(),count,examPojos);
     }
 }
