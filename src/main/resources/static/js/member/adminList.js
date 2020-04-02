@@ -61,7 +61,7 @@ layui.use(['laypage', 'jquery', 'admin','form'], function() {
 								'<td>'+userAge+'</td>'+
 								'<td>'+dateFormat(item.createTime)+'</td>'+
 								'<td class="td-manage">'+
-								'<a title="修改" onclick="WeAdminEdit(\'修改\',\'./edit.html\','+ item.id+',480,450)" href="javascript:;"><i class="layui-icon">&#xe642;</i>修改</a>'+
+								'<a title="修改" onclick="WeAdminEdit(\'修改\',\'./edit.html\','+ item.id+',480,500)" href="javascript:;"><i class="layui-icon">&#xe642;</i>修改</a>'+
 								'<a title="删除" onclick="member_del('+ item.id+')" href="javascript:;"><i class="layui-icon">&#xe640;</i>删除</a>'+
 								'</td>'+
 								'</tr>'
@@ -145,7 +145,7 @@ layui.use(['laypage', 'jquery', 'admin','form'], function() {
 	window.delAll = function (argument) {
 		var data = tableCheck.getData().splice(',');
 		if(data.length<=0){
-			layer.msg('请选择需要删除的考生！',{
+			layer.msg('请选择需要删除的管理员！',{
 				time: 1000
 			});
 			return false;
