@@ -3,33 +3,58 @@
 <mapper namespace="com.exam.exam_system.mapper.exammapper.ExamMapper">
 
     <insert id="insertExam" parameterType="com.exam.exam_system.pojo.request.ExamRequest">
-        insert into exam_exam(subject_id,exam_testpaper_id,exam_type_id,status,start_time,end_time,exam_rule)
-        values(#{examRequest.subjectId},#{examRequest.examTestPaperId},#{examRequest.examTypeId},#{examRequest.status}
+        insert into exam_exam(exam_testpaper_id,exam_type_id,status,start_time,end_time,exam_rule)
+        values(#{examRequest.examTestPaperId},#{examRequest.examTypeId},#{examRequest.status}
                 ,#{examRequest.startTime},#{examRequest.endTime},#{examRequest.examRule})
     </insert>
     <update id="batchDelExamById">
         update exam_exam
-            set status = 2
+        set status = 2
         where id IN
         <foreach collection="ids" item="ids" open="(" close=")" separator=",">
             #{ids}
         </foreach>
     </update>
+
+    <update id="updateExamById">
+        update exam_exam
+        set modify_time = #{examRequest.modifyTime}
+        <if test="examRequest.examTestPaperId != null">
+            ,exam_testpaper_id = #{examRequest.examTestPaperId}
+        </if>
+        <if test="examRequest.examTypeId != null">
+            ,exam_type_id = #{examRequest.examTypeId}
+        </if>
+        <if test="examRequest.status != null">
+            ,status = #{examRequest.status}
+        </if>
+        <if test="examRequest.startTime != null">
+            ,start_time = #{examRequest.startTime}
+        </if>
+        <if test="examRequest.endTime != null">
+            ,end_time = #{examRequest.endTime}
+        </if>
+        <if test="examRequest.examRule != null and examRequest.examRule != ''">
+            ,exam_rule = #{examRequest.examRule}
+        </if>
+        where id = #{examRequest.id}
+    </update>
+
     <select id="selectExamAll" resultType="com.exam.exam_system.pojo.ExamPojo">
         SELECT a.id id
-        ,c.exam_name examName
-        ,b.subject_name subjectName
+        ,d.exam_name examName
+        ,c.subject_name subjectName
         ,a.exam_testpaper_id examTestPaperId
         FROM exam_exam a
-        LEFT JOIN exam_subject b ON a.subject_id = b.id
-        LEFT JOIN exam_type c ON a.exam_type_id = c.id
-        LEFT JOIN exam_testpaper_name d ON a.exam_testpaper_id = d.id
+        LEFT JOIN exam_testpaper_name b ON a.exam_testpaper_id = b.id
+        LEFT JOIN exam_subject c ON b.subject_id = c.id
+        LEFT JOIN exam_type d ON a.exam_type_id = d.id
         WHERE a.STATUS = 1
         <if test="request.examName != null and request.examName != ''">
-            and c.exam_name LIKE CONCAT('%',#{request.examName},'%')
+            and d.exam_name LIKE CONCAT('%',#{request.examName},'%')
         </if>
         <if test="request.subjectName != null and request.subjectName != ''">
-            and b.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
+            and c.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
         </if>
         order by a.create_time desc
         LIMIT #{offset},#{limit}
@@ -37,15 +62,26 @@
     <select id="selectExamAllCount" resultType="java.lang.Integer">
         SELECT count(1)
         FROM exam_exam a
-        LEFT JOIN exam_subject b ON a.subject_id = b.id
-        LEFT JOIN exam_type c ON a.exam_type_id = c.id
-        LEFT JOIN exam_testpaper_name d ON a.exam_testpaper_id = d.id
+        LEFT JOIN exam_testpaper_name b ON a.exam_testpaper_id = b.id
+        LEFT JOIN exam_subject c ON b.subject_id = c.id
+        LEFT JOIN exam_type d ON a.exam_type_id = d.id
         WHERE a.STATUS = 1
         <if test="request.examName != null and request.examName != ''">
-            and c.exam_name LIKE CONCAT('%',#{request.examName},'%')
+            and d.exam_name LIKE CONCAT('%',#{request.examName},'%')
         </if>
         <if test="request.subjectName != null and request.subjectName != ''">
-            and b.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
+            and c.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
         </if>
+    </select>
+    <select id="selectApplyExamCount" resultType="java.lang.Integer">
+        select
+            COUNT(1)
+        FROM
+            exam_apply_exam
+        WHERE status = 1
+        and id IN
+        <foreach collection="ids" item="ids" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
     </select>
 </mapper>

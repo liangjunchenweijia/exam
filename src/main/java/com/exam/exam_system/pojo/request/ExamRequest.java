@@ -17,8 +17,6 @@ public class ExamRequest {
 
     private String examRule;
 
-    private Long subjectId;
-
     private Long examTestPaperId;
 
     private Long examTypeId;
@@ -32,6 +30,7 @@ public class ExamRequest {
     private Date createTime;
 
     private Date modifyTime;
+
 
     public List<Long> getIds() {
         return ids;
@@ -57,13 +56,6 @@ public class ExamRequest {
         this.examRule = examRule;
     }
 
-    public Long getSubjectId() {
-        return subjectId;
-    }
-
-    public void setSubjectId(Long subjectId) {
-        this.subjectId = subjectId;
-    }
 
     public Long getExamTestPaperId() {
         return examTestPaperId;
@@ -120,4 +112,6 @@ public class ExamRequest {
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
     }
+
+
 }

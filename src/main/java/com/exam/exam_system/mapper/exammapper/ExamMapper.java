@@ -1,7 +1,7 @@
 package com.exam.exam_system.mapper.exammapper;
 
 import com.exam.exam_system.pojo.ExamPojo;
-import com.exam.exam_system.pojo.request.ExamAllRequet;
+import com.exam.exam_system.pojo.request.ExamAllRequest;
 import com.exam.exam_system.pojo.request.ExamRequest;
 import org.apache.ibatis.annotations.Param;
 
@@ -42,7 +42,7 @@ public interface ExamMapper {
      * @Date : 2020/4/2 9:41
      * @Return :
      **/
-    List<ExamPojo> selectExamAll(@Param("request") ExamAllRequet request, @Param("offset") int offset, @Param("limit") int limit);
+    List<ExamPojo> selectExamAll(@Param("request") ExamAllRequest request, @Param("offset") int offset, @Param("limit") int limit);
 
     /**
      * @param request
@@ -51,5 +51,23 @@ public interface ExamMapper {
      * @Date : 2020/4/2 9:52
      * @Return :
      **/
-    int selectExamAllCount(@Param("request") ExamAllRequet request);
+    int selectExamAllCount(@Param("request") ExamAllRequest request);
+
+    /**
+     * @param examRequest
+     * @Author :
+     * @Description : 修改考试
+     * @Date : 2020/4/2 14:46
+     * @Return :
+     **/
+    int updateExamById(@Param("examRequest") ExamRequest examRequest);
+
+    /**
+     * @param ids
+     * @Author :
+     * @Description : 查询考试被报名的次数
+     * @Date : 2020/4/2 14:54
+     * @Return :
+     **/
+    int selectApplyExamCount(@Param("ids") List<Long> ids);
 }

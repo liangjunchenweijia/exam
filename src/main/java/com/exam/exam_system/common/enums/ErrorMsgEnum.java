@@ -44,7 +44,9 @@ public enum ErrorMsgEnum {
 
     EXAM_TYPE_ERROR("000014","该类型下,已存在考试场次"),
 
-    SAVE_ERROR("000015","保存失败")
+    SAVE_ERROR("000015","保存失败"),
+
+    EXAM_ALREADY_APPLY("000016","选中的考试,已有学生报名,请重新选择")
 
     ;
     /**

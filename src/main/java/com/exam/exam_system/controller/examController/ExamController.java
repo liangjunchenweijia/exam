@@ -6,8 +6,9 @@ import com.exam.exam_system.common.PageResult;
 import com.exam.exam_system.common.Result;
 import com.exam.exam_system.common.enums.ErrorMsgEnum;
 import com.exam.exam_system.controller.BaseController;
+import com.exam.exam_system.exception.ExamException;
 import com.exam.exam_system.pojo.ExamPojo;
-import com.exam.exam_system.pojo.request.ExamAllRequet;
+import com.exam.exam_system.pojo.request.ExamAllRequest;
 import com.exam.exam_system.pojo.request.ExamRequest;
 import com.exam.exam_system.service.ExamService.ExamService;
 import org.apache.commons.collections4.CollectionUtils;
@@ -53,6 +54,21 @@ public class ExamController extends BaseController {
     }
 
     /**
+     * @param
+     * @Author :
+     * @Description : 考试列表
+     * @Date : 2020/4/2 9:36
+     * @Return :
+     **/
+    @PostMapping("/queryExamAll")
+    public PageResult<List<ExamPojo>> queryExamAll(@RequestBody PageRequest<ExamAllRequest> examAllRequest) {
+        logger.info("考试列表:{}", JSON.toJSONString(examAllRequest));
+        PageResult<List<ExamPojo>> examAll = examService.findExamAll(examAllRequest);
+        logger.info("考试列表返回:{}", JSON.toJSONString(examAll));
+        return new PageResult<List<ExamPojo>>(examAll.getPageNo(), examAll.getPageSize(), examAll.getTotal(), examAll.getObj());
+    }
+
+    /**
      * @param examRequest
      * @Author :
      * @Description : 批量删除考试
@@ -65,23 +81,33 @@ public class ExamController extends BaseController {
         if (null == examRequest || CollectionUtils.isEmpty(examRequest.getIds())) {
             return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
-        examService.batchDelExamById(examRequest.getIds());
+        try {
+            examService.batchDelExamById(examRequest.getIds());
+        } catch (ExamException e) {
+            return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
+        }
         return new Result<Object>();
     }
 
     /**
-     * @param
+     * @param examRequest
      * @Author :
-     * @Description : 考试列表
-     * @Date : 2020/4/2 9:36
+     * @Description : 修改考试
+     * @Date : 2020/4/2 14:43
      * @Return :
      **/
-    @PostMapping("/queryExamAll")
-    public PageResult<List<ExamPojo>> queryExamAll(@RequestBody PageRequest<ExamAllRequet> examAllRequet) {
-        logger.info("考试列表:{}", JSON.toJSONString(examAllRequet));
-        PageResult<List<ExamPojo>> examAll = examService.findExamAll(examAllRequet);
-        logger.info("考试列表返回:{}", JSON.toJSONString(examAll));
-        return new PageResult<List<ExamPojo>>(examAll.getPageNo(), examAll.getPageSize(), examAll.getTotal(), examAll.getObj());
+    @PostMapping("/modifyExam")
+    public Result<Object> modifyExam(@RequestBody ExamRequest examRequest) {
+        logger.info("修改考试:{}", JSON.toJSONString(examRequest));
+        if (null == examRequest) {
+            return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
+        }
+        try {
+            examService.updateExamById(examRequest);
+        } catch (ExamException e) {
+            return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
+        }
+        return new Result<Object>();
     }
 
 

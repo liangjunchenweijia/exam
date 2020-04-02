@@ -3,10 +3,10 @@ package com.exam.exam_system.pojo.request;
 /**
  * @Author :
  * @ClassName : ExamAllRequet
- * @Description :
+ * @Description :  考试列表请求
  * @Date : 2020/4/2 9:35
  */
-public class ExamAllRequet {
+public class ExamAllRequest {
 
     private String examName;
 
