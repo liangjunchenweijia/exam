@@ -17,7 +17,7 @@ layui.use(['laypage', 'jquery', 'admin','form'], function() {
 		form = layui.form;
 	admin = layui.admin;
 	var pageNo=1;
-	// 查询所有学生
+	// 查询所有课程
 	function getAll(pageNo){
 		$.ajax({
 			url: '/subject/querySubjectAll',
@@ -44,7 +44,7 @@ layui.use(['laypage', 'jquery', 'admin','form'], function() {
 							'<td>' + i+ '</td>'+
 							'<td>'+item.subjectName+'</td>'+
 							'<td class="td-manage">'+
-							'<a title="修改" onclick="WeAdminEdit(\'修改\',\'./edit.html\','+ item.id+',480,200)" href="javascript:;"><i class="layui-icon">&#xe642;</i>修改</a>'+
+							'<a title="修改" onclick="WeAdminEdit(\'修改\',\'./edit.html\','+ item.id+',480,300)" href="javascript:;"><i class="layui-icon">&#xe642;</i>修改</a>'+
 							'<a title="删除" onclick="member_del('+ item.id+')" href="javascript:;"><i class="layui-icon">&#xe640;</i>删除</a>'+
 							'</td>'+
 							'</tr>'
@@ -129,7 +129,7 @@ layui.use(['laypage', 'jquery', 'admin','form'], function() {
 	window.delAll = function (argument) {
 		var data = tableCheck.getData().splice(',');
 		if(data.length<=0){
-			layer.msg('请选择需要删除的考生！',{
+			layer.msg('请选择需要删除的课程！',{
 				time: 1000
 			});
 			return false;

@@ -24,7 +24,7 @@
 		                <span class="we-red">*</span>套题名称
 		            </label>
 					<div class="layui-input-inline">
-						<input type="text" id="L_username" name="subjectName" lay-verify="required" autocomplete="off" class="layui-input">
+						<input type="text" id="L_username" name="testPaperName" lay-verify="required" autocomplete="off" class="layui-input">
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -48,7 +48,7 @@
 				form.on('submit(add)', function(data) {
 					var datas = JSON.stringify(data.field)
 					$.ajax({
-						url: '/subject/saveSubject',
+						url: '/testPaper/saveTestPaper',
 						data: datas,
 						type: "POST",
 						dataType: "json",

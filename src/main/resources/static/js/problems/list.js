@@ -17,14 +17,14 @@ layui.use(['laypage', 'jquery', 'admin','form'], function() {
 		form = layui.form;
 	admin = layui.admin;
 	var pageNo=1;
-	// 查询所有学生
+	// 查询所有套题
 	function getAll(pageNo){
 		$.ajax({
-			url: '/subject/querySubjectAll',
+			url: '/testPaper/queryTestPaperNameAll',
 			data: JSON.stringify({
 				pageNo:pageNo,pageSize:10,
 				obj:{
-					subjectName:$('.subjectName').val()
+					testPaperName:$('.testPaperName').val()
 				}
 			}),
 			type: "POST",
@@ -33,24 +33,24 @@ layui.use(['laypage', 'jquery', 'admin','form'], function() {
 			success:function (res) {
 				if(res.success){
 					pageNo = res.pageNo
-					var str = ''
+					var str = '';
 					if(res.obj.length>0){
-						res.obj.forEach((item,index)=>{
+						res.obj.forEach((item,index) =>{
 							var i = res.pageSize*(res.pageNo-1) + 1 + index;
 							str += '<tr data-id="' + item.id + '">' +
 							'<td>'+
 							'<div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id="'+item.id+'"><i class="layui-icon">&#xe605;</i></div>'+
 							'</td>'+
 							'<td>' + i+ '</td>'+
-							'<td>'+item.subjectName+'</td>'+
+							'<td>'+item.testPaperName+'</td>'+
 							'<td class="td-manage">'+
-							'<a title="题目录入" onclick="WeAdminEdit(\'题目录入\',\'./addInfo.html\','+ item.id+',500,600)" href="javascript:;"><i class="layui-icon">&#xe63c;</i>题目录入</a>'+
-							'<a title="发布考试" onclick="WeAdminEdit(\'发布考试\',\'./release.html\','+ item.id+',,600)" href="javascript:;"><i class="layui-icon">&#xe609;</i>发布考试</a>'+
-							'<a title="修改" onclick="WeAdminEdit(\'修改\',\'./edit.html\','+ item.id+',480,200)" href="javascript:;"><i class="layui-icon">&#xe642;</i>修改</a>'+
+							'<a title="题目录入" onclick="WeAdminEdit(\'题目录入\',\'./addInfo.html\','+ item.id+')" href="javascript:;"><i class="layui-icon">&#xe63c;</i>题目录入</a>'+
+							'<a title="发布考试" onclick="WeAdminEdit(\'发布考试\',\'./release.html\','+ item.id+')" href="javascript:;"><i class="layui-icon">&#xe609;</i>发布考试</a>'+
+							'<a title="修改" onclick="WeAdminEdit(\'修改\',\'./edit.html\','+ item.id+',480,300)" href="javascript:;"><i class="layui-icon">&#xe642;</i>修改</a>'+
 							'<a title="删除" onclick="member_del('+ item.id+')" href="javascript:;"><i class="layui-icon">&#xe640;</i>删除</a>'+
 							'</td>'+
 							'</tr>'
-					})
+						})
 						laypage.render({
 							elem: 'page'
 							,count: res.total //数据总数
@@ -104,10 +104,9 @@ layui.use(['laypage', 'jquery', 'admin','form'], function() {
 	}
 	function delData(id){
 		$.ajax({
-			url: '/subject/batchModifySubjectStatus',
+			url: '/testPaper/batchDelTestPaperNameById',
 			data: JSON.stringify({
-				ids:id,
-				subjectStatus:2
+				ids:id
 			}),
 			type: "POST",
 			dataType: "json",
@@ -131,7 +130,7 @@ layui.use(['laypage', 'jquery', 'admin','form'], function() {
 	window.delAll = function (argument) {
 		var data = tableCheck.getData().splice(',');
 		if(data.length<=0){
-			layer.msg('请选择需要删除的考生！',{
+			layer.msg('请选择需要删除的套题！',{
 				time: 1000
 			});
 			return false;
