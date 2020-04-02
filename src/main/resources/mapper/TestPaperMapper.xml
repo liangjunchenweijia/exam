@@ -58,8 +58,8 @@
     </update>
 
     <insert id="addTestPaperName" parameterType="com.exam.exam_system.pojo.request.ExamTestPaperNameRequest">
-        insert into exam_testpaper_name(test_paper_name,status)
-        values(#{examTestPaperRequest.testPaperName},#{examTestPaperRequest.status})
+        insert into exam_testpaper_name(test_paper_name,status,subject_id)
+        values(#{examTestPaperRequest.testPaperName},#{examTestPaperRequest.status},#{examTestPaperRequest.subjectId})
     </insert>
 
     <insert id="insertTestPaperContent" parameterType="com.exam.exam_system.pojo.request.ExamTestPaperContentRequest">
