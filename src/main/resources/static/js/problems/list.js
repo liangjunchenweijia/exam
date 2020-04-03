@@ -44,7 +44,8 @@ layui.use(['laypage', 'jquery', 'admin','form'], function() {
 							'<td>' + i+ '</td>'+
 							'<td>'+item.testPaperName+'</td>'+
 							'<td class="td-manage">'+
-							'<a title="题目录入" onclick="WeAdminEdit(\'题目录入\',\'./addInfo.html\','+ item.id+')" href="javascript:;"><i class="layui-icon">&#xe63c;</i>题目录入</a>'+
+							'<a title="题目录入" onclick="WeAdminEdit(\'题目录入\',\'./addInfo.html\','+ item.id+')" href="javascript:;"><i class="layui-icon">&#xe654;</i>题目录入</a>'+
+							'<a title="套题预览" onclick="WeAdminEdit(\'套题预览\',\'./lookInfo.html\','+ item.id+')" href="javascript:;"><i class="layui-icon">&#xe63c;</i>套题预览</a>'+
 							'<a title="发布考试" onclick="WeAdminEdit(\'发布考试\',\'./release.html\','+ item.id+')" href="javascript:;"><i class="layui-icon">&#xe609;</i>发布考试</a>'+
 							'<a title="修改" onclick="WeAdminEdit(\'修改\',\'./edit.html\','+ item.id+',480,300)" href="javascript:;"><i class="layui-icon">&#xe642;</i>修改</a>'+
 							'<a title="删除" onclick="member_del('+ item.id+')" href="javascript:;"><i class="layui-icon">&#xe640;</i>删除</a>'+
