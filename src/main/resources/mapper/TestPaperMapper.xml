@@ -78,7 +78,8 @@
     </insert>
 
     <insert id="insertTestPaperContent" parameterType="com.exam.exam_system.pojo.request.ExamTestPaperContentRequest">
-        insert into exam_testpaper_content(testpaper_name_id,title,option_a,option_b,option_c,option_d,answer,grade,type)
+        insert into
+        exam_testpaper_content(testpaper_name_id,title,option_a,option_b,option_c,option_d,answer,grade,type)
         values
         <foreach collection="examTestPaperContent" item="examTestPaperContent" separator=",">
             (#{examTestPaperContent.testPaperNameId},#{examTestPaperContent.title},#{examTestPaperContent.optionA}
@@ -150,7 +151,7 @@
         INNER JOIN exam_apply_exam c ON b.id = c.exam_id
         WHERE a.id IN
         <foreach collection="ids" item="ids" open="(" close=")" separator=",">
-         #{ids}
+            #{ids}
         </foreach>
         and a.status = 1
         and b.status = 1
@@ -169,6 +170,7 @@
         INNER JOIN exam_exam b ON a.testpaper_name_id = b.exam_testpaper_id
         WHERE now() <![CDATA[ >= ]]> b.start_time
         AND now() <![CDATA[ <= ]]> b.end_time
+        and a.testpaper_name_id = #{testPaperNameId}
         GROUP BY a.testpaper_name_id
         ) a
     </select>

@@ -81,13 +81,11 @@ public class TestPaperController extends BaseController {
         if (null == ExamTestPaperRequest || CollectionUtils.isEmpty(ExamTestPaperRequest.getExamTestPaperContentRequests())) {
             return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
-
         try {
             line = testPaperService.addTestPaperContent(ExamTestPaperRequest.getExamTestPaperContentRequests());
         } catch (TestPaperException e) {
             return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
         }
-
         if (line != ExamTestPaperRequest.getExamTestPaperContentRequests().size()) {
             return new Result<Object>(ErrorMsgEnum.SAVE_ERROR.getCode(), ErrorMsgEnum.SAVE_ERROR.getMsg());
         }
