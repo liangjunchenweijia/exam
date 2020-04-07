@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.exam.exam_system.mapper.applyExamMapper.ApplyExamMapper">
+
+    <insert id="insertApplyExam">
+
+    </insert>
+    <select id="selectStuExamAll" resultType="com.exam.exam_system.pojo.StuExamPojo">
+        SELECT a.id
+            ,a.start_time startTime
+            ,a.end_time endTime
+            ,c.subject_name subjectName
+            ,d.exam_name examName
+        FROM exam_exam a
+        LEFT JOIN exam_testpaper_name b ON a.exam_testpaper_id = b.id
+        LEFT JOIN exam_subject c ON b.subject_id = c.id
+        LEFT JOIN exam_type d ON d.id = a.exam_type_id
+        WHERE a.status = 1
+        <if test="request.subjectName != null and request.subjectName != ''">
+            and c.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
+        </if>
+        <if test="request.examName != null and request.examName != ''">
+            and d.exam_name LIKE CONCAT('%',#{request.examName},'%')
+        </if>
+        <if test="request.isExpired != null">
+            <if test="request.isExpired == 1">
+                and NOW() <![CDATA[ >= ]]> a.start_time and NOW() <![CDATA[ <= ]]> a.end_time
+            </if>
+            <if test="request.isExpired == 2">
+                and NOW() <![CDATA[ > ]]> a.start_time and NOW() <![CDATA[ > ]]> a.end_time
+            </if>
+            <if test="request.isExpired == 3">
+                and NOW() <![CDATA[ < ]]> a.start_time and NOW() <![CDATA[ < ]]> a.end_time
+            </if>
+        </if>
+    </select>
+    <select id="selectStuExamAllCount" resultType="java.lang.Integer">
+         SELECT COUNT(1)
+        FROM exam_exam a
+        LEFT JOIN exam_testpaper_name b ON a.exam_testpaper_id = b.id
+        LEFT JOIN exam_subject c ON b.subject_id = c.id
+        LEFT JOIN exam_type d ON d.id = a.exam_type_id
+        WHERE a.status = 1
+        <if test="request.subjectName != null and request.subjectName != ''">
+            and c.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
+        </if>
+        <if test="request.examName != null and request.examName != ''">
+            and d.exam_name LIKE CONCAT('%',#{request.examName},'%')
+        </if>
+        <if test="request.isExpired != null">
+            <if test="request.isExpired == 1">
+                and NOW() <![CDATA[ >= ]]> a.start_time and NOW() <![CDATA[ <= ]]> a.end_time
+            </if>
+            <if test="request.isExpired == 2">
+                and NOW() <![CDATA[ > ]]> a.start_time and NOW() <![CDATA[ > ]]> a.end_time
+            </if>
+            <if test="request.isExpired == 3">
+                and NOW() <![CDATA[ < ]]> a.start_time and NOW() <![CDATA[ < ]]> a.end_time
+            </if>
+        </if>
+    </select>
+</mapper>
