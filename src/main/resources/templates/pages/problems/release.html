@@ -92,13 +92,6 @@
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">
-						<span class="we-red">*</span>考试课程
-					</label>
-					<div class="layui-input-inline">
-						<select name="modules" class="objType" lay-filter="objType" lay-search="">
-						</select>
-					</div>
-					<label class="layui-form-label">
 						<span class="we-red">*</span>考试时间
 					</label>
 					<div class="layui-input-inline">
@@ -123,7 +116,7 @@
 			</form>
 		</div>
 		<script src="../../../static/lib/layui/layui.js" charset="utf-8"></script>
-		
+
 		<script>
 			layui.extend({
 				admin: '{/}../../../static/js/admin'
@@ -219,42 +212,6 @@
 				$('body').on('click','.examType p',function () {
 					$(this).addClass('active').siblings().removeClass('active');
 				});
-				// 查询所有课程
-				getAll();
-				function getAll(){
-					$.ajax({
-						url: '/subject/querySubjectAll',
-						data: JSON.stringify({
-							pageNo:1,pageSize:100,
-							obj:{
-								subjectName:''
-							}
-						}),
-						type: "POST",
-						dataType: "json",
-						contentType:'application/json;charset=utf-8',
-						success:function (res) {
-							if(res.success){
-								var html1 = '<dd lay-value="" class="layui-select-tips layui-this"></dd>';
-								var html2 = '<option value="" ></option>';
-								if(res.obj.length>0){
-									res.obj.forEach(item =>{
-										html1 += '<dd lay-value="' + item.id + '">' + item.subjectName + '</dd>';
-										html2 += '<option value="' +  item.id + '">' + item.subjectName + '</option>';
-									})
-								}
-								$(".objType").next().children().eq(1).html(html1);
-								$(".objType").html(html2);
-								form.render();
-								// 分页
-							}else{
-								layer.msg(res.errorMsg,{
-									time: 1000
-								});
-							}
-						}
-					})
-				};
 				//设置开始时间
 				var startTime = laydate.render({
 					elem: '#startTime',//开始时间选择控件id

@@ -627,3 +627,6 @@ table td {
 .td-manage a{
   margin-right: 20px;
 }
+#memberList{
+  white-space: nowrap;
+}

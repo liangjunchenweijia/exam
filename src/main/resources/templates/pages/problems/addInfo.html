@@ -61,11 +61,18 @@
                 color: #FF5722;
             }
             .allInfo{
-                position: absolute;
-                right: 0;
-                top: 0;
+                position: fixed;
+                right: 20px;
+                top: 30px;
                 background: #FFFFFF;
                 line-height: 45px;
+                z-index: 2;
+            }
+            .saveTest{
+                position: fixed;
+                left: 50%;
+                bottom: 30px;
+                z-index: 3;
             }
             .allInfo span{
                 color: red;
@@ -77,14 +84,15 @@
 		<div class="weadmin-body">
 			<form class="layui-form">
 				<fieldset class="layui-elem-field layui-field-title">
-					<legend class="testPaperName" style="text-align: center;font-weight: bold;font-size: 36px;">试卷dd</legend>
+					<legend class="testPaperName" style="text-align: center;font-weight: bold;font-size: 36px;"></legend>
                     <legend class="allInfo">
                         共<span class="allTest">1</span>题,总分:<span class="allScore">0</span>
                     </legend>
+
 				</fieldset>
                 <div class="main_cont">
                     <div class="part">
-                        <fieldset class="layui-elem-field layui-field-title">
+                        <fieldset class="layui-elem-field layui-field-title" style="font-weight: bold;">
                             <legend>第<span class="orderNumber">1</span>题</legend>
                         </fieldset>
                         <div class="layui-form-item">
@@ -160,9 +168,9 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"></label>
-                    <input id="dataId" name="id" type="hidden" value="">
+                    <input id="dataId" name="testPaperNameId" type="hidden" value="2">
                     <button class="layui-btn layui-btn-normal" lay-filter="addExam" lay-submit="">+继续添加</button>
-                    <button class="layui-btn" lay-filter="add" lay-submit="" style="margin-left: 20px;">保存试卷</button>
+                    <button class="layui-btn saveTest" lay-filter="add" lay-submit="" style="margin-left: 20px;">保存试卷</button>
                 </div>
 			</form>
 		</div>
@@ -185,18 +193,109 @@
 					},100);
 				});
 				function frameVal(){
-					var dataId = $('input[name="id"]').val();
-					var index = parent.layer.getFrameIndex(window.name);
-					parent.layui.jquery("#memberList tr").each(function(){
-						if($(this).attr('data-id')==dataId){
-							var tdArr=$(this).children('td');
-							var testPaperName = tdArr.eq(2).text(); //姓名
-							$('.testPaperName').html(testPaperName);
-							console.log(testPaperName)
-							form.render();
-						}
-					});
+					var dataId = $('input[name="testPaperNameId"]').val();
+                    getInfo(dataId);
 				};
+				//查询试卷内容
+				function getInfo(val){
+                    $.ajax({
+                        url: '/testPaper/queryTestPaperById',
+                        type: "get",
+                        data: {
+                            id:val
+                        },
+                        dataType: "json",
+                        contentType:'application/json;charset=utf-8',
+                        success:function (res) {
+                            if(res.success){
+                                $('.testPaperName').html(res.obj[0].testPaperName);
+                                var oThml = '';
+                                if(res.obj[0].examTestPaperContentVOS.length>0){
+                                    res.obj[0].examTestPaperContentVOS.map((item,index)=>{
+                                        oThml += '<div class="part">'+
+                                                    '<fieldset class="layui-elem-field layui-field-title">'+
+                                                        '<legend style="font-weight: bold;">第<span class="orderNumber">'+Number(index+1)+'</span>题</legend>'+
+                                                        '<legend class="delPart"><i class="layui-icon">&#xe640;</i>删除</legend>'+
+                                                    '</fieldset>'+
+                                                    '<div class="layui-form-item">'+
+                                                        '<label class="layui-form-label" style="font-weight: bold;">'+
+                                                            '<span class="we-red">*</span>题目名称'+
+                                                        '</label>'+
+                                                        '<div class="layui-input-inline">'+
+                                                            '<textarea placeholder="请输入题目" lay-verify="required" class="layui-textarea">'+item.title+'</textarea>'+
+                                                        '</div>'+
+                                                    '</div>'+
+                                                    '<div class="layui-form-item">'+
+                                                        '<label class="layui-form-label"></label>'+
+                                                        '<div class="layui-input-inline">'+
+                                                            '<div class="layui-tab layui-tab-brief changeType" lay-filter="changeType">'+
+                                                                '<ul class="layui-tab-title">'+
+                                                                    '<li class="layui-this" lay-id="1">选择题</li>'+
+                                                                    '<li lay-id="2">判断题</li>'+
+                                                                '</ul>'+
+                                                                '<div class="layui-tab-content">'+
+                                                                    '<div class="layui-tab-item layui-show">'+
+                                                                        '<div class="list">'+
+                                                                            '<input type="radio" name="objRadio'+index+'" value="A" title="A" checked="">'+
+                                                                            '<input type="text" value="'+item.optionA+'" lay-verify="required" name="testPaperName" autocomplete="off" class="layui-input">'+
+                                                                        '</div>'+
+                                                                         '<div class="list">'+
+                                                                            '<input type="radio" name="objRadio'+index+'" value="B" title="B">'+
+                                                                            '<input type="text" value="'+item.optionB+'" lay-verify="required" name="testPaperName" autocomplete="off" class="layui-input">'+
+                                                                        '</div>'+
+                                                                        '<div class="list">'+
+                                                                            '<input type="radio" name="objRadio'+index+'" value="C" title="C">'+
+                                                                            '<input type="text"  value="'+item.optionC+'" name="testPaperName" autocomplete="off" class="layui-input">'+
+                                                                        '</div>'+
+                                                                        '<div class="list">'+
+                                                                            '<input type="radio" name="objRadio'+index+'" value="D" title="D">'+
+                                                                            '<input type="text" value="'+item.optionD+'" name="testPaperName" autocomplete="off" class="layui-input">'+
+                                                                        '</div>'+
+                                                                    '</div>'+
+                                                                    '<div class="layui-tab-item">'+
+                                                                        '<div class="list" style="width: 110px;line-height: 38px;">'+
+                                                                            '<input type="radio" name="objJudge'+index+'" value="1" title="正确" checked="">'+
+                                                                        '</div>'+
+                                                                        '<div class="list" style="width: 110px;line-height: 38px;">'+
+                                                                            '<input type="radio" name="objJudge'+index+'" value="0" title="错误">'+
+                                                                        '</div>'+
+                                                                    '</div>'+
+                                                                '</div>'+
+                                                            '</div>'+
+                                                        '</div>'+
+                                                    '</div>'+
+                                                    '<div class="layui-form-item">'+
+                                                        '<label class="layui-form-label">【正确答案】</label>'+
+                                                        '<div class="layui-input-inline">'+
+                                                            '<label class="layui-form-label" style="text-align: left">'+
+                                                                '<span class="answer">'+item.answer+'</span>'+
+                                                            '</label>'+
+                                                        '</div>'+
+                                                    '</div>'+
+                                                    '<div class="layui-form-item">'+
+                                                        '<label class="layui-form-label">'+
+                                                            '<span class="we-red">*</span>【分数】'+
+                                                        '</label>'+
+                                                        '<div class="layui-input-inline" style="width: 80px;">'+
+                                                            '<input type="text" value="'+item.grade+'" name="fraction" lay-verify="number" maxlength="3" autocomplete="off" class="layui-input" style="text-align: right;padding-right: 30px;">'+
+                                                            '<span class="fraction">分</span>'+
+                                                        '</div>'+
+                                                    '</div>'+
+                                                '</div>';
+                                    })
+                                    $('.main_cont').empty().append(oThml);
+                                    $('.allTest').html(res.obj[0].examTestPaperContentVOS.length);
+                                    form.render();
+                                    getAllScore();
+                                }
+                            }else{
+                                layer.msg(res.errorMsg,{
+                                    time: 1000
+                                });
+                            }
+                        }
+                    })
+                };
                 // 选择正确答案
                 form.on('radio', function (data) {
                     var val = data.value;
@@ -213,7 +312,7 @@
                     var i = $('.part').length+1;
                     var oThml = '<div class="part">'+
                                     '<fieldset class="layui-elem-field layui-field-title">'+
-                                        '<legend>第<span class="orderNumber">'+i+'</span>题</legend>'+
+                                        '<legend style="font-weight: bold;">第<span class="orderNumber">'+i+'</span>题</legend>'+
                                         '<legend class="delPart"><i class="layui-icon">&#xe640;</i>删除</legend>'+
                                     '</fieldset>'+
                                     '<div class="layui-form-item">'+
@@ -282,8 +381,21 @@
                                 '</div>'+
                             '</div>';
                     $('.main_cont').append(oThml);
+                    $('.allTest').html(i);
                     form.render();
                     return false;
+                });
+                // 计算总分
+                getAllScore();
+                function getAllScore(){
+                    var allScore = 0;
+                    $('.part').each(function(){
+                        allScore += Number($(this).find('input[name="fraction"]').val());
+                    })
+                    $('.allScore').html(allScore);
+                }
+                $(".layui-form").on("input","input[name='fraction']",function(){
+                    getAllScore();
                 });
                 // 切换题目类型
                 element.on('tab(changeType)', function(elem){
@@ -308,35 +420,46 @@
                 })
 				//监听提交
 				form.on('submit(add)', function(data) {
-                    var datas = JSON.stringify(data.field)
-                    console.log(datas)
-                    // $('.part').each(function(){
-                    //     var changeType = $(this).find('.changeType .layui-this').attr('lay-id');
-                    //     console.log($(".layui-show input[type='radio']:checked").val())
-                    // })
-					// $.ajax({
-					// 	url: '/subject/saveSubject',
-					// 	data: datas,
-					// 	type: "POST",
-					// 	dataType: "json",
-					// 	contentType:'application/json;charset=utf-8',
-					// 	success:function (res) {
-					// 		if(res.success){
-					// 			layer.alert("增加成功", {
-					// 				icon: 6
-					// 			}, function() {
-					// 				var index = parent.layer.getFrameIndex(window.name);
-					// 				parent.location.reload();
-					// 				//关闭当前frame
-					// 				parent.layer.close(index);
-					// 			});
-					// 		}else{
-					// 			layer.msg(res.errorMsg,{
-					// 				time: 1000
-					// 			});
-					// 		}
-					// 	}
-					// })
+                    var datas = data.field;
+                    var newArr = [];
+                    $('.part').each(function(){
+                        newArr.push({
+                            "testPaperNameId":datas.testPaperNameId,
+                            "title": $(this).find('.layui-textarea').val(),
+                            "type":$(this).find('.layui-this').attr('lay-id'),
+                            "optionA":$(this).find('input[name="testPaperName"]').eq(0).val(),
+                            "optionB":$(this).find('input[name="testPaperName"]').eq(1).val(),
+                            "optionC":$(this).find('input[name="testPaperName"]').eq(2).val(),
+                            "optionD":$(this).find('input[name="testPaperName"]').eq(3).val(),
+                            "grade":$(this).find('input[name="fraction"]').val(),
+                            "answer":$(this).find('.answer').html()
+                        })
+                    });
+					$.ajax({
+						url: '/testPaper/saveTestPaperContent',
+						data: JSON.stringify({
+                            examTestPaperContentRequests:newArr
+                        }),
+						type: "POST",
+						dataType: "json",
+						contentType:'application/json;charset=utf-8',
+						success:function (res) {
+							if(res.success){
+								layer.alert("增加成功", {
+									icon: 6
+								}, function() {
+									var index = parent.layer.getFrameIndex(window.name);
+									parent.location.reload();
+									//关闭当前frame
+									parent.layer.close(index);
+								});
+							}else{
+								layer.msg(res.errorMsg,{
+									time: 1000
+								});
+							}
+						}
+					})
 					return false;
 				});
 
