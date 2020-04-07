@@ -6,7 +6,9 @@
         <result column="test_paper_name" property="testPaperName"/>
         <collection property="examTestPaperContentVOS"
                     ofType="com.exam.exam_system.pojo.response.ExamTestPaperContentVO">
+            <result column="id" property="id"/>
             <result column="title" property="title"/>
+            <result column="type" property="type"/>
             <result column="option_a" property="optionA"/>
             <result column="option_b" property="optionB"/>
             <result column="option_c" property="optionC"/>
@@ -61,6 +63,15 @@
         </foreach>
     </update>
 
+    <delete id="batchDelTestPaperContent">
+        DELETE
+        FROM exam_testpaper_content
+        WHERE id IN
+        <foreach collection="ids" item="ids" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </delete>
+
     <insert id="addTestPaperName" parameterType="com.exam.exam_system.pojo.request.ExamTestPaperNameRequest">
         insert into exam_testpaper_name(test_paper_name,status,subject_id)
         values(#{examTestPaperRequest.testPaperName},#{examTestPaperRequest.status},#{examTestPaperRequest.subjectId})
@@ -100,8 +111,10 @@
     </select>
 
     <select id="selectTestPaperById" resultMap="testPaperMap">
-        SELECT a.test_paper_name
+        SELECT a.id
+            ,a.test_paper_name
             ,b.title
+            ,b.type
             ,b.option_a
             ,b.option_b
             ,b.option_c
@@ -138,6 +151,22 @@
         and a.status = 1
         and b.status = 1
         and c.status = 1
+    </select>
+    <select id="selectTestPaperIds" resultType="java.lang.Long">
+        SELECT id
+        FROM exam_testpaper_content
+        WHERE testpaper_name_id = #{testPaperNameId}
+    </select>
+    <select id="selectTestPaperCount" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM (
+        SELECT count(1)
+        FROM exam_testpaper_content a
+        INNER JOIN exam_exam b ON a.testpaper_name_id = b.exam_testpaper_id
+        WHERE now() <![CDATA[ >= ]]> b.start_time
+        AND now() <![CDATA[ <= ]]> b.end_time
+        GROUP BY a.testpaper_name_id
+        ) a
     </select>
 
 </mapper>

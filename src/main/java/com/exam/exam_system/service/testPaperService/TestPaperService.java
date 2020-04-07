@@ -4,12 +4,14 @@ import com.exam.exam_system.common.PageRequest;
 import com.exam.exam_system.common.PageResult;
 import com.exam.exam_system.common.enums.ErrorMsgEnum;
 import com.exam.exam_system.exception.ExamException;
+import com.exam.exam_system.exception.TestPaperException;
 import com.exam.exam_system.mapper.testPaperMapper.TestPaperMapper;
 import com.exam.exam_system.mapper.timemapper.TimeMapper;
 import com.exam.exam_system.pojo.request.ExamTestPaperContentRequest;
 import com.exam.exam_system.pojo.request.ExamTestPaperNameRequest;
 import com.exam.exam_system.pojo.response.ExamTestPaperNameVO;
 import com.exam.exam_system.pojo.response.ExamTestPaperVO;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,7 +72,23 @@ public class TestPaperService {
      * @Return :
      **/
     public int addTestPaperContent(List<ExamTestPaperContentRequest> examTestPaperContentRequest) {
-        return testPaperMapper.insertTestPaperContent(examTestPaperContentRequest);
+        Long testPaperNameId = examTestPaperContentRequest.get(0).getTestPaperNameId();
+        int count = testPaperMapper.selectTestPaperCount(testPaperNameId);
+        if(1 <= count){
+            throw new TestPaperException(ErrorMsgEnum.EXAM_UNDERWAY);
+        }
+        int delLine = 0;
+        int insertLine = 0;
+        List<Long> ids = testPaperMapper.selectTestPaperIds(testPaperNameId);
+        if (CollectionUtils.isNotEmpty(ids)) {
+            delLine = testPaperMapper.batchDelTestPaperContent(ids);
+            if (delLine == ids.size()) {
+                insertLine = testPaperMapper.insertTestPaperContent(examTestPaperContentRequest);
+            } else {
+                throw new TestPaperException(ErrorMsgEnum.SAVE_ERROR);
+            }
+        }
+        return insertLine;
     }
 
     /**

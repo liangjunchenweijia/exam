@@ -48,7 +48,9 @@ public enum ErrorMsgEnum {
 
     EXAM_ALREADY_APPLY("000016", "选中的考试,已有学生报名,请重新选择"),
 
-    TESTPAPER_ALREADY_APPLY("000017", "选中的试卷,已有学生报名,请重新选择")
+    TESTPAPER_ALREADY_APPLY("000017", "选中的试卷,已有学生报名,请重新选择"),
+
+    EXAM_UNDERWAY("000018","该试卷正在考试中")
 
     ;
     /**

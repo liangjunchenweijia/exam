@@ -7,6 +7,7 @@ import com.exam.exam_system.common.Result;
 import com.exam.exam_system.common.enums.ErrorMsgEnum;
 import com.exam.exam_system.controller.BaseController;
 import com.exam.exam_system.exception.ExamException;
+import com.exam.exam_system.exception.TestPaperException;
 import com.exam.exam_system.pojo.request.ExamTestPaperNameRequest;
 import com.exam.exam_system.pojo.request.ExamTestPaperRequest;
 import com.exam.exam_system.pojo.response.ExamTestPaperNameVO;
@@ -75,11 +76,21 @@ public class TestPaperController extends BaseController {
      **/
     @PostMapping("/saveTestPaperContent")
     public Result<Object> saveTestPaperContent(@RequestBody ExamTestPaperRequest ExamTestPaperRequest) {
+        logger.info("保存试卷内容:{}", JSON.toJSONString(ExamTestPaperRequest));
+        int line = 0;
         if (null == ExamTestPaperRequest || CollectionUtils.isEmpty(ExamTestPaperRequest.getExamTestPaperContentRequests())) {
             return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
-        logger.info("保存试卷内容:{}", JSON.toJSONString(ExamTestPaperRequest));
-        testPaperService.addTestPaperContent(ExamTestPaperRequest.getExamTestPaperContentRequests());
+
+        try {
+            line = testPaperService.addTestPaperContent(ExamTestPaperRequest.getExamTestPaperContentRequests());
+        } catch (TestPaperException e) {
+            return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
+        }
+
+        if (line != ExamTestPaperRequest.getExamTestPaperContentRequests().size()) {
+            return new Result<Object>(ErrorMsgEnum.SAVE_ERROR.getCode(), ErrorMsgEnum.SAVE_ERROR.getMsg());
+        }
         return new Result<Object>();
     }
 

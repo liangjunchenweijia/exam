@@ -105,4 +105,23 @@ public interface TestPaperMapper {
      **/
     int selectTestPaperContentExamCount(@Param("ids") List<Long> ids);
 
+    /**
+     * @param testPaperNameId
+     * @Author :
+     * @Description : 查询试卷内容主键
+     * @Date : 2020/4/3 9:07
+     * @Return :
+     **/
+    List<Long> selectTestPaperIds(@Param("testPaperNameId") Long testPaperNameId);
+
+    /**
+     * @param ids
+     * @Author :
+     * @Description : 批量删除试卷内容
+     * @Date : 2020/4/3 9:19
+     * @Return :
+     **/
+    int batchDelTestPaperContent(@Param("ids") List<Long> ids);
+
+    int selectTestPaperCount(@Param("testPaperNameId") Long testPaperNameId);
 }

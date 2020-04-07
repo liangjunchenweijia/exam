@@ -14,6 +14,8 @@ public class ExamTestPaperContentVO {
 
     private Long testPaperNameId;
 
+    private String type;
+
     private String title;
 
     private String optionA;
@@ -46,6 +48,14 @@ public class ExamTestPaperContentVO {
 
     public void setTestPaperNameId(Long testPaperNameId) {
         this.testPaperNameId = testPaperNameId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getTitle() {
