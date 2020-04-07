@@ -74,7 +74,7 @@ public class TestPaperService {
     public int addTestPaperContent(List<ExamTestPaperContentRequest> examTestPaperContentRequest) {
         Long testPaperNameId = examTestPaperContentRequest.get(0).getTestPaperNameId();
         int count = testPaperMapper.selectTestPaperCount(testPaperNameId);
-        if(1 <= count){
+        if (1 <= count) {
             throw new TestPaperException(ErrorMsgEnum.EXAM_UNDERWAY);
         }
         int delLine = 0;

@@ -89,24 +89,28 @@
     </insert>
 
     <select id="selectTestPaperNameAll" resultType="com.exam.exam_system.pojo.response.ExamTestPaperNameVO">
-        SELECT id
-        ,test_paper_name testPaperName
-        ,status status
-        FROM exam_testpaper_name
-        WHERE STATUS = 1
+        SELECT a.id
+        ,a.test_paper_name testPaperName
+        ,a.subject_id subjectId
+        ,a.STATUS STATUS
+        ,b.subject_name subjectName
+        FROM exam_testpaper_name a
+        LEFT JOIN exam_subject b ON a.subject_id = b.id
+        WHERE a.STATUS = 1
         <if test="request.testPaperName != null and request.testPaperName != ''">
-            and test_paper_name LIKE CONCAT('%',#{request.testPaperName},'%')
+            and a.test_paper_name LIKE CONCAT('%',#{request.testPaperName},'%')
         </if>
-        order by create_time desc
+        ORDER BY a.create_time DESC
         LIMIT #{offset},#{limit}
     </select>
 
     <select id="selectTestPaperNameCount" resultType="java.lang.Integer">
-        SELECT COUNT(1)
-        FROM exam_testpaper_name
-        WHERE STATUS = 1
+        SELECT count(1)
+        FROM exam_testpaper_name a
+        LEFT JOIN exam_subject b ON a.subject_id = b.id
+        WHERE a.STATUS = 1
         <if test="request.testPaperName != null and request.testPaperName != ''">
-            and test_paper_name LIKE CONCAT('%',#{request.testPaperName},'%')
+            and a.test_paper_name LIKE CONCAT('%',#{request.testPaperName},'%')
         </if>
     </select>
 
