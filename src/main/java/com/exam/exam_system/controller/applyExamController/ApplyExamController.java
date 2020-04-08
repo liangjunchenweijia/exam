@@ -66,7 +66,8 @@ public class ApplyExamController extends BaseController {
             return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
         //开始保存
-        return new Result<>();
+
+        return new Result<Object>();
     }
 
     /**
