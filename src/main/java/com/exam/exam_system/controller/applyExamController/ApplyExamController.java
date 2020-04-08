@@ -3,15 +3,17 @@ package com.exam.exam_system.controller.applyExamController;
 import com.alibaba.fastjson.JSON;
 import com.exam.exam_system.common.PageRequest;
 import com.exam.exam_system.common.PageResult;
+import com.exam.exam_system.common.Result;
+import com.exam.exam_system.common.config.annotation.LoginUser;
+import com.exam.exam_system.common.enums.ErrorMsgEnum;
 import com.exam.exam_system.controller.BaseController;
+import com.exam.exam_system.pojo.LoginUserPojo;
 import com.exam.exam_system.pojo.StuExamPojo;
 import com.exam.exam_system.pojo.request.ApplyExamRequest;
+import com.exam.exam_system.pojo.response.ApplyExamResponse;
 import com.exam.exam_system.service.applyExamService.ApplyExamService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,12 +49,42 @@ public class ApplyExamController extends BaseController {
                 , stuExamAll.getPageSize(), stuExamAll.getTotal(), stuExamAll.getObj());
     }
 
+    /**
+     * @param applyExamRequest
+     * @Author :
+     * @Description : 开始考试
+     * @Date : 2020/4/8 14:14
+     * @Return :
+     **/
+    @PostMapping("/saveApplyExam")
+    public Result<Object> saveApplyExam(@RequestBody ApplyExamRequest applyExamRequest
+            , @LoginUser LoginUserPojo userLogin) {
+        logger.info("开始考试:applyExamRequest{},userLogin{}", JSON.toJSONString(applyExamRequest)
+                , JSON.toJSONString(userLogin));
+        if (null == applyExamRequest || null == userLogin) {
+            return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
+        }
+        //开始保存
+        return new Result<>();
+    }
 
-
-
-
-
-
+    /**
+     * @param id
+     * @Author :
+     * @Description : 查询考试规则
+     * @Date : 2020/4/8 14:32
+     * @Return :
+     **/
+    @GetMapping("/queryExamRule")
+    public Result<ApplyExamResponse> queryExamRule(Long id) {
+        logger.info("查询考试规则:{}", id);
+        if (null == id) {
+            return new Result<ApplyExamResponse>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
+        }
+        ApplyExamResponse examRule = applyExamService.findExamRule(id);
+        logger.info("查询考试规则返回:{}", JSON.toJSONString(examRule));
+        return new Result<ApplyExamResponse>(examRule);
+    }
 
 
 }

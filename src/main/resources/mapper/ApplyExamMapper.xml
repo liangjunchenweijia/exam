@@ -2,15 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.exam.exam_system.mapper.applyExamMapper.ApplyExamMapper">
 
-<!--    <insert id="insertApplyExam">-->
+    <!--    <insert id="insertApplyExam">-->
 
-<!--    </insert>-->
+    <!--    </insert>-->
     <select id="selectStuExamAll" resultType="com.exam.exam_system.pojo.StuExamPojo">
         SELECT a.id
-            ,a.start_time startTime
-            ,a.end_time endTime
-            ,c.subject_name subjectName
-            ,d.exam_name examName
+        ,a.start_time startTime
+        ,a.end_time endTime
+        ,c.subject_name subjectName
+        ,d.exam_name examName
         FROM exam_exam a
         LEFT JOIN exam_testpaper_name b ON a.exam_testpaper_id = b.id
         LEFT JOIN exam_subject c ON b.subject_id = c.id
@@ -37,7 +37,7 @@
         </if>
     </select>
     <select id="selectStuExamAllCount" resultType="java.lang.Integer">
-         SELECT COUNT(1)
+        SELECT COUNT(1)
         FROM exam_exam a
         LEFT JOIN exam_testpaper_name b ON a.exam_testpaper_id = b.id
         LEFT JOIN exam_subject c ON b.subject_id = c.id
@@ -62,5 +62,15 @@
                 and NOW() <![CDATA[ < ]]> a.start_time and NOW() <![CDATA[ < ]]> a.end_time
             </if>
         </if>
+    </select>
+    <select id="selectExamRule" resultType="com.exam.exam_system.pojo.response.ApplyExamResponse">
+        select
+            start_time startTime,
+            end_time endTime,
+            exam_rule examRule,
+            exam_testpaper_id examTestPaperId
+        from
+            exam_exam
+        where id = #{id}
     </select>
 </mapper>

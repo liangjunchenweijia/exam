@@ -2,6 +2,7 @@ package com.exam.exam_system.mapper.applyExamMapper;
 
 import com.exam.exam_system.pojo.StuExamPojo;
 import com.exam.exam_system.pojo.request.ApplyExamRequest;
+import com.exam.exam_system.pojo.response.ApplyExamResponse;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -40,4 +41,12 @@ public interface ApplyExamMapper {
      **/
     int selectStuExamAllCount(@Param("request") ApplyExamRequest request);
 
+    /**
+     * @param id
+     * @Author :
+     * @Description : 查询考试规则
+     * @Date : 2020/4/8 14:35
+     * @Return :
+     **/
+    ApplyExamResponse selectExamRule(@Param("id") Long id);
 }
