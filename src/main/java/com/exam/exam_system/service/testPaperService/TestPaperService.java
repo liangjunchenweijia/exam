@@ -87,6 +87,8 @@ public class TestPaperService {
             } else {
                 throw new TestPaperException(ErrorMsgEnum.SAVE_ERROR);
             }
+        } else {
+            insertLine = testPaperMapper.insertTestPaperContent(examTestPaperContentRequest);
         }
         return insertLine;
     }
