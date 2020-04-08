@@ -49,7 +49,11 @@ public class ExamController extends BaseController {
         if (null == examRequest) {
             return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
-        examService.addExam(examRequest);
+        try {
+            examService.addExam(examRequest);
+        } catch (ExamException e) {
+            return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
+        }
         return new Result<Object>();
     }
 

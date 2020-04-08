@@ -48,6 +48,12 @@ public class ExamService {
      * @Return :
      **/
     public int addExam(ExamRequest examRequest) {
+        Long examTypeId = examRequest.getExamTypeId();
+        Long examTestPaperId = examRequest.getExamTestPaperId();
+        int count = examMapper.selectExamCount(examTypeId, examTestPaperId);
+        if (1 <= count) {
+            throw new ExamException(ErrorMsgEnum.EXAM_ALREADY_EXISTED);
+        }
         examRequest.setStatus(1);
         return examMapper.insertExam(examRequest);
     }
@@ -61,7 +67,7 @@ public class ExamService {
      **/
     public int batchDelExamById(List<Long> ids) {
         int count = examMapper.selectApplyExamCount(ids);
-        if(1 <= count){
+        if (1 <= count) {
             throw new ExamException(ErrorMsgEnum.LOGIN_AGAIN);
         }
         return examMapper.batchDelExamById(ids);

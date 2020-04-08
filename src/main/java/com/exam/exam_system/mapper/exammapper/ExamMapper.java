@@ -70,4 +70,6 @@ public interface ExamMapper {
      * @Return :
      **/
     int selectApplyExamCount(@Param("ids") List<Long> ids);
+
+    int selectExamCount(@Param("examTypeId") Long examTypeId, @Param("examTestPaperId") Long examTestPaperId);
 }

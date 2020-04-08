@@ -84,4 +84,11 @@
             #{ids}
         </foreach>
     </select>
+    <select id="selectExamCount" resultType="java.lang.Integer">
+      SELECT Count(1)
+        FROM exam_exam
+        WHERE exam_type_id = #{examTypeId}
+            AND exam_testpaper_id = #{examTestPaperId}
+            AND STATUS = 1
+    </select>
 </mapper>

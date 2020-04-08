@@ -16,6 +16,8 @@
         LEFT JOIN exam_subject c ON b.subject_id = c.id
         LEFT JOIN exam_type d ON d.id = a.exam_type_id
         WHERE a.status = 1
+        AND NOW() <![CDATA[ >=]]> a.start_time
+        AND NOW() <![CDATA[ <=]]> a.end_time
         <if test="request.subjectName != null and request.subjectName != ''">
             and c.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
         </if>
@@ -41,6 +43,8 @@
         LEFT JOIN exam_subject c ON b.subject_id = c.id
         LEFT JOIN exam_type d ON d.id = a.exam_type_id
         WHERE a.status = 1
+        AND NOW() <![CDATA[ >=]]> a.start_time
+        AND NOW() <![CDATA[ <=]]> a.end_time
         <if test="request.subjectName != null and request.subjectName != ''">
             and c.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
         </if>
