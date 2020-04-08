@@ -7,6 +7,7 @@ import com.exam.exam_system.common.Result;
 import com.exam.exam_system.common.config.annotation.LoginUser;
 import com.exam.exam_system.common.enums.ErrorMsgEnum;
 import com.exam.exam_system.controller.BaseController;
+import com.exam.exam_system.exception.TestPaperException;
 import com.exam.exam_system.pojo.LoginUserPojo;
 import com.exam.exam_system.pojo.StuExamPojo;
 import com.exam.exam_system.pojo.request.ApplyExamRequest;
@@ -78,10 +79,16 @@ public class ApplyExamController extends BaseController {
     @GetMapping("/queryExamRule")
     public Result<ApplyExamResponse> queryExamRule(Long id) {
         logger.info("查询考试规则:{}", id);
+        ApplyExamResponse examRule = null;
         if (null == id) {
-            return new Result<ApplyExamResponse>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
+            return new Result<ApplyExamResponse>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode()
+                    , ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
-        ApplyExamResponse examRule = applyExamService.findExamRule(id);
+        try {
+            examRule = applyExamService.findExamRule(id);
+        } catch (TestPaperException e) {
+            return new Result<ApplyExamResponse>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
+        }
         logger.info("查询考试规则返回:{}", JSON.toJSONString(examRule));
         return new Result<ApplyExamResponse>(examRule);
     }

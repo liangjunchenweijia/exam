@@ -54,7 +54,11 @@ public enum ErrorMsgEnum {
 
     TESTPARPER_ALREADY_ISSUEI("000019", "试卷已发布并且正在考试中"),
 
-    EXAM_ALREADY_EXISTED("000020","考试已存在")
+    EXAM_ALREADY_EXISTED("000020", "考试已存在"),
+
+    EXAM_HAVE_NOT_STARTED("000021", "该场考试未开始"),
+
+    EXAM_FINISHED("000022","该场考试已结束")
     ;
     /**
      * 错误编码为key的所有错误枚举对象的map集合

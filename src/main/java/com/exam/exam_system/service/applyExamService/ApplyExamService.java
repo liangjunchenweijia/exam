@@ -2,7 +2,10 @@ package com.exam.exam_system.service.applyExamService;
 
 import com.exam.exam_system.common.PageRequest;
 import com.exam.exam_system.common.PageResult;
+import com.exam.exam_system.common.enums.ErrorMsgEnum;
+import com.exam.exam_system.exception.TestPaperException;
 import com.exam.exam_system.mapper.applyExamMapper.ApplyExamMapper;
+import com.exam.exam_system.mapper.timemapper.TimeMapper;
 import com.exam.exam_system.pojo.StuExamPojo;
 import com.exam.exam_system.pojo.request.ApplyExamRequest;
 import com.exam.exam_system.pojo.response.ApplyExamResponse;
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -24,9 +28,12 @@ import java.util.List;
 public class ApplyExamService {
     private ApplyExamMapper applyExamMapper;
 
+    private TimeMapper timeMapper;
+
     @Autowired
-    public ApplyExamService(ApplyExamMapper applyExamMapper) {
+    public ApplyExamService(ApplyExamMapper applyExamMapper, TimeMapper timeMapper) {
         this.applyExamMapper = applyExamMapper;
+        this.timeMapper = timeMapper;
     }
 
     /**
@@ -67,6 +74,20 @@ public class ApplyExamService {
         if (null != applyExamResponse) {
             Date startTime = applyExamResponse.getStartTime();
             Date endTime = applyExamResponse.getEndTime();
+            Calendar nowDate = Calendar.getInstance();
+            nowDate.setTime(timeMapper.getTime());
+            Calendar startDate = Calendar.getInstance();
+            startDate.setTime(startTime);
+            Calendar endDate = Calendar.getInstance();
+            endDate.setTime(endTime);
+            if (nowDate.compareTo(startDate) == -1) {
+                throw new TestPaperException(ErrorMsgEnum.EXAM_HAVE_NOT_STARTED);
+            }
+
+            if (nowDate.compareTo(endDate) == 1) {
+                throw new TestPaperException(ErrorMsgEnum.EXAM_FINISHED);
+            }
+
             long start = startTime.getTime();
             long end = endTime.getTime();
             String time = String.valueOf((end - start) / (1000 * 60));
