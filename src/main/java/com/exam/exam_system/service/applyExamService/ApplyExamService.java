@@ -34,10 +34,10 @@ public class ApplyExamService {
      * @Date : 2020/4/7 9:29
      * @Return :
      **/
-    public int addApplyExam(ApplyExamRequest applyExamRequest) {
-        applyExamMapper.insertApplyExam(applyExamRequest);
-        return 0;
-    }
+//    public int addApplyExam(ApplyExamRequest applyExamRequest) {
+//        applyExamMapper.insertApplyExam(applyExamRequest);
+//        return 0;
+//    }
 
     /**
      * @param applyExamRequest

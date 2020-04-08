@@ -50,9 +50,9 @@ public enum ErrorMsgEnum {
 
     TESTPAPER_ALREADY_APPLY("000017", "选中的试卷,已有学生报名,请重新选择"),
 
-    EXAM_UNDERWAY("000018","该试卷正在考试中")
+    EXAM_UNDERWAY("000018", "该试卷正在考试中"),
 
-    ;
+    TESTPARPER_ALREADY_ISSUEI("000019", "试卷已发布并且正在考试中");
     /**
      * 错误编码为key的所有错误枚举对象的map集合
      */

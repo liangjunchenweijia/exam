@@ -124,4 +124,9 @@ public interface TestPaperMapper {
     int batchDelTestPaperContent(@Param("ids") List<Long> ids);
 
     int selectTestPaperCount(@Param("testPaperNameId") Long testPaperNameId);
+
+    int selectTestPaperCounts(@Param("testPaperNameId") List<Long> testPaperNameId);
+
+    int selectExamCount(@Param("testPaperNameId")List<Long> testPaperNameId);
+
 }

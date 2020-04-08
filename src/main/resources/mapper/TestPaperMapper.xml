@@ -174,5 +174,33 @@
         GROUP BY a.testpaper_name_id
         ) a
     </select>
+    <select id="selectExamCount" resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        FROM
+        exam_exam
+        WHERE
+        exam_testpaper_id in
+        <foreach collection="testPaperNameId" item="testPaperNameId" open="(" close=")" separator=",">
+            #{testPaperNameId}
+        </foreach>
+        AND NOW() <![CDATA[ >= ]]> start_time
+        AND NOW() <![CDATA[ <= ]]> end_time
+    </select>
+    <select id="selectTestPaperCounts" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM (
+        SELECT count(1)
+        FROM exam_testpaper_content a
+        INNER JOIN exam_exam b ON a.testpaper_name_id = b.exam_testpaper_id
+        WHERE now() <![CDATA[ >= ]]> b.start_time
+        AND now() <![CDATA[ <= ]]> b.end_time
+        and a.testpaper_name_id in
+        <foreach collection="testPaperNameId" item="testPaperNameId" open="(" close=")" separator=",">
+            #{testPaperNameId}
+        </foreach>
+        GROUP BY a.testpaper_name_id
+        ) a
+    </select>
 
 </mapper>

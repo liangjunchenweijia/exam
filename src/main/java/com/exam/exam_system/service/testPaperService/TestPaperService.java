@@ -3,7 +3,6 @@ package com.exam.exam_system.service.testPaperService;
 import com.exam.exam_system.common.PageRequest;
 import com.exam.exam_system.common.PageResult;
 import com.exam.exam_system.common.enums.ErrorMsgEnum;
-import com.exam.exam_system.exception.ExamException;
 import com.exam.exam_system.exception.TestPaperException;
 import com.exam.exam_system.mapper.testPaperMapper.TestPaperMapper;
 import com.exam.exam_system.mapper.timemapper.TimeMapper;
@@ -73,9 +72,11 @@ public class TestPaperService {
      **/
     public int addTestPaperContent(List<ExamTestPaperContentRequest> examTestPaperContentRequest) {
         Long testPaperNameId = examTestPaperContentRequest.get(0).getTestPaperNameId();
-        int count = testPaperMapper.selectTestPaperCount(testPaperNameId);
+        List<Long> id = new ArrayList<Long>(1);
+        id.add(testPaperNameId);
+        int count = testPaperMapper.selectExamCount(id);
         if (1 <= count) {
-            throw new TestPaperException(ErrorMsgEnum.EXAM_UNDERWAY);
+            throw new TestPaperException(ErrorMsgEnum.TESTPARPER_ALREADY_ISSUEI);
         }
         int delLine = 0;
         int insertLine = 0;
@@ -114,9 +115,9 @@ public class TestPaperService {
     public int updateTestPaperNameById(ExamTestPaperNameRequest examTestPaperNameRequest) {
         List<Long> ids = new ArrayList<Long>(1);
         ids.add(examTestPaperNameRequest.getId());
-        int count = testPaperMapper.selectTestPaperExamCount(ids);
-        if (1 <= count) {
-            throw new ExamException(ErrorMsgEnum.TESTPAPER_ALREADY_APPLY);
+        int count = testPaperMapper.selectExamCount(ids);
+        if (1 < count) {
+            throw new TestPaperException(ErrorMsgEnum.TESTPARPER_ALREADY_ISSUEI);
         }
         examTestPaperNameRequest.setModifyTime(timeMapper.getTime());
         return testPaperMapper.updateTestPaperNameById(examTestPaperNameRequest);
@@ -136,9 +137,14 @@ public class TestPaperService {
             examTestPaperContentRequest.setModifyTime(time);
             ids.add(examTestPaperContentRequest.getId());
         }
-        int count = testPaperMapper.selectTestPaperContentExamCount(ids);
+        int count = testPaperMapper.selectTestPaperCounts(ids);
         if (1 <= count) {
-            throw new ExamException(ErrorMsgEnum.TESTPAPER_ALREADY_APPLY);
+            throw new TestPaperException(ErrorMsgEnum.EXAM_UNDERWAY);
+        }
+
+        int count1 = testPaperMapper.selectExamCount(ids);
+        if (1 < count1) {
+            throw new TestPaperException(ErrorMsgEnum.TESTPARPER_ALREADY_ISSUEI);
         }
         return testPaperMapper.updateTestPaperContentById(testPaperContentRequest);
     }
@@ -151,9 +157,9 @@ public class TestPaperService {
      * @Return :
      **/
     public int batchDelTestPaperNameById(List<Long> ids) {
-        int count = testPaperMapper.selectTestPaperContentExamCount(ids);
-        if (1 <= count) {
-            throw new ExamException(ErrorMsgEnum.TESTPAPER_ALREADY_APPLY);
+        int count = testPaperMapper.selectExamCount(ids);
+        if (1 < count) {
+            throw new TestPaperException(ErrorMsgEnum.TESTPARPER_ALREADY_ISSUEI);
         }
         return testPaperMapper.batchDelTestPaperNameById(ids);
     }

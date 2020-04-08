@@ -20,7 +20,7 @@ public interface ApplyExamMapper {
      * @Date : 2020/4/7 9:32
      * @Return : 返回 影响行数
      **/
-    int insertApplyExam(@Param("request") ApplyExamRequest applyExamRequest);
+//    int insertApplyExam(@Param("request") ApplyExamRequest applyExamRequest);
 
     /**
      * @param applyExamRequest

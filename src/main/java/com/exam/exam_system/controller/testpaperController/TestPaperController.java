@@ -6,7 +6,6 @@ import com.exam.exam_system.common.PageResult;
 import com.exam.exam_system.common.Result;
 import com.exam.exam_system.common.enums.ErrorMsgEnum;
 import com.exam.exam_system.controller.BaseController;
-import com.exam.exam_system.exception.ExamException;
 import com.exam.exam_system.exception.TestPaperException;
 import com.exam.exam_system.pojo.request.ExamTestPaperNameRequest;
 import com.exam.exam_system.pojo.request.ExamTestPaperRequest;
@@ -121,7 +120,7 @@ public class TestPaperController extends BaseController {
         logger.info("修改试卷名称:{}", JSON.toJSONString(examTestPaperNameRequest));
         try {
             testPaperService.updateTestPaperNameById(examTestPaperNameRequest);
-        } catch (ExamException e) {
+        } catch (TestPaperException e) {
             return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
         }
         return new Result<Object>();
@@ -142,7 +141,7 @@ public class TestPaperController extends BaseController {
         }
         try {
             testPaperService.updateTestPaperContentById(examTestPaperRequest.getExamTestPaperContentRequests());
-        } catch (ExamException e) {
+        } catch (TestPaperException e) {
             return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
         }
         return new Result<Object>();
@@ -163,7 +162,7 @@ public class TestPaperController extends BaseController {
         }
         try {
             testPaperService.batchDelTestPaperNameById(examTestPaperRequest.getIds());
-        } catch (ExamException e) {
+        } catch (TestPaperException e) {
             return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
         }
         return new Result<Object>();
