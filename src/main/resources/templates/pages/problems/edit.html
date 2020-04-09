@@ -36,7 +36,7 @@
 						</select>
 					</div>
 				</div>
-				<input id="dataId" name="id" type="hidden" value="2">
+				<input id="dataId" name="id" type="hidden" value="">
 				<input name="status" type="hidden" value="">
 				<div class="layui-form-item">
 					<label class="layui-form-label"> </label>
@@ -63,19 +63,19 @@
 				});
 				function frameVal(){
 					var dataId = $('input[name="id"]').val();
-					var index = parent.layer.getFrameIndex(window.name);
 					parent.layui.jquery("#memberList tr").each(function(){
 						if($(this).attr('data-id')==dataId){
 							var tdArr=$(this).children('td');
+							var tdSubjectId=$(this).attr('data-subjectId');
 							var testPaperName = tdArr.eq(2).text(); //姓名
 							$('input[name="testPaperName"]').val(testPaperName);
 							form.render();
+							// 查询所有课程
+							getAll(tdSubjectId);
 						}
 					});
-					// 查询所有课程
-					getAll();
 				}
-				function getAll(){
+				function getAll(val){
 					$.ajax({
 						url: '/subject/querySubjectAll',
 						data: JSON.stringify({
@@ -89,17 +89,23 @@
 						contentType:'application/json;charset=utf-8',
 						success:function (res) {
 							if(res.success){
+								var select = '';
 								var html1 = '<dd lay-value="" class="layui-select-tips layui-this"></dd>';
 								var html2 = '<option value="" ></option>';
 								if(res.obj.length>0){
 									res.obj.forEach(item =>{
+										if(val == item.id){
+											select = 'dd[lay-value=' + item.id + ']';
+										}
 										html1 += '<dd lay-value="' + item.id + '">' + item.subjectName + '</dd>';
-									html2 += '<option value="' +  item.id + '">' + item.subjectName + '</option>';
-								})
+										html2 += '<option value="' +  item.id + '">' + item.subjectName + '</option>';
+									})
 								}
 								$(".objType").next().children().eq(1).html(html1);
 								$(".objType").html(html2);
 								form.render();
+								$('.objType').siblings("div.layui-form-select").find('dl').find(select).click();
+								form.render('select');// 再次渲染select
 								// 分页
 							}else{
 								layer.msg(res.errorMsg,{
@@ -129,7 +135,9 @@
 									parent.layer.close(index);
 								});
 							}else{
-								layer.msg(res.errorMsg);
+								layer.msg(res.errorMsg,{
+									time: 1000
+								});
 							}
 						}
 					})

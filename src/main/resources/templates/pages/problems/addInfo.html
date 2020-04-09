@@ -168,7 +168,7 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"></label>
-                    <input id="dataId" name="testPaperNameId" type="hidden" value="2">
+                    <input id="dataId" name="testPaperNameId" type="hidden" value="4">
                     <button class="layui-btn layui-btn-normal" lay-filter="addExam" lay-submit="">+继续添加</button>
                     <button class="layui-btn saveTest" lay-filter="add" lay-submit="" style="margin-left: 20px;">保存试卷</button>
                 </div>
@@ -212,6 +212,14 @@
                                 var oThml = '';
                                 if(res.obj[0].examTestPaperContentVOS.length>0){
                                     res.obj[0].examTestPaperContentVOS.map((item,index)=>{
+                                        var title = item.title || '',
+                                            optionA = item.optionA || '',
+                                            optionB = item.optionB || '',
+                                            optionC = item.optionC || '',
+                                            optionD = item.optionD || '',
+                                            type = item.type || '1',
+                                            answer = item.answer || 'A',
+                                            grade = item.grade || '';
                                         oThml += '<div class="part">'+
                                                     '<fieldset class="layui-elem-field layui-field-title">'+
                                                         '<legend style="font-weight: bold;">第<span class="orderNumber">'+Number(index+1)+'</span>题</legend>'+
@@ -222,7 +230,7 @@
                                                             '<span class="we-red">*</span>题目名称'+
                                                         '</label>'+
                                                         '<div class="layui-input-inline">'+
-                                                            '<textarea placeholder="请输入题目" lay-verify="required" class="layui-textarea">'+item.title+'</textarea>'+
+                                                            '<textarea placeholder="请输入题目" lay-verify="required" class="layui-textarea">'+title+'</textarea>'+
                                                         '</div>'+
                                                     '</div>'+
                                                     '<div class="layui-form-item">'+
@@ -237,19 +245,19 @@
                                                                     '<div class="layui-tab-item layui-show">'+
                                                                         '<div class="list">'+
                                                                             '<input type="radio" name="objRadio'+index+'" value="A" title="A" checked="">'+
-                                                                            '<input type="text" value="'+item.optionA+'" lay-verify="required" name="testPaperName" autocomplete="off" class="layui-input">'+
+                                                                            '<input type="text" value="'+optionA+'" lay-verify="required" name="testPaperName" autocomplete="off" class="layui-input">'+
                                                                         '</div>'+
                                                                          '<div class="list">'+
                                                                             '<input type="radio" name="objRadio'+index+'" value="B" title="B">'+
-                                                                            '<input type="text" value="'+item.optionB+'" lay-verify="required" name="testPaperName" autocomplete="off" class="layui-input">'+
+                                                                            '<input type="text" value="'+optionB+'" lay-verify="required" name="testPaperName" autocomplete="off" class="layui-input">'+
                                                                         '</div>'+
                                                                         '<div class="list">'+
                                                                             '<input type="radio" name="objRadio'+index+'" value="C" title="C">'+
-                                                                            '<input type="text"  value="'+item.optionC+'" name="testPaperName" autocomplete="off" class="layui-input">'+
+                                                                            '<input type="text"  value="'+optionC+'" name="testPaperName" autocomplete="off" class="layui-input">'+
                                                                         '</div>'+
                                                                         '<div class="list">'+
                                                                             '<input type="radio" name="objRadio'+index+'" value="D" title="D">'+
-                                                                            '<input type="text" value="'+item.optionD+'" name="testPaperName" autocomplete="off" class="layui-input">'+
+                                                                            '<input type="text" value="'+optionD+'" name="testPaperName" autocomplete="off" class="layui-input">'+
                                                                         '</div>'+
                                                                     '</div>'+
                                                                     '<div class="layui-tab-item">'+
@@ -268,7 +276,7 @@
                                                         '<label class="layui-form-label">【正确答案】</label>'+
                                                         '<div class="layui-input-inline">'+
                                                             '<label class="layui-form-label" style="text-align: left">'+
-                                                                '<span class="answer">'+item.answer+'</span>'+
+                                                                '<span class="answer">'+answer+'</span>'+
                                                             '</label>'+
                                                         '</div>'+
                                                     '</div>'+
@@ -277,7 +285,7 @@
                                                             '<span class="we-red">*</span>【分数】'+
                                                         '</label>'+
                                                         '<div class="layui-input-inline" style="width: 80px;">'+
-                                                            '<input type="text" value="'+item.grade+'" name="fraction" lay-verify="number" maxlength="3" autocomplete="off" class="layui-input" style="text-align: right;padding-right: 30px;">'+
+                                                            '<input type="text" value="'+grade+'" name="fraction" lay-verify="number" maxlength="3" autocomplete="off" class="layui-input" style="text-align: right;padding-right: 30px;">'+
                                                             '<span class="fraction">分</span>'+
                                                         '</div>'+
                                                     '</div>'+

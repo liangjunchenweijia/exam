@@ -16,13 +16,19 @@
 		},{
 			"id": 2,
 			"name": "考试中心",
-			"icon": "&#xe705;",
-			"url": "./pages/member/userInfo.html"
+			"icon": "&#xe723;",
+			"url": "",
+			"children": [{
+				"id": 21,
+				"name": "考试列表",
+				"icon": "",
+				"url": "./pages/problems/testList.html"
+			}]
 		},{
 			"id": 3,
 			"name": "成绩中心",
 			"icon": "&#xe723;",
-			"url": "./pages/member/list.html"
+			"url": "./pages/member/userList.html"
 		}
 	]
 }

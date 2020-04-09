@@ -80,6 +80,7 @@
                             if(res.success){
                                 localStorage.setItem('userType', res.obj.userType);
                                 localStorage.setItem('userName', res.obj.userName);
+                                localStorage.setItem('userId', res.obj.id);
                                 location.href="index.html?"
                             }else{
                                 layer.msg(res.errorMsg,{

@@ -13,7 +13,7 @@
 				"url": "./pages/member/adminList.html"
 			},{
 				"id": 12,
-				"name": "考生列表",
+				"name": "学生列表",
 				"icon": "",
 				"url": "./pages/member/userList.html"
 			}]
@@ -39,6 +39,18 @@
 				"name": "题库列表",
 				"icon": "",
 				"url": "./pages/problems/list.html"
+			}]
+		},
+		{
+			"id": 4,
+			"name": "成绩管理",
+			"icon": "&#xe663;",
+			"url": "",
+			"children": [{
+				"id": 41,
+				"name": "成绩列表",
+				"icon": "",
+				"url": "./pages/grade/list.html"
 			}]
 		}
 	]
