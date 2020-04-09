@@ -58,8 +58,9 @@ public enum ErrorMsgEnum {
 
     EXAM_HAVE_NOT_STARTED("000021", "该场考试未开始"),
 
-    EXAM_FINISHED("000022","该场考试已结束")
-    ;
+    EXAM_FINISHED("000022", "该场考试已结束"),
+
+    ALREADY_GO_IN_FOR_EXAM("000023", "您已参加过该场考试");
     /**
      * 错误编码为key的所有错误枚举对象的map集合
      */

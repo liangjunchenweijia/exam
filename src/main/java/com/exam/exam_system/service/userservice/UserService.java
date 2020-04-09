@@ -7,7 +7,9 @@ import com.exam.exam_system.common.enums.ErrorMsgEnum;
 import com.exam.exam_system.exception.UserException;
 import com.exam.exam_system.mapper.timemapper.TimeMapper;
 import com.exam.exam_system.mapper.usermapper.UserMapper;
+import com.exam.exam_system.pojo.AchievementPojo;
 import com.exam.exam_system.pojo.LoginUserPojo;
+import com.exam.exam_system.pojo.request.AchievementRequest;
 import com.exam.exam_system.pojo.request.UserRequest;
 import com.exam.exam_system.pojo.response.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,5 +156,18 @@ public class UserService {
         return userMapper.batchDelStuByIds(userIds);
     }
 
-
+    /**
+     * @param achievementRequest
+     * @Author :
+     * @Description : 查询考试成绩
+     * @Date : 2020/4/9 13:40
+     * @Return :
+     **/
+    public PageResult<List<AchievementPojo>> findAchievement(PageRequest<AchievementRequest> achievementRequest) {
+        List<AchievementPojo> achievementPojos = userMapper.selectAchievement(achievementRequest.getObj(), achievementRequest.getOffset()
+                , achievementRequest.getLimit());
+        int count = userMapper.selectAchievementCount(achievementRequest.getObj());
+        return new PageResult<List<AchievementPojo>>(achievementRequest.getPageNo()
+                , achievementRequest.getPageSize(), count, achievementPojos);
+    }
 }

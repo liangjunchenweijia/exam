@@ -16,6 +16,8 @@ public class StuExamRequest {
 
     private Long examId;
 
+    private Long testPaperId;
+
     private Integer status;
 
     private Date createTime;
@@ -27,6 +29,8 @@ public class StuExamRequest {
     private String answer;
 
     private Integer achievement;
+
+    private Long subjectId;
 
 
     public Long getId() {
@@ -51,6 +55,14 @@ public class StuExamRequest {
 
     public void setExamId(Long examId) {
         this.examId = examId;
+    }
+
+    public Long getTestPaperId() {
+        return testPaperId;
+    }
+
+    public void setTestPaperId(Long testPaperId) {
+        this.testPaperId = testPaperId;
     }
 
     public Integer getStatus() {
@@ -99,5 +111,13 @@ public class StuExamRequest {
 
     public void setAchievement(Integer achievement) {
         this.achievement = achievement;
+    }
+
+    public Long getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
     }
 }

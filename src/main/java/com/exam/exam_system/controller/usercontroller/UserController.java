@@ -10,7 +10,9 @@ import com.exam.exam_system.common.constant.UserConstant;
 import com.exam.exam_system.common.enums.ErrorMsgEnum;
 import com.exam.exam_system.controller.BaseController;
 import com.exam.exam_system.exception.UserException;
+import com.exam.exam_system.pojo.AchievementPojo;
 import com.exam.exam_system.pojo.LoginUserPojo;
+import com.exam.exam_system.pojo.request.AchievementRequest;
 import com.exam.exam_system.pojo.request.UserIdsRequest;
 import com.exam.exam_system.pojo.request.UserRequest;
 import com.exam.exam_system.pojo.response.UserVO;
@@ -212,5 +214,25 @@ public class UserController extends BaseController {
         return new Result<Object>();
     }
 
+    /**
+     * @param achievementRequest
+     * @param userLogin
+     * @Author :
+     * @Description : 查询考试成绩
+     * @Date : 2020/4/9 13:36
+     * @Return :
+     **/
+    @PostMapping("/queryAchievement")
+    public PageResult<List<AchievementPojo>> queryAchievement(@RequestBody PageRequest<AchievementRequest> achievementRequest
+            , @LoginUser LoginUserPojo userLogin) {
+        AchievementRequest obj = achievementRequest.getObj();
+        obj.setUserId(userLogin.getId());
+        logger.info("查询考试成绩:achievementRequest{},userLogin{}", JSON.toJSONString(achievementRequest)
+                , JSON.toJSONString(userLogin));
+        PageResult<List<AchievementPojo>> achievement = userService.findAchievement(achievementRequest);
+        logger.info("查询考试成绩返回:{}", JSON.toJSONString(achievement));
+        return new PageResult<>(achievement.getPageNo(), achievement.getPageSize()
+                , achievement.getTotal(), achievement.getObj());
+    }
 
 }

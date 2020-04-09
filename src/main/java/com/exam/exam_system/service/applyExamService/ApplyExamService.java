@@ -7,6 +7,7 @@ import com.exam.exam_system.exception.ExamException;
 import com.exam.exam_system.exception.TestPaperException;
 import com.exam.exam_system.mapper.applyExamMapper.ApplyExamMapper;
 import com.exam.exam_system.mapper.timemapper.TimeMapper;
+import com.exam.exam_system.pojo.AchievementPojo;
 import com.exam.exam_system.pojo.ApplyExamPojo;
 import com.exam.exam_system.pojo.LoginUserPojo;
 import com.exam.exam_system.pojo.StuExamPojo;
@@ -113,9 +114,16 @@ public class ApplyExamService {
      **/
     public int addApplyExam(ApplyExamPojo applyExamPojo, LoginUserPojo userLogin) {
         List<StuExamRequest> stuExamRequests = applyExamPojo.getStuExamRequests();
+        Long testPaperId = stuExamRequests.get(0).getTestPaperId();
+        Long examId = stuExamRequests.get(0).getExamId();
+        int count = applyExamMapper.selectApplyExamCount(testPaperId, examId, userLogin.getId());
+        if(1 <= count){
+            throw new ExamException(ErrorMsgEnum.ALREADY_GO_IN_FOR_EXAM);
+        }
+
         Date time = timeMapper.getTime();
         Long topicId = null;
-        Long examId = null;
+        Long subjectId = null;
         List<Long> topicIds = new ArrayList<Long>(stuExamRequests.size());
         for (StuExamRequest stuExamRequest : stuExamRequests) {
             stuExamRequest.setUserId(userLogin.getId());
@@ -123,7 +131,7 @@ public class ApplyExamService {
             stuExamRequest.setStatus(1);
             topicId = stuExamRequest.getTopicId();
             topicIds.add(topicId);
-            examId = stuExamRequest.getExamId();
+            subjectId = stuExamRequest.getSubjectId();
         }
         int line = applyExamMapper.insert(stuExamRequests);
         if (line != stuExamRequests.size()) {
@@ -146,6 +154,7 @@ public class ApplyExamService {
             achievementRequest.setExamId(examId);
             achievementRequest.setCreateTime(time);
             achievementRequest.setUserId(userLogin.getId());
+            achievementRequest.setSubjectId(subjectId);
         }
         return saveAchievement(achievementRequest);
     }
@@ -159,5 +168,21 @@ public class ApplyExamService {
      **/
     public int saveAchievement(AchievementRequest achievementRequest) {
         return applyExamMapper.addAchievement(achievementRequest);
+    }
+
+    /**
+     * @param achievementRequest
+     * @Author :
+     * @Description : 学生成绩列表
+     * @Date : 2020/4/9 10:21
+     * @Return :
+     **/
+    public PageResult<List<AchievementPojo>> findAchievementAll(PageRequest<AchievementRequest> achievementRequest) {
+        List<AchievementPojo> achievementPojos = applyExamMapper.selectAchievementAll(achievementRequest.getObj()
+                , achievementRequest.getOffset(), achievementRequest.getLimit());
+        int count = applyExamMapper.selectAchievementAllCount(achievementRequest.getObj());
+        return new PageResult<List<AchievementPojo>>(achievementRequest.getPageNo()
+                , achievementRequest.getPageSize(), count, achievementPojos);
+
     }
 }

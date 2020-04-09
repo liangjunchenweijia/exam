@@ -1,5 +1,6 @@
 package com.exam.exam_system.mapper.applyExamMapper;
 
+import com.exam.exam_system.pojo.AchievementPojo;
 import com.exam.exam_system.pojo.StuExamPojo;
 import com.exam.exam_system.pojo.request.AchievementRequest;
 import com.exam.exam_system.pojo.request.ApplyExamRequest;
@@ -79,4 +80,33 @@ public interface ApplyExamMapper {
      * @Return :
      **/
     int addAchievement(@Param("request") AchievementRequest achievementRequest);
+
+    /**
+     * @param achievementRequest
+     * @Author :
+     * @Description : 查询学生成绩列表
+     * @Date : 2020/4/9 10:22
+     * @Return :
+     **/
+    List<AchievementPojo> selectAchievementAll(@Param("request") AchievementRequest achievementRequest, @Param("offset") int offset, @Param("limit") int limit);
+
+    /**
+     * @param achievementRequest
+     * @Author :
+     * @Description : 查询学生成绩列表总数
+     * @Date : 2020/4/9 11:00
+     * @Return :
+     **/
+    int selectAchievementAllCount(@Param("request") AchievementRequest achievementRequest);
+
+    /**
+     * @param testPaperId
+     * @param examId
+     * @param userId
+     * @Author :
+     * @Description : 查询当前学生考试次数
+     * @Date : 2020/4/9 14:07
+     * @Return :
+     **/
+    int selectApplyExamCount(@Param("testPaperId") Long testPaperId, @Param("examId") Long examId, @Param("userId") Long userId);
 }

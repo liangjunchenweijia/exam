@@ -2,21 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.exam.exam_system.mapper.applyExamMapper.ApplyExamMapper">
     <insert id="insert">
-        insert into exam_apply_exam(user_id,exam_id,status,create_time,topic_id,answer,achievement)
+        insert into exam_apply_exam(user_id,exam_id,status,create_time,topic_id,answer,achievement,subject_id,testpaper_id)
         values
         <foreach collection="stuExamRequest" item="stuExamRequest" separator=",">
             (#{stuExamRequest.userId},#{stuExamRequest.examId},#{stuExamRequest.status},#{stuExamRequest.createTime}
-            ,#{stuExamRequest.topicId},#{stuExamRequest.answer},#{stuExamRequest.achievement})
+            ,#{stuExamRequest.topicId},#{stuExamRequest.answer},#{stuExamRequest.achievement},#{stuExamRequest.subjectId}
+            ,#{stuExamRequest.testPaperId})
         </foreach>
     </insert>
     <insert id="addAchievement">
-        insert into exam_achievement(exam_id,user_id,achievement,create_time)
-        values (#{request.examId},#{request.userId},#{request.achievement},#{request.createTime})
+        insert into exam_achievement(exam_id,user_id,achievement,create_time,subject_id)
+        values (#{request.examId},#{request.userId},#{request.achievement},#{request.createTime},#{request.subjectId})
     </insert>
 
-    <!--    <insert id="insertApplyExam">-->
-
-    <!--    </insert>-->
     <select id="selectStuExamAll" resultType="com.exam.exam_system.pojo.StuExamPojo">
         SELECT a.id
         ,a.start_time startTime
@@ -95,5 +93,45 @@
         <foreach collection="ids" item="ids" open="(" close=")" separator=",">
             #{ids}
         </foreach>
+    </select>
+    <select id="selectAchievementAll" resultType="com.exam.exam_system.pojo.AchievementPojo">
+        SELECT a.id id
+            ,b.name userName
+            ,c.exam_name examName
+            ,d.subject_name subjectName
+            ,a.achievement achievement
+        FROM exam_achievement a
+        LEFT JOIN exam_user b ON a.user_id = b.id
+        LEFT JOIN exam_type c ON a.exam_id = c.id
+        LEFT JOIN exam_subject d ON a.subject_id = d.id
+        <where>
+            <if test="request.name != null and request.name != ''">
+                and b.name LIKE CONCAT('%',#{request.name},'%')
+            </if>
+        </where>
+        order by a.create_time desc
+        LIMIT #{offset},#{limit}
+    </select>
+    <select id="selectAchievementAllCount" resultType="java.lang.Integer">
+         SELECT COUNT(1)
+        FROM exam_achievement a
+        LEFT JOIN exam_user b ON a.user_id = b.id
+        LEFT JOIN exam_type c ON a.exam_id = c.id
+        LEFT JOIN exam_subject d ON a.subject_id = d.id
+        <where>
+            <if test="request.name != null and request.name != ''">
+                and b.name LIKE CONCAT('%',#{request.name},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectApplyExamCount" resultType="java.lang.Integer">
+        select
+            COUNT(1)
+        FROM
+            exam_apply_exam
+        WHERE
+        user_id = #{userId}
+        AND exam_id = #{examId}
+        AND testpaper_id = #{testPaperId}
     </select>
 </mapper>

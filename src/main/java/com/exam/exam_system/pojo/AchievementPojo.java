@@ -1,9 +1,5 @@
 package com.exam.exam_system.pojo;
 
-import com.exam.exam_system.pojo.request.AchievementRequest;
-
-import java.util.List;
-
 /**
  * @Author :
  * @ClassName : achievementPojo
@@ -11,13 +7,53 @@ import java.util.List;
  * @Date : 2020/3/30 9:37
  */
 public class AchievementPojo {
-    private List<AchievementRequest> achievementRequests;
+    private Long id;
 
-    public List<AchievementRequest> getAchievementRequests() {
-        return achievementRequests;
+    private String examName;
+
+    private String subjectName;
+
+    private Double achievement;
+
+    private String userName;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setAchievementRequests(List<AchievementRequest> achievementRequests) {
-        this.achievementRequests = achievementRequests;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getExamName() {
+        return examName;
+    }
+
+    public void setExamName(String examName) {
+        this.examName = examName;
+    }
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
+
+    public Double getAchievement() {
+        return achievement;
+    }
+
+    public void setAchievement(Double achievement) {
+        this.achievement = achievement;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

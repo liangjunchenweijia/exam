@@ -1,6 +1,8 @@
 package com.exam.exam_system.mapper.usermapper;
 
+import com.exam.exam_system.pojo.AchievementPojo;
 import com.exam.exam_system.pojo.LoginUserPojo;
+import com.exam.exam_system.pojo.request.AchievementRequest;
 import com.exam.exam_system.pojo.request.UserRequest;
 import com.exam.exam_system.pojo.response.UserVO;
 import org.apache.ibatis.annotations.Param;
@@ -103,4 +105,25 @@ public interface UserMapper {
      * @Return :
      **/
     UserVO checkUserSno(@Param("userSno") String userSno);
+
+    /**
+     * @param request
+     * @param offset
+     * @param limit
+     * @Author :
+     * @Description : 查询考试成绩
+     * @Date : 2020/4/9 13:41
+     * @Return :
+     **/
+    List<AchievementPojo> selectAchievement(@Param("request") AchievementRequest request, @Param("offset") int offset, @Param("limit") int limit);
+
+    /**
+     * @param request
+     * @Author :
+     * @Description : 查询考试成绩总数
+     * @Date : 2020/4/9 13:45
+     * @Return :
+     **/
+    int selectAchievementCount(@Param("request") AchievementRequest request);
+
 }

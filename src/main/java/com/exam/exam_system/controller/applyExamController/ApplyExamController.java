@@ -9,9 +9,11 @@ import com.exam.exam_system.common.enums.ErrorMsgEnum;
 import com.exam.exam_system.controller.BaseController;
 import com.exam.exam_system.exception.ExamException;
 import com.exam.exam_system.exception.TestPaperException;
+import com.exam.exam_system.pojo.AchievementPojo;
 import com.exam.exam_system.pojo.ApplyExamPojo;
 import com.exam.exam_system.pojo.LoginUserPojo;
 import com.exam.exam_system.pojo.StuExamPojo;
+import com.exam.exam_system.pojo.request.AchievementRequest;
 import com.exam.exam_system.pojo.request.ApplyExamRequest;
 import com.exam.exam_system.pojo.response.ApplyExamResponse;
 import com.exam.exam_system.service.applyExamService.ApplyExamService;
@@ -100,6 +102,22 @@ public class ApplyExamController extends BaseController {
         }
         logger.info("查询考试规则返回:{}", JSON.toJSONString(examRule));
         return new Result<ApplyExamResponse>(examRule);
+    }
+
+    /**
+     * @param
+     * @Author :
+     * @Description : 学生成绩列表
+     * @Date : 2020/4/9 10:18
+     * @Return :
+     **/
+    @PostMapping("/queryAchievementAll")
+    public PageResult<List<AchievementPojo>> queryAchievementAll(@RequestBody PageRequest<AchievementRequest> achievementRequest) {
+        logger.info("学生成绩列表:{}", JSON.toJSONString(achievementRequest));
+        PageResult<List<AchievementPojo>> achievementAll = applyExamService.findAchievementAll(achievementRequest);
+        logger.info("学生成绩列表返回:{}", JSON.toJSONString(achievementAll));
+        return new PageResult<List<AchievementPojo>>(achievementAll.getPageNo(), achievementAll.getPageSize()
+                , achievementAll.getTotal(), achievementAll.getObj());
     }
 
 

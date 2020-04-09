@@ -12,6 +12,8 @@ public class ExamTestPaperVO {
 
     private String testPaperName;
 
+    private Long subjectId;
+
     private List<ExamTestPaperContentVO> examTestPaperContentVOS;
 
     public String getTestPaperName() {
@@ -20,6 +22,14 @@ public class ExamTestPaperVO {
 
     public void setTestPaperName(String testPaperName) {
         this.testPaperName = testPaperName;
+    }
+
+    public Long getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
     }
 
     public List<ExamTestPaperContentVO> getExamTestPaperContentVOS() {
