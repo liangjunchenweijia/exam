@@ -1,7 +1,10 @@
 package com.exam.exam_system.mapper.applyExamMapper;
 
 import com.exam.exam_system.pojo.StuExamPojo;
+import com.exam.exam_system.pojo.request.AchievementRequest;
 import com.exam.exam_system.pojo.request.ApplyExamRequest;
+import com.exam.exam_system.pojo.request.StuExamRequest;
+import com.exam.exam_system.pojo.response.AchievementResponse;
 import com.exam.exam_system.pojo.response.ApplyExamResponse;
 import org.apache.ibatis.annotations.Param;
 
@@ -49,4 +52,31 @@ public interface ApplyExamMapper {
      * @Return :
      **/
     ApplyExamResponse selectExamRule(@Param("id") Long id);
+
+    /**
+     * @param stuExamRequest
+     * @Author :
+     * @Description : 开始考试
+     * @Date : 2020/4/8 16:52
+     * @Return :
+     **/
+    int insert(@Param("stuExamRequest") List<StuExamRequest> stuExamRequest);
+
+    /**
+     * @param topicIds
+     * @Author :
+     * @Description : 查询填选答案和正确答案
+     * @Date : 2020/4/9 9:21
+     * @Return :
+     **/
+    List<AchievementResponse> selectAnswers(@Param("ids") List<Long> topicIds);
+
+    /**
+     * @param achievementRequest
+     * @Author :
+     * @Description : 保存考试信息
+     * @Date : 2020/4/9 9:39
+     * @Return :
+     **/
+    int addAchievement(@Param("request") AchievementRequest achievementRequest);
 }

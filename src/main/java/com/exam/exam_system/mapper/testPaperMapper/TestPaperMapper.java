@@ -60,6 +60,8 @@ public interface TestPaperMapper {
      **/
     List<ExamTestPaperVO> selectTestPaperById(@Param("id") Long id);
 
+    List<ExamTestPaperVO> selectTestPaperInfo(@Param("id") Long id);
+
     /**
      * @param examTestPaperNameRequest
      * @Author :

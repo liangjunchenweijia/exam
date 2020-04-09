@@ -108,6 +108,16 @@ public class TestPaperController extends BaseController {
         return new Result<List<ExamTestPaperVO>>(testPapers);
     }
 
+    @GetMapping("/queryTestPaperInfo")
+    public Result<List<ExamTestPaperVO>> queryTestPaperInfo(Long id) {
+        if (null == id) {
+            return new Result<List<ExamTestPaperVO>>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
+        }
+        List<ExamTestPaperVO> testPapers = testPaperService.findTestPaperBInfo(id);
+        logger.info("查询试卷详情返回:{}", JSON.toJSONString(testPapers));
+        return new Result<List<ExamTestPaperVO>>(testPapers);
+    }
+
     /**
      * @param examTestPaperNameRequest
      * @Author :

@@ -3,16 +3,24 @@ package com.exam.exam_system.service.applyExamService;
 import com.exam.exam_system.common.PageRequest;
 import com.exam.exam_system.common.PageResult;
 import com.exam.exam_system.common.enums.ErrorMsgEnum;
+import com.exam.exam_system.exception.ExamException;
 import com.exam.exam_system.exception.TestPaperException;
 import com.exam.exam_system.mapper.applyExamMapper.ApplyExamMapper;
 import com.exam.exam_system.mapper.timemapper.TimeMapper;
+import com.exam.exam_system.pojo.ApplyExamPojo;
+import com.exam.exam_system.pojo.LoginUserPojo;
 import com.exam.exam_system.pojo.StuExamPojo;
+import com.exam.exam_system.pojo.request.AchievementRequest;
 import com.exam.exam_system.pojo.request.ApplyExamRequest;
+import com.exam.exam_system.pojo.request.StuExamRequest;
+import com.exam.exam_system.pojo.response.AchievementResponse;
 import com.exam.exam_system.pojo.response.ApplyExamResponse;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -94,5 +102,62 @@ public class ApplyExamService {
             applyExamResponse.setMinute(time);
         }
         return applyExamResponse;
+    }
+
+    /**
+     * @param applyExamPojo
+     * @Author :
+     * @Description :开始考试
+     * @Date : 2020/4/8 16:52
+     * @Return :
+     **/
+    public int addApplyExam(ApplyExamPojo applyExamPojo, LoginUserPojo userLogin) {
+        List<StuExamRequest> stuExamRequests = applyExamPojo.getStuExamRequests();
+        Date time = timeMapper.getTime();
+        Long topicId = null;
+        Long examId = null;
+        List<Long> topicIds = new ArrayList<Long>(stuExamRequests.size());
+        for (StuExamRequest stuExamRequest : stuExamRequests) {
+            stuExamRequest.setUserId(userLogin.getId());
+            stuExamRequest.setCreateTime(time);
+            stuExamRequest.setStatus(1);
+            topicId = stuExamRequest.getTopicId();
+            topicIds.add(topicId);
+            examId = stuExamRequest.getExamId();
+        }
+        int line = applyExamMapper.insert(stuExamRequests);
+        if (line != stuExamRequests.size()) {
+            throw new ExamException(ErrorMsgEnum.SAVE_ERROR);
+        }
+
+        //自动打分
+        Integer achievements = 0;
+        AchievementRequest achievementRequest = new AchievementRequest();
+        List<AchievementResponse> achievementResponses = applyExamMapper.selectAnswers(topicIds);
+        if (CollectionUtils.isNotEmpty(achievementResponses)) {
+            for (AchievementResponse achievementResponse : achievementResponses) {
+                if (achievementResponse.getAnswer().equals(achievementResponse.getRightAnswers())) {
+                    Integer achievement = achievementResponse.getAchievement();
+                    achievements = achievements + achievement;
+                }
+            }
+
+            achievementRequest.setAchievement(Double.valueOf(achievements));
+            achievementRequest.setExamId(examId);
+            achievementRequest.setCreateTime(time);
+            achievementRequest.setUserId(userLogin.getId());
+        }
+        return saveAchievement(achievementRequest);
+    }
+
+    /**
+     * @param achievementRequest
+     * @Author :
+     * @Description : 保存成绩
+     * @Date : 2020/4/9 9:38
+     * @Return :
+     **/
+    public int saveAchievement(AchievementRequest achievementRequest) {
+        return applyExamMapper.addAchievement(achievementRequest);
     }
 }

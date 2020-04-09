@@ -202,5 +202,19 @@
         GROUP BY a.testpaper_name_id
         ) a
     </select>
+    <select id="selectTestPaperInfo" resultMap="testPaperMap">
+         SELECT a.id
+            ,a.test_paper_name
+            ,b.title
+            ,b.type
+            ,b.option_a
+            ,b.option_b
+            ,b.option_c
+            ,b.option_d
+            ,b.grade
+        FROM exam_testpaper_name a
+        LEFT JOIN exam_testpaper_content b ON a.id = testpaper_name_id
+        WHERE a.id = #{id}
+    </select>
 
 </mapper>
