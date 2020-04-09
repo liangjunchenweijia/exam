@@ -105,6 +105,10 @@ public class TestPaperService {
         return testPaperMapper.selectTestPaperById(id);
     }
 
+    public List<ExamTestPaperVO> findTestPaperBInfo(Long id) {
+        return testPaperMapper.selectTestPaperInfo(id);
+    }
+
     /**
      * @param examTestPaperNameRequest
      * @Author :

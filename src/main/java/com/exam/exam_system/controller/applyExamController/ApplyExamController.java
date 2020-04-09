@@ -7,12 +7,15 @@ import com.exam.exam_system.common.Result;
 import com.exam.exam_system.common.config.annotation.LoginUser;
 import com.exam.exam_system.common.enums.ErrorMsgEnum;
 import com.exam.exam_system.controller.BaseController;
+import com.exam.exam_system.exception.ExamException;
 import com.exam.exam_system.exception.TestPaperException;
+import com.exam.exam_system.pojo.ApplyExamPojo;
 import com.exam.exam_system.pojo.LoginUserPojo;
 import com.exam.exam_system.pojo.StuExamPojo;
 import com.exam.exam_system.pojo.request.ApplyExamRequest;
 import com.exam.exam_system.pojo.response.ApplyExamResponse;
 import com.exam.exam_system.service.applyExamService.ApplyExamService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,22 +54,27 @@ public class ApplyExamController extends BaseController {
     }
 
     /**
-     * @param applyExamRequest
+     * @param applyExamPojo
+     * @param userLogin
      * @Author :
      * @Description : 开始考试
      * @Date : 2020/4/8 14:14
      * @Return :
      **/
     @PostMapping("/saveApplyExam")
-    public Result<Object> saveApplyExam(@RequestBody ApplyExamRequest applyExamRequest
+    public Result<Object> saveApplyExam(@RequestBody ApplyExamPojo applyExamPojo
             , @LoginUser LoginUserPojo userLogin) {
-        logger.info("开始考试:applyExamRequest{},userLogin{}", JSON.toJSONString(applyExamRequest)
+        logger.info("开始考试:applyExamRequest{},userLogin{}", JSON.toJSONString(applyExamPojo)
                 , JSON.toJSONString(userLogin));
-        if (null == applyExamRequest || null == userLogin) {
+        if (CollectionUtils.isEmpty(applyExamPojo.getStuExamRequests()) || null == userLogin || null == applyExamPojo) {
             return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
         //开始保存
-
+        try {
+            applyExamService.addApplyExam(applyExamPojo, userLogin);
+        } catch (ExamException e) {
+            return new Result<Object>(e.getErrorMsgEnum().getCode(), e.getErrorMsgEnum().getMsg());
+        }
         return new Result<Object>();
     }
 
