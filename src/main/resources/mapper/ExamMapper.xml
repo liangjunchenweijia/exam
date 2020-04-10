@@ -75,20 +75,23 @@
     </select>
     <select id="selectApplyExamCount" resultType="java.lang.Integer">
         select
-            COUNT(1)
+        COUNT(1)
         FROM
-            exam_apply_exam
+        exam_apply_exam
         WHERE status = 1
         and id IN
         <foreach collection="ids" item="ids" open="(" close=")" separator=",">
             #{ids}
         </foreach>
     </select>
+
     <select id="selectExamCount" resultType="java.lang.Integer">
       SELECT Count(1)
         FROM exam_exam
         WHERE exam_type_id = #{examTypeId}
             AND exam_testpaper_id = #{examTestPaperId}
             AND STATUS = 1
+            AND NOW() <![CDATA[ >= ]]> start_time
+            AND NOW() <![CDATA[ <= ]]> end_time
     </select>
 </mapper>
