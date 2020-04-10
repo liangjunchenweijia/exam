@@ -145,7 +145,7 @@ public class ApplyExamService {
         if (CollectionUtils.isNotEmpty(achievementResponses)) {
             for (AchievementResponse achievementResponse : achievementResponses) {
                 if (achievementResponse.getAnswer().equals(achievementResponse.getRightAnswers())) {
-                    Integer achievement = achievementResponse.getAchievement();
+                    Integer achievement = achievementResponse.getGrade();
                     achievements = achievements + achievement;
                 }
             }

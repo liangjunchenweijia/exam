@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.exam.exam_system.mapper.applyExamMapper.ApplyExamMapper">
     <insert id="insert">
-        insert into exam_apply_exam(user_id,exam_id,status,create_time,topic_id,answer,achievement,subject_id,testpaper_id)
+        insert into exam_apply_exam(user_id,exam_id,status,create_time,topic_id,answer,subject_id,testpaper_id)
         values
         <foreach collection="stuExamRequest" item="stuExamRequest" separator=",">
             (#{stuExamRequest.userId},#{stuExamRequest.examId},#{stuExamRequest.status},#{stuExamRequest.createTime}
-            ,#{stuExamRequest.topicId},#{stuExamRequest.answer},#{stuExamRequest.achievement},#{stuExamRequest.subjectId}
+            ,#{stuExamRequest.topicId},#{stuExamRequest.answer},#{stuExamRequest.subjectId}
             ,#{stuExamRequest.testPaperId})
         </foreach>
     </insert>
@@ -84,9 +84,9 @@
         where id = #{id}
     </select>
     <select id="selectAnswers" resultType="com.exam.exam_system.pojo.response.AchievementResponse">
-        SELECT a.achievement achievement
-            ,a.answer answer
+        SELECT a.answer answer
             ,b.answer rightAnswers
+            ,b.grade grade
         FROM exam_apply_exam a
         LEFT JOIN exam_testpaper_content b ON a.topic_id = b.id
         WHERE a.topic_id IN

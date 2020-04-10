@@ -10,6 +10,7 @@ public class AchievementResponse {
     private String answer;
     private String rightAnswers;
     private Integer achievement;
+    private Integer grade;
 
     public String getAnswer() {
         return answer;
@@ -33,5 +34,13 @@ public class AchievementResponse {
 
     public void setAchievement(Integer achievement) {
         this.achievement = achievement;
+    }
+
+    public Integer getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Integer grade) {
+        this.grade = grade;
     }
 }
