@@ -46,7 +46,8 @@ public class TestPaperController extends BaseController {
     public Result<Object> saveTestPaper(@RequestBody ExamTestPaperNameRequest examTestPaperRequest) {
         logger.info("保存试卷:{}", JSON.toJSONString(examTestPaperRequest));
         if (null == examTestPaperRequest) {
-            return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
+            return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode()
+                    , ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
         testPaperService.addTestPaper(examTestPaperRequest);
         return new Result<Object>();
@@ -63,7 +64,8 @@ public class TestPaperController extends BaseController {
     public PageResult<List<ExamTestPaperNameVO>> queryTestPaperNameAll(@RequestBody PageRequest<ExamTestPaperNameRequest> request) {
         PageResult<List<ExamTestPaperNameVO>> testPaperNameAll = testPaperService.findTestPaperNameAll(request);
         logger.info("查询所有试卷名称返回:{}", JSON.toJSONString(testPaperNameAll));
-        return new PageResult<List<ExamTestPaperNameVO>>(testPaperNameAll.getPageNo(), testPaperNameAll.getPageSize(), testPaperNameAll.getTotal(), testPaperNameAll.getObj());
+        return new PageResult<List<ExamTestPaperNameVO>>(testPaperNameAll.getPageNo()
+                , testPaperNameAll.getPageSize(), testPaperNameAll.getTotal(), testPaperNameAll.getObj());
     }
 
     /**
@@ -77,8 +79,10 @@ public class TestPaperController extends BaseController {
     public Result<Object> saveTestPaperContent(@RequestBody ExamTestPaperRequest ExamTestPaperRequest) {
         logger.info("保存试卷内容:{}", JSON.toJSONString(ExamTestPaperRequest));
         int line = 0;
-        if (null == ExamTestPaperRequest || CollectionUtils.isEmpty(ExamTestPaperRequest.getExamTestPaperContentRequests())) {
-            return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
+        if (null == ExamTestPaperRequest
+                || CollectionUtils.isEmpty(ExamTestPaperRequest.getExamTestPaperContentRequests())) {
+            return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode()
+                    , ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
         try {
             line = testPaperService.addTestPaperContent(ExamTestPaperRequest.getExamTestPaperContentRequests());
@@ -101,7 +105,8 @@ public class TestPaperController extends BaseController {
     @GetMapping("/queryTestPaperById")
     public Result<List<ExamTestPaperVO>> queryTestPaperById(Long id) {
         if (null == id) {
-            return new Result<List<ExamTestPaperVO>>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
+            return new Result<List<ExamTestPaperVO>>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode()
+                    , ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
         List<ExamTestPaperVO> testPapers = testPaperService.findTestPaperById(id);
         logger.info("查询试卷详情返回:{}", JSON.toJSONString(testPapers));
@@ -111,7 +116,8 @@ public class TestPaperController extends BaseController {
     @GetMapping("/queryTestPaperInfo")
     public Result<List<ExamTestPaperVO>> queryTestPaperInfo(Long id) {
         if (null == id) {
-            return new Result<List<ExamTestPaperVO>>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
+            return new Result<List<ExamTestPaperVO>>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode()
+                    , ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
         List<ExamTestPaperVO> testPapers = testPaperService.findTestPaperBInfo(id);
         logger.info("查询试卷详情返回:{}", JSON.toJSONString(testPapers));
@@ -146,8 +152,10 @@ public class TestPaperController extends BaseController {
     @PostMapping("/modifyTestPaperContentById")
     public Result<Object> modifyTestPaperContentById(@RequestBody ExamTestPaperRequest examTestPaperRequest) {
         logger.info("批量修改试卷内容:{}", JSON.toJSONString(examTestPaperRequest));
-        if (null == examTestPaperRequest || CollectionUtils.isEmpty(examTestPaperRequest.getExamTestPaperContentRequests())) {
-            return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
+        if (null == examTestPaperRequest
+                || CollectionUtils.isEmpty(examTestPaperRequest.getExamTestPaperContentRequests())) {
+            return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode()
+                    , ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
         try {
             testPaperService.updateTestPaperContentById(examTestPaperRequest.getExamTestPaperContentRequests());
@@ -168,7 +176,8 @@ public class TestPaperController extends BaseController {
     public Result<Object> batchDelTestPaperNameById(@RequestBody ExamTestPaperRequest examTestPaperRequest) {
         logger.info("批量删除试卷名称:{}", JSON.toJSONString(examTestPaperRequest));
         if (null == examTestPaperRequest || CollectionUtils.isEmpty(examTestPaperRequest.getIds())) {
-            return new Result<>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode(), ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
+            return new Result<Object>(ErrorMsgEnum.PARAMETER_EXCEPTION.getCode()
+                    , ErrorMsgEnum.PARAMETER_EXCEPTION.getMsg());
         }
         try {
             testPaperService.batchDelTestPaperNameById(examTestPaperRequest.getIds());
