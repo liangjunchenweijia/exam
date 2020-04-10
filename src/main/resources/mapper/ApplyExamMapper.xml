@@ -100,13 +100,22 @@
             ,c.exam_name examName
             ,d.subject_name subjectName
             ,a.achievement achievement
+            ,e.start_time startTime
+            ,e.end_time endTime
         FROM exam_achievement a
         LEFT JOIN exam_user b ON a.user_id = b.id
         LEFT JOIN exam_type c ON a.exam_id = c.id
         LEFT JOIN exam_subject d ON a.subject_id = d.id
+        LEFT JOIN exam_exam e on a.exam_id = e.id
         <where>
             <if test="request.name != null and request.name != ''">
                 and b.name LIKE CONCAT('%',#{request.name},'%')
+            </if>
+            <if test="request.examName != null and request.examName != ''">
+                and c.exam_name LIKE CONCAT('%',#{request.examName},'%')
+            </if>
+            <if test="request.subjectName != null and request.subjectName != ''">
+                and c.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
             </if>
         </where>
         order by a.create_time desc
@@ -118,9 +127,16 @@
         LEFT JOIN exam_user b ON a.user_id = b.id
         LEFT JOIN exam_type c ON a.exam_id = c.id
         LEFT JOIN exam_subject d ON a.subject_id = d.id
+        LEFT JOIN exam_exam e on a.exam_id = e.id
         <where>
             <if test="request.name != null and request.name != ''">
                 and b.name LIKE CONCAT('%',#{request.name},'%')
+            </if>
+            <if test="request.examName != null and request.examName != ''">
+                and c.exam_name LIKE CONCAT('%',#{request.examName},'%')
+            </if>
+            <if test="request.subjectName != null and request.subjectName != ''">
+                and c.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
             </if>
         </where>
     </select>

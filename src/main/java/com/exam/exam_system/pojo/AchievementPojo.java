@@ -1,5 +1,7 @@
 package com.exam.exam_system.pojo;
 
+import java.util.Date;
+
 /**
  * @Author :
  * @ClassName : achievementPojo
@@ -16,6 +18,10 @@ public class AchievementPojo {
     private Double achievement;
 
     private String userName;
+
+    private Date startTime;
+
+    private Date endTime;
 
     public Long getId() {
         return id;
@@ -55,5 +61,21 @@ public class AchievementPojo {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }
