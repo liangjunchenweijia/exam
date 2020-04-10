@@ -106,7 +106,17 @@ public class TestPaperService {
     }
 
     public List<ExamTestPaperVO> findTestPaperBInfo(Long id) {
-        return testPaperMapper.selectTestPaperInfo(id);
+
+        List<ExamTestPaperVO> examTestPaperVOS = testPaperMapper.selectTestPaperInfo(id);
+        if (CollectionUtils.isNotEmpty(examTestPaperVOS)) {
+            Date startTime = examTestPaperVOS.get(0).getStartTime();
+            Date endTime = examTestPaperVOS.get(0).getEndTime();
+            long start = startTime.getTime();
+            long end = endTime.getTime();
+            String time = String.valueOf((end - start) / (1000 * 60));
+            examTestPaperVOS.get(0).setMinute(time);
+        }
+        return examTestPaperVOS;
     }
 
     /**

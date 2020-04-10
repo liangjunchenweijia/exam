@@ -1,5 +1,7 @@
 package com.exam.exam_system.pojo.response;
 
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,6 +16,11 @@ public class ExamTestPaperVO {
     private String testPaperName;
 
     private Long subjectId;
+
+    private Date startTime;
+
+    private Date endTime;
+    private String minute;
 
     private List<ExamTestPaperContentVO> examTestPaperContentVOS;
 
@@ -47,5 +54,29 @@ public class ExamTestPaperVO {
 
     public void setExamTestPaperContentVOS(List<ExamTestPaperContentVO> examTestPaperContentVOS) {
         this.examTestPaperContentVOS = examTestPaperContentVOS;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getMinute() {
+        return minute;
+    }
+
+    public void setMinute(String minute) {
+        this.minute = minute;
     }
 }

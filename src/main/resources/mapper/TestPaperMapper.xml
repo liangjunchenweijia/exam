@@ -6,6 +6,8 @@
         <result column="id" property="id"/>
         <result column="test_paper_name" property="testPaperName"/>
         <result column="subject_id" property="subjectId"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
         <collection property="examTestPaperContentVOS"
                     ofType="com.exam.exam_system.pojo.response.ExamTestPaperContentVO">
             <result column="topicId" property="id"/>
@@ -216,6 +218,8 @@
             ,b.grade
             ,a.subject_id
             ,b.id as topicId
+            ,c.start_time
+            ,c.end_time
         FROM exam_testpaper_name a
         LEFT JOIN exam_testpaper_content b ON a.id = testpaper_name_id
         left join
