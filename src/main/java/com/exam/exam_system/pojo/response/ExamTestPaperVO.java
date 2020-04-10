@@ -9,12 +9,21 @@ import java.util.List;
  * @Date : 2020/4/1 13:28
  */
 public class ExamTestPaperVO {
+    private Long id;
 
     private String testPaperName;
 
     private Long subjectId;
 
     private List<ExamTestPaperContentVO> examTestPaperContentVOS;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getTestPaperName() {
         return testPaperName;
