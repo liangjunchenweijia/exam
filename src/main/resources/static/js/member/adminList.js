@@ -1,13 +1,3 @@
-/*
- * @Author: https://github.com/WangEn
- * @Author: https://gitee.com/lovetime/
- * @Date:   2018-03-27
- * @lastModify 2018-3-28
- * +----------------------------------------------------------------------
- * | WeAdmin 表格table中多个删除等操作公用js
- * | 有改用时直接复制到对应页面也不影响使用
- * +----------------------------------------------------------------------
- */
 layui.extend({
 	admin: '{/}../../../static/js/admin'
 });
@@ -66,23 +56,23 @@ layui.use(['laypage', 'jquery', 'admin','form'], function() {
 								'</td>'+
 								'</tr>'
 						})
-						laypage.render({
-							elem: 'page'
-							,count: res.total //数据总数
-							,curr: res.pageNo
-							,layout: ['count', 'prev', 'page', 'next']
-							,limit:res.pageSize
-							,jump: function(obj,first){
-								if(!first){
-									getAll(obj.curr)
-								}
-							}
-						});
 					}else {
-						str = '暂无数据'
+						str = '<tr><td colspan="8" style="height: 100px;text-align: center;">暂无数据</td></tr>'
 					}
 					$('#memberList').empty().append(str);
 					// 分页
+					laypage.render({
+						elem: 'page'
+						,count: res.total //数据总数
+						,curr: res.pageNo
+						,layout: ['count', 'prev', 'page', 'next']
+						,limit:res.pageSize
+						,jump: function(obj,first){
+							if(!first){
+								getAll(obj.curr)
+							}
+						}
+					});
 				}else{
 					layer.msg(res.errorMsg,{
 						time: 1000

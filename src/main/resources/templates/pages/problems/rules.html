@@ -38,7 +38,6 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label"></label>
 			<input id="dataId" name="id" type="hidden" value="">
-			<input name="examTestPaperId" type="hidden" value="">
 			<button type="button" class="layui-btn layui-btn-normal release">同意</button>
 		</div>
 	</form>
@@ -74,14 +73,17 @@
 					if(res.success){
 						$('.minute').html(res.obj.minute+'分钟');
 						$('.layui-textarea').html(res.obj.examRule);
-						$('input[name="examTestPaperId"]').val(res.obj.examTestPaperId);
 					}
 				}
 			})
 		}
 		//监听提交
 		$('.release').click(function () {
-			window.open('./testInfo.html?id='+$('input[name="examTestPaperId"]').val());
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.location.reload();
+			//关闭当前frame
+			parent.layer.close(index);
+			window.open('./testInfo.html?id='+$('input[name="id"]').val());
 		})
 	});
 </script>

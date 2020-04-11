@@ -15,6 +15,11 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .layui-inline{
+            margin-right: 20px;
+        }
+    </style>
 </head>
 
 <body>
@@ -23,11 +28,21 @@
         <form class="layui-form layui-col-md12 we-search">
             姓名：
             <div class="layui-inline">
-                <input type="text" name="keyword" placeholder="请输入关键字" autocomplete="off" class="layui-input testPaperName">
+                <input type="text" name="userName" placeholder="请输入学生姓名" autocomplete="off" class="layui-input testPaperName">
             </div>
-            姓名：
+            准考证号：
             <div class="layui-inline">
-                <input type="text" name="keyword" placeholder="请输入关键字" autocomplete="off" class="layui-input testPaperName">
+                <input type="text" name="userId" placeholder="请输入学生准考证号" autocomplete="off" class="layui-input testPaperName">
+            </div>
+            课程：
+            <div class="layui-inline">
+                <select name="subjectId" class="objType" lay-filter="objType" lay-search="">
+                </select>
+            </div>
+            考试类型：
+            <div class="layui-inline">
+                <select name="examId" class="examType" lay-filter="examType" lay-search="">
+                </select>
             </div>
             <button class="layui-btn sreach">
                 <i class="layui-icon layui-icon-search"></i>
@@ -37,17 +52,12 @@
     <table class="layui-table">
         <thead>
         <tr>
-            <th width="10">
-                <div class="layui-unselect header layui-form-checkbox" lay-skin="primary">
-                    <i class="layui-icon">&#xe605;</i>
-                </div>
-            </th>
             <th width="30">序号</th>
             <th>姓名</th>
             <th>准考证号</th>
-            <th>考试分数</th>
-            <th>考试课程</th>
             <th>考试类型</th>
+            <th>考试课程</th>
+            <th>考试分数(分)</th>
             <th>考试时间</th>
         </tr>
         </thead>
@@ -60,7 +70,7 @@
     </div>
     <table class="layui-hide" id="articleList"></table>
     <script src="../../../static/lib/layui/layui.js" charset="utf-8"></script>
-<!--    <script src="../../../static/js/grade/list.js" type="text/javascript" charset="utf-8"></script>-->
+    <script src="../../../static/js/grade/list.js" type="text/javascript" charset="utf-8"></script>
 </div>
 </body>
 
