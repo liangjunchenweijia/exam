@@ -30,7 +30,7 @@
 					<dl class="layui-nav-child">
 						<!-- 二级菜单 -->
 						<dd>
-							<a class="loginout" href="./login.html">退出</a>
+							<a class="loginout" href='javascript:void(0);'>退出</a>
 						</dd>
 					</dl>
 				</li>
@@ -78,7 +78,23 @@
 				}else if(userType == 1){
 					menu.getMenu('/static/json/adminMenu.json');
 				}
-				$('.username').html(userName+'<span class="layui-nav-more"></span>')
+				$('.username').html(userName+'<span class="layui-nav-more"></span>');
+				$('.loginout').click(function () {
+					$.ajax({
+						url: '/user/loginOut',
+						type: "get",
+						dataType: "json",
+						contentType:'application/json;charset=utf-8',
+						success:function (res) {
+							if(res.success){
+							}else{
+								layer.msg(res.errorMsg,{
+									time: 1000
+								});
+							}
+						}
+					})
+				});
 			});
 		</script>
 	</body>
