@@ -9,7 +9,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 /**
  * @Author :
@@ -27,7 +26,7 @@ public class LoginController {
     }
 
     @GetMapping("/loginOut")
-    public void loginOut(HttpServletRequest request, SessionStatus sessionStatus, HttpServletResponse response) throws IOException {
+    public String loginOut(HttpServletRequest request, SessionStatus sessionStatus, HttpServletResponse response) {
         HttpSession session = request.getSession();
         session.invalidate();
         sessionStatus.setComplete();
@@ -36,6 +35,6 @@ public class LoginController {
             cookie.setMaxAge(0);
             response.addCookie(cookie);
         }
-        response.sendRedirect("/templates/login.html");
+        return "redirect:/login";
     }
 }
