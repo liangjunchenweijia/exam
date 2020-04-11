@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>在线考试 后台管理系统</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="../../../static/css/font.css">
+	<link rel="stylesheet" href="../../../static/css/weadmin.css">
+	<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+	<!--[if lt IE 9]>
+	<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+	<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	<style>
+		.layui-form-label{
+			width: 86px;
+		}
+		.layui-form-item .layui-input-inline{
+			width: calc(100% - 126px);
+		}
+		.layui-textarea{
+			min-height: 50px;
+			margin-top: 10px;
+		}
+		.layui-tab{
+			margin: 0;
+		}
+		.layui-tab-title{
+			border: 0;
+			margin-bottom: 20px;
+		}
+		.list{
+			display: inline-table;
+			width: 23%;
+		}
+		.list .layui-form-radio{
+			margin: 0;
+		}
+		.list .layui-input{
+			display: inline-block;
+			width: calc(100% - 100px);
+		}
+		.part .fraction{
+			position: absolute;
+			top: 0;
+			right: 10px;
+			line-height: 38px;
+		}
+		.layui-field-title{
+			position: relative;
+		}
+		.times{
+			position: fixed;
+			width: 100%;
+			background: #fff6f6;
+			z-index: 999;
+			padding: 5px 0;
+			display: none;
+		}
+		.times p{
+			float: right;
+			padding-right: 20px;
+			line-height: 28px;
+		}
+	</style>
+</head>
+
+<body>
+<div class="times"><p>剩余时间：<span></span></p></div>
+<div class="weadmin-body" style="padding-top: 40px;">
+	<form class="layui-form">
+		<fieldset class="layui-elem-field layui-field-title">
+			<legend class="testPaperName" style="text-align: center;font-weight: bold;font-size: 36px;"></legend>
+			<legend class="allInfo" style="text-align: center;font-weight: bold;font-size: 20px;padding: 30px 0;margin: 0;">
+				共<span class="allTest">1</span>题,总分:<span class="allScore">0</span>分
+			</legend>
+		</fieldset>
+		<div class="main_cont">
+		</div>
+		<div class="layui-form-item" style="text-align: center;">
+			<button class="layui-btn addTestInfo">交卷</button>
+		</div>
+	</form>
+</div>
+<script src="../../../static/lib/layui/layui.js" charset="utf-8"></script>
+
+<script>
+	layui.extend({
+		admin: '{/}../../../static/js/admin'
+	});
+	layui.use(['form', 'jquery','layer'], function() {
+		var form = layui.form,
+				$ = layui.jquery,
+				layer = layui.layer;
+		//页面初始化加载
+		$(function(){
+			setTimeout(function(){
+				getInfo()
+			},100);
+		});
+		function getUrlParam(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+			var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+			if (r != null) return unescape(r[2]); return null; //返回参数值
+		}
+		//查询试卷内容
+		function getInfo(){
+			var id = getUrlParam('id');
+			$.ajax({
+				url: '/testPaper/queryTestPaperInfo',
+				type: "get",
+				data: {
+					id:id
+				},
+				dataType: "json",
+				contentType:'application/json;charset=utf-8',
+				success:function (res) {
+					if(res.success){
+						var oThml = '';
+						var allScore = 0;
+						$('.testPaperName').html(res.obj[0].testPaperName);
+						var newDate =  Date.parse(new Date());
+						var endDate =  res.obj[0].endTime;
+						if(Number(endDate - newDate)/1000>0){
+							realTimeCl(Number(endDate - newDate)/1000);
+						}
+						if(res.obj[0].examTestPaperContentVOS.length>0){
+							res.obj[0].examTestPaperContentVOS.map((item,index)=>{
+								allScore += item.grade;
+							if(item.type == 1){
+								var strType = '选择题';
+								var strInfo = '<div class="list">'+
+										'<input type="radio" name="objRadio'+index+'" value="A" title="A：'+item.optionA+'">'+
+										'</div>'+
+										'<div class="list">'+
+										'<input type="radio" name="objRadio'+index+'" value="B" title="B：'+item.optionB+'">'+
+										'</div>'+
+										'<div class="list">'+
+										'<input type="radio" name="objRadio'+index+'" value="C" title="C：'+item.optionC+'">'+
+										'</div>'+
+										'<div class="list">'+
+										'<input type="radio" name="objRadio'+index+'" value="D" title="D：'+item.optionD+'">'+
+										'</div>'
+							}else{
+								var strType = '判断题';
+								var strInfo = '<div class="list" style="width: 110px;line-height: 38px;">'+
+										'<input type="radio" readonly name="objJudge'+index+'" value="1" title="正确">'+
+										'</div>'+
+										'<div class="list" style="width: 110px;line-height: 38px;">'+
+										'<input type="radio" readonly name="objJudge'+index+'" value="0" title="错误">'+
+										'</div>'
+							}
+							oThml += '<div class="part" data-id="'+item.id+'" data-subjectId="'+res.obj[0].subjectId+'" data-testPaperId="'+res.obj[0].id+'">'+
+									'<fieldset class="layui-elem-field layui-field-title">'+
+									'<legend style="font-weight: bold;">第<span class="orderNumber">'+Number(index+1)+'</span>题('+strType+'):(<span class="score">'+item.grade+'</span>分)</legend>'+
+									'</fieldset>'+
+									'<div class="layui-form-item">'+
+									'<label class="layui-form-label" style="font-weight: bold;">'+
+									'<span class="we-red">*</span>题目名称'+
+									'</label>'+
+									'<div class="layui-input-inline">'+
+									'<textarea placeholder="请输入题目" class="layui-textarea" readonly >'+item.title+'</textarea>'+
+									'</div>'+
+									'</div>'+
+									'<div class="layui-form-item">'+
+									'<label class="layui-form-label"></label>'+
+									'<div class="layui-input-inline">'+
+									'<div class="layui-tab layui-tab-brief changeType" lay-filter="changeType">'+
+									'<div class="layui-tab-content">'+
+									'<div class="layui-tab-item layui-show">'+strInfo+'</div>'+
+									'</div>'+
+									'</div>'+
+									'</div>'+
+									'</div>'+
+									'</div>';
+						});
+							$('.allScore').html(allScore);
+							$('.main_cont').empty().append(oThml);
+							$('.allTest').html(res.obj[0].examTestPaperContentVOS.length);
+							form.render();
+						}
+					}else{
+						layer.msg(res.errorMsg,{
+							time: 1000
+						});
+					}
+				}
+			})
+		};
+		function realTimeCl(intDiff) {
+			var thread= window.setInterval(function(){
+				var minute=0,
+					second=0;
+				if(intDiff > 0){
+					minute = Math.floor(intDiff / 60);
+					second = Math.floor(intDiff)  - (minute * 60);
+				}
+				if (minute <= 9) minute = '0' + minute;
+				if (second <= 9) second = '0' + second;
+				$('.times').show().find(' span').html(minute+'分'+second+'秒');
+				if((minute + second) <= 0){
+					clearInterval(thread);
+					layer.confirm('考试时间已到，已自动交卷', {
+						btn: [ '确认']
+						,closeBtn: 0
+						,btnAlign: 'c'
+						,shadeClose :false
+						,yes: function(index, layero){
+							handExam();
+						}
+					});
+				}
+				intDiff--;
+			}, 1000);
+		}
+		//监听提交
+		$('.addTestInfo').click(function () {
+			var testNum = 0;
+			$('.part').each(function () {
+				var answer = $(this).find("input[type='radio']:checked").val() || '';
+				if(answer == ''){
+					testNum++;
+				}
+			})
+			if(testNum>0){
+				layer.confirm('还有'+testNum+'题未答是否确认交卷？', {
+					btn: [ '确认交卷','继续答题']
+					,btnAlign: 'c'
+					,shadeClose :true
+					,yes: function(index, layero){
+						handExam();
+					}
+					,btn2: function(index, layero){
+						layer.close(index);
+					}
+				});
+			}else {
+				layer.confirm('是否确认交卷？', {
+					btn: ['确认', '取消']
+					,btnAlign: 'c'
+					,shadeClose :true
+					,yes: function(index, layero){
+						handExam();
+					}
+					,btn2: function(index, layero){
+						layer.close(index);
+					}
+				});
+			}
+			return false
+		});
+
+		function handExam() {
+			var arr = []
+			var id = getUrlParam('id');
+			$('.part').each(function () {
+				var answer = $(this).find("input[type='radio']:checked").val() || '';
+				if(answer == '1'){
+					answer = '正确';
+				}else if(answer == '0'){
+					answer = '错误';
+				}else  if(answer == ''){
+				}
+				arr.push({
+					'examId':id,
+					'topicId':$(this).attr('data-id'),
+					'answer':answer,
+					'subjectId':$(this).attr('data-subjectId'),
+					'testPaperId':$(this).attr('data-testPaperId')
+				})
+			})
+			$.ajax({
+				url: '/applyExam/saveApplyExam',
+				data: JSON.stringify({
+					stuExamRequests:arr
+				}),
+				type: "POST",
+				dataType: "json",
+				contentType:'application/json;charset=utf-8',
+				success:function (res) {
+					if(res.success){
+						window.close();
+					}else{
+						layer.msg(res.errorMsg,{
+							time: 1000
+						});
+					}
+				}
+			})
+		}
+	});
+</script>
+</body>
+
+</html>

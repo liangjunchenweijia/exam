@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>成绩列表-后台管理系统</title>
+    <meta name="Description" content="基于layUI数据表格操作"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../../static/css/font.css">
+    <link rel="stylesheet" href="../../../static/css/weadmin.css">
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .layui-inline{
+            margin-right: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="weadmin-body">
+    <div class="layui-row">
+        <form class="layui-form layui-col-md12 we-search">
+            姓名：
+            <div class="layui-inline">
+                <input type="text" name="userName" placeholder="请输入学生姓名" autocomplete="off" class="layui-input testPaperName">
+            </div>
+            准考证号：
+            <div class="layui-inline">
+                <input type="text" name="userId" placeholder="请输入学生准考证号" autocomplete="off" class="layui-input testPaperName">
+            </div>
+            课程：
+            <div class="layui-inline">
+                <select name="subjectId" class="objType" lay-filter="objType" lay-search="">
+                </select>
+            </div>
+            考试类型：
+            <div class="layui-inline">
+                <select name="examId" class="examType" lay-filter="examType" lay-search="">
+                </select>
+            </div>
+            <button class="layui-btn sreach">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+    </div>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th width="30">序号</th>
+            <th>姓名</th>
+            <th>准考证号</th>
+            <th>考试类型</th>
+            <th>考试课程</th>
+            <th>考试分数(分)</th>
+            <th>考试时间</th>
+        </tr>
+        </thead>
+        <tbody id="memberList">
+        </tbody>
+    </table>
+    <div class="page" id="page">
+        <div id="biuuu_city_list">
+        </div>
+    </div>
+    <table class="layui-hide" id="articleList"></table>
+    <script src="../../../static/lib/layui/layui.js" charset="utf-8"></script>
+    <script src="../../../static/js/grade/list.js" type="text/javascript" charset="utf-8"></script>
+</div>
+</body>
+
+</html>
