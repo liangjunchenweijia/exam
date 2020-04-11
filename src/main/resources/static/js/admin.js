@@ -351,7 +351,6 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 			}
 		});
 	}
-
 	/**
 	 *@todo tab监听：点击tab项对应的关闭按钮事件
 	 */

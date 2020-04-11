@@ -82,6 +82,7 @@
 					contentType:'application/json;charset=utf-8',
 					success:function (res) {
 						if(res.success){
+							localStorage.setItem('userType', res.obj.userType);
 							if(res.obj.userType == 1){
 								menu.getMenu('/static/json/userMenu.json',res.obj.userType);
 							}else if(res.obj.userType == 2){
