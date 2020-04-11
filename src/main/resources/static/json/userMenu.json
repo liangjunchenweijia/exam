@@ -28,7 +28,7 @@
 			"id": 3,
 			"name": "成绩中心",
 			"icon": "&#xe723;",
-			"url": "./pages/member/userList.html"
+			"url": "./pages/grade/userList.html"
 		}
 	]
 }

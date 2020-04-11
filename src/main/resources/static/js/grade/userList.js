@@ -10,11 +10,10 @@ layui.use(['laypage', 'jquery', 'admin','form'], function() {
 	// 查询所有套题
 	function getAll(pageNo){
 		$.ajax({
-			url: '/applyExam/queryStuExamAll',
+			url: '/user/queryAchievement',
 			data: JSON.stringify({
 				pageNo:pageNo,pageSize:10,
-				obj:{
-				}
+				obj:{}
 			}),
 			type: "POST",
 			dataType: "json",
@@ -28,32 +27,29 @@ layui.use(['laypage', 'jquery', 'admin','form'], function() {
 							var i = res.pageSize*(res.pageNo-1) + 1 + index;
 							str += '<tr data-id="' + item.id + '" data-subjectId="' + item.subjectId + '">' +
 							'<td>' + i+ '</td>'+
-							'<td>'+item.subjectName+'</td>'+
 							'<td>'+item.examName+'</td>'+
+							'<td>'+item.subjectName+'</td>'+
+							'<td>'+item.achievement+'</td>'+
 							'<td>'+dateFormat(item.startTime)+'</td>'+
-							'<td>'+dateFormat(item.endTime)+'</td>'+
-							'<td class="td-manage">'+
-							'<a title="去考试" onclick="member_test('+ item.id+')" href="javascript:;"><i class="layui-icon">&#xe609;</i>去考试</a>'+
-							'</td>'+
 							'</tr>'
 						})
-						laypage.render({
-							elem: 'page'
-							,count: res.total //数据总数
-							,curr: res.pageNo
-							,layout: ['count', 'prev', 'page', 'next']
-							,limit:res.pageSize
-							,jump: function(obj,first){
-								if(!first){
-									getAll(obj.curr)
-								}
-							}
-						});
 					}else {
-						str = '暂无数据'
+						str = '<tr><td colspan="5" style="height: 100px;text-align: center;">暂无数据</td></tr>'
 					}
 					$('#memberList').empty().append(str);
 					// 分页
+					laypage.render({
+						elem: 'page'
+						,count: res.total //数据总数
+						,curr: res.pageNo
+						,layout: ['count', 'prev', 'page', 'next']
+						,limit:res.pageSize
+						,jump: function(obj,first){
+							if(!first){
+								getAll(obj.curr)
+							}
+						}
+					});
 				}else{
 					layer.msg(res.errorMsg,{
 						time: 1000
@@ -76,25 +72,5 @@ layui.use(['laypage', 'jquery', 'admin','form'], function() {
 		M = M<10?("0"+M):M;
 		var str = y+"-"+m+"-"+d+" "+h+":"+M;
 		return str;
-	}
-	window.member_test = function (id) {
-		$.ajax({
-			url: '/applyExam/queryExamRule',
-			data:{
-				id:id
-			},
-			type: "get",
-			dataType: "json",
-			contentType:'application/json;charset=utf-8',
-			success:function (res) {
-				if(res.success){
-					WeAdminEdit('考试规则','./rules.html',id,600,400);
-				}else{
-					layer.msg(res.errorMsg,{
-						time: 1000
-					});
-				}
-			}
-		})
 	}
 });

@@ -73,9 +73,9 @@
 					menu = layui.menu;
 				var userType = JSON.parse(localStorage.getItem("userType"));
 				var userName = JSON.parse(localStorage.getItem("userName"));
-				if(userType == 1){
+				if(userType == 2){
 					menu.getMenu('/static/json/userMenu.json');
-				}else if(userType == 2){
+				}else if(userType == 1){
 					menu.getMenu('/static/json/adminMenu.json');
 				}
 				$('.username').html(userName+'<span class="layui-nav-more"></span>')
