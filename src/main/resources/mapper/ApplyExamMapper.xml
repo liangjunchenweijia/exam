@@ -102,6 +102,7 @@
             ,a.achievement achievement
             ,e.start_time startTime
             ,e.end_time endTime
+            ,b.id userId
         FROM exam_achievement a
         LEFT JOIN exam_user b ON a.user_id = b.id
         LEFT JOIN exam_type c ON a.exam_id = c.id
@@ -116,6 +117,9 @@
             </if>
             <if test="request.subjectName != null and request.subjectName != ''">
                 and c.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
+            </if>
+            <if test="request.userId != null">
+                and b.id =#{request.userId}
             </if>
         </where>
         order by a.create_time desc
@@ -137,6 +141,9 @@
             </if>
             <if test="request.subjectName != null and request.subjectName != ''">
                 and c.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
+            </if>
+            <if test="request.userId != null">
+                and b.id =#{request.userId}
             </if>
         </where>
     </select>

@@ -23,6 +23,8 @@ public class AchievementPojo {
 
     private Date endTime;
 
+    private Long userId;
+
     public Long getId() {
         return id;
     }
@@ -77,5 +79,13 @@ public class AchievementPojo {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
