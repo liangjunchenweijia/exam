@@ -116,7 +116,7 @@
                 and c.exam_name LIKE CONCAT('%',#{request.examName},'%')
             </if>
             <if test="request.subjectName != null and request.subjectName != ''">
-                and c.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
+                and d.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
             </if>
             <if test="request.userId != null">
                 and b.id =#{request.userId}
@@ -140,7 +140,7 @@
                 and c.exam_name LIKE CONCAT('%',#{request.examName},'%')
             </if>
             <if test="request.subjectName != null and request.subjectName != ''">
-                and c.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
+                and d.subject_name LIKE CONCAT('%',#{request.subjectName},'%')
             </if>
             <if test="request.userId != null">
                 and b.id =#{request.userId}
